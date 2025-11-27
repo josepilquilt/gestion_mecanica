@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Préstamo</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .ok    { background: #d4edda; padding: 10px; margin-bottom: 10px; }
+        .error { background: #f8d7da; padding: 10px; margin-bottom: 10px; }
+
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+        th, td { border: 1px solid #ccc; padding: 4px; }
+        th { background: #f0f0f0; }
+        input[type="number"] { width: 70px; }
+        input[readonly] { background: #eee; }
+        .btn { padding: 6px 12px; cursor: pointer; }
+        .info-prep { font-size: 13px; color:#555; margin-top:5px; }
+    </style>
+</head>
+<body>
+
+<h1>Registrar Préstamo</h1>
+
+<a href="{% url 'menu_principal' %}">Volver al menú</a>
+<br></br>
+
+{% if mensaje %}
+<div class="ok">{{ mensaje }}</div>
+{% endif %}
+
+{% if error %}
+<div class="error">{{ error }}</div>
+{% endif %}
+
+<form method="POST" id="form-prestamo">
+    {% csrf_token %}
+
+    <!-- BLOQUE: TOMAR DESDE PREPARACIÓN -->
+    <div id="bloque_preparacion">
+        <h3>Cargar desde preparación de clase (opcional, solo docentes)</h3>
+
+        <label>Código de preparación:</label>
+        <input type="text" id="codigo_preparacion_input">
+        <button type="button" class="btn" id="btn-cargar-preparacion">Cargar preparación</button>
+
+        <!-- hidden para guardar el código de preparación que originó el préstamo -->
+        <input type="hidden" name="codigo_preparacion_origen" id="codigo_preparacion_origen">
+
+        <div id="info_preparacion" class="info-prep"></div>
+    </div>
+
+    <hr>
+
+    <h3>Datos del solicitante</h3>
+
+    <label>Tipo solicitante:</label>
+    <select name="tipo_solicitante" id="tipo_solicitante">
+        <option value="docente">Docente</option>
+        <option value="estudiante">Estudiante</option>
+    </select>
+
+    <br><br>
+
+    <!-- DOCENTE -->
+    <div id="bloque_docente">
+        <label>Docente:</label>
+        <select name="docente_codigo" id="docente_select">
+            <option value="">-- Seleccione --</option>
+            {% for d in docentes %}
+            <option value="{{ d.codigo }}">{{ d.nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <!-- ESTUDIANTE -->
+    <div id="bloque_estudiante" style="display:none; margin-top:10px;">
+        <label>RUT estudiante:</label>
+        <input type="text" name="estudiante_rut">
+
+        <br><br>
+
+        <label>Nombre estudiante:</label>
+        <input type="text" name="estudiante_nombre">
+
+        <br><br>
+
+        <label>Carrera (opcional):</label>
+        <input type="text" name="estudiante_carrera">
+    </div>
+
+    <br><br>
+
+    <label>Asignatura:</label>
+    <input type="text"
+           name="asignatura_nombre"
+           id="asignatura_nombre"
+           placeholder="Escribir nombre de la asignatura">
+
+    <h3>Datos del préstamo</h3>
+
+    <label>Fecha:</label>
+    <input type="date" name="fecha" id="fecha_input">
+
+    <label>Inicio:</label>
+    <input type="time" name="hora_inicio" id="hora_inicio_input">
+
+    <label>Término:</label>
+    <input type="time" name="hora_fin" id="hora_fin_input">
+
+    <br><br>
+
+    <label>Observaciones:</label><br>
+    <textarea name="observaciones" rows="3" cols="60"></textarea>
+
+    <h3>Herramientas solicitadas</h3>
+    <p style="font-size: 13px; color:#555;">
+        Puedes escanear el código de cada herramienta en la columna "Código",
+        o cargar una preparación ya pickeada y luego ajustar cantidades si es necesario.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Herramienta</th>
+                <th>Stock disp.</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in "01234567890123456789" %}
+            <tr>
+                <td>
+                    <input type="text"
+                           name="codigo_herramienta"
+                           class="codigo-input"
+                           data-row="{{ forloop.counter0 }}">
+                </td>
+                <td>
+                    <input type="text"
+                           class="nombre-input"
+                           data-row="{{ forloop.counter0 }}"
+                           readonly>
+                </td>
+                <td>
+                    <input type="text"
+                           class="stock-input"
+                           data-row="{{ forloop.counter0 }}"
+                           readonly>
+                </td>
+                <td>
+                    <input type="number"
+                           name="cantidad"
+                           class="cantidad-input"
+                           data-row="{{ forloop.counter0 }}"
+                           value="0"
+                           min="0">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <button type="submit" class="btn">Registrar préstamo</button>
+</form>
+
+<br>
+<a href="{% url 'lista_prestamos' %}">Volver a listado de préstamos</a>
+
+<script>
+// --------------------------------------
+// 1) Evitar ENTER global
+// --------------------------------------
+document.getElementById("form-prestamo").addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && e.target.tagName.toLowerCase() !== "textarea") {
+        e.preventDefault();
+    }
+});
+
+// --------------------------------------
+// 2) Mostrar/ocultar bloques docente/estudiante
+// --------------------------------------
+const tipoSel   = document.getElementById("tipo_solicitante");
+const bloqueDoc = document.getElementById("bloque_docente");
+const bloqueEst = document.getElementById("bloque_estudiante");
+const bloquePrep = document.getElementById("bloque_preparacion");
+
+function actualizarBloquesSolicitante() {
+    if (tipoSel.value === "docente") {
+        bloqueDoc.style.display = "block";
+        bloqueEst.style.display = "none";
+        bloquePrep.style.display = "block";
+    } else {
+        bloqueDoc.style.display = "none";
+        bloqueEst.style.display = "block";
+        // Para estudiantes, ocultamos el bloque de preparación
+        bloquePrep.style.display = "none";
+        // Limpiamos el código de preparación para no enviarlo
+        document.getElementById("codigo_preparacion_input").value = "";
+        document.getElementById("codigo_preparacion_origen").value = "";
+        document.getElementById("info_preparacion").textContent = "";
+    }
+}
+tipoSel.addEventListener("change", actualizarBloquesSolicitante);
+actualizarBloquesSolicitante();
+
+// --------------------------------------
+// 3) Escáner: buscar herramienta por código
+// --------------------------------------
+function moverFocoSiguienteCodigo(inputActual) {
+    const codigos = Array.from(document.querySelectorAll(".codigo-input"));
+    const idx = codigos.indexOf(inputActual);
+    if (idx !== -1 && idx + 1 < codigos.length) {
+        const siguiente = codigos[idx + 1];
+        siguiente.focus();
+        siguiente.select();
+    }
+}
+
+function buscarHerramientaPorCodigo(inputCodigo, moverFoco) {
+    const codigo = inputCodigo.value.trim();
+    const row = inputCodigo.dataset.row;
+
+    const nombreInput = document.querySelector('.nombre-input[data-row="' + row + '"]');
+    const stockInput  = document.querySelector('.stock-input[data-row="' + row + '"]');
+    const cantInput   = document.querySelector('.cantidad-input[data-row="' + row + '"]');
+
+    if (!codigo) {
+        nombreInput.value = "";
+        stockInput.value = "";
+        return;
+    }
+
+    fetch(`/inventario/api/herramienta/?codigo=${encodeURIComponent(codigo)}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.ok) {
+                nombreInput.value = data.nombre;
+                stockInput.value  = data.stock_disponible;
+
+                let actual = parseInt(cantInput.value || "0", 10);
+                if (actual <= 0) {
+                    cantInput.value = 1;
+                }
+
+                if (moverFoco) {
+                    moverFocoSiguienteCodigo(inputCodigo);
+                }
+            } else {
+                nombreInput.value = "No encontrado";
+                stockInput.value = "";
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            nombreInput.value = "Error al buscar";
+            stockInput.value = "";
+        });
+}
+
+document.querySelectorAll(".codigo-input").forEach((input) => {
+    input.addEventListener("blur", function() {
+        buscarHerramientaPorCodigo(this, false);
+    });
+
+    input.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            buscarHerramientaPorCodigo(this, true);
+        }
+    });
+});
+
+// --------------------------------------
+// 4) Cargar PREPARACIÓN por código
+// --------------------------------------
+document.getElementById("btn-cargar-preparacion").addEventListener("click", function() {
+    const codInput = document.getElementById("codigo_preparacion_input");
+    const codigo = codInput.value.trim();
+    if (!codigo) {
+        alert("Ingresa un código de preparación.");
+        return;
+    }
+
+    fetch(`/inventario/api/preparacion/?codigo=${encodeURIComponent(codigo)}`)
+        .then(r => r.json())
+        .then(data => {
+            if (!data.ok) {
+                alert(data.error || "No se encontró la preparación.");
+                return;
+            }
+
+            // ---- Docente ----
+            const selDoc = document.getElementById("docente_select");
+            if (selDoc && data.docente_codigo) {
+                selDoc.value = data.docente_codigo;
+                // Aseguramos que el tipo sea docente
+                tipoSel.value = "docente";
+                actualizarBloquesSolicitante();
+            }
+
+            // ---- Asignatura escrita ----
+            const inpAsig = document.getElementById("asignatura_nombre");
+            if (inpAsig) {
+                inpAsig.value = data.asignatura_nombre || "";
+            }
+
+            // ---- Fecha y horas ----
+            const inputFecha = document.getElementById("fecha_input");
+            if (inputFecha && data.fecha) {
+                inputFecha.value = data.fecha;
+            }
+
+            const inputHinicio = document.getElementById("hora_inicio_input");
+            if (inputHinicio) {
+                inputHinicio.value = data.hora_inicio || "";
+            }
+
+            const inputHfin = document.getElementById("hora_fin_input");
+            if (inputHfin) {
+                inputHfin.value = data.hora_fin || "";
+            }
+
+            document.getElementById("codigo_preparacion_origen").value = data.codigo_preparacion;
+
+            const infoDiv = document.getElementById("info_preparacion");
+            infoDiv.textContent =
+                `Preparación ${data.codigo_preparacion} | ` +
+                `Pañolero: ${data.panolero_nombre || "-"} | ` +
+                `Docente: ${data.docente_nombre || "-"} | ` +
+                `Asignatura: ${data.asignatura_nombre || "-"}`;
+
+            // ---- Limpiar filas ---
+            const codInputs    = document.querySelectorAll(".codigo-input");
+            const nombreInputs = document.querySelectorAll(".nombre-input");
+            const stockInputs  = document.querySelectorAll(".stock-input");
+            const cantInputs   = document.querySelectorAll(".cantidad-input");
+
+            for (let i = 0; i < codInputs.length; i++) {
+                codInputs[i].value    = "";
+                nombreInputs[i].value = "";
+                stockInputs[i].value  = "";
+                cantInputs[i].value   = "0";
+            }
+
+            // ---- Rellenar con detalles de preparación ----
+            data.detalles.forEach((det, idx) => {
+                if (idx >= codInputs.length) return;
+                codInputs[idx].value    = det.codigo;
+                nombreInputs[idx].value = det.nombre;
+                stockInputs[idx].value  = det.stock_disponible;
+                cantInputs[idx].value   = det.cantidad;
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Ocurrió un error al buscar la preparación.");
+        });
+});
+</script>
+
+</body>
+</html>

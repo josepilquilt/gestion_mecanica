@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de bajas de herramientas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { margin-bottom: 10px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+        th, td { border: 1px solid #ccc; padding: 6px 8px; font-size: 14px; }
+        th { background: #f0f0f0; }
+        .ok { background: #d4edda; padding: 10px; margin-bottom: 10px; }
+        .error { background: #f8d7da; padding: 10px; margin-bottom: 10px; }
+        a { color: #003399; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<h1>Listado de bajas de herramientas</h1>
+
+<a href="{% url 'menu_principal' %}">Volver al menú</a>
+<br><br>
+
+<form method="GET">
+    <input type="text"
+           name="q"
+           placeholder="Buscar por motivo, observaciones, pañolero, docente, asignatura..."
+           value="{{ query }}">
+    <button type="submit">Buscar</button>
+</form>
+
+<br>
+
+<a href="{% url 'registrar_baja' %}">➕ Registrar nueva baja</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Fecha registro</th>
+            <th>Pañolero</th>
+            <th>Docente</th>
+            <th>Estudiante / contexto</th>
+            <th>Asignatura</th>
+            <th>Motivo general</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in bajas %}
+        <tr>
+            <td>{{ b.id }}</td>
+            <td>{{ b.fecha_registro }}</td>
+            <td>{{ b.panolero.nombre }}</td>
+            <td>
+                {% if b.docente %}
+                    {{ b.docente.nombre }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {# Aquí mostramos observaciones, donde ya guardamos info de estudiante
+                   si la baja se originó en un préstamo de estudiante. #}
+                {% if b.observaciones %}
+                    {{ b.observaciones }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if b.asignatura %}
+                    {{ b.asignatura.nombre }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>{{ b.motivo_general }}</td>
+            <td>
+                <a href="{% url 'detalle_baja' b.id %}">Ver detalle</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="8">No hay bajas registradas.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<a href="{% url 'menu_principal' %}">Volver al menú</a>
+
+</body>
+</html>

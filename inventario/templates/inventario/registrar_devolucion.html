@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar devolución</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { margin-bottom: 10px; }
+        .ok { background: #d4edda; border: 1px solid #c3e6cb; padding: 10px; margin-bottom: 10px; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 10px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+        th, td { border: 1px solid #ccc; padding: 6px 8px; font-size: 14px; }
+        th { background: #f0f0f0; }
+        input[type="number"] { width: 80px; }
+        textarea { width: 100%; max-width: 100%; }
+        .btn { padding: 6px 12px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; border: 1px solid #007bff; }
+        .btn-secondary { background: #6c757d; color: white; border: 1px solid #6c757d; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<h1>Registrar devolución</h1>
+
+<p>
+    <strong>Código de préstamo:</strong> {{ prestamo.codigo_prestamo }}<br>
+    <strong>Fecha préstamo:</strong> {{ prestamo.fecha }}<br>
+
+    {# Docente o estudiante + carrera #}
+    {% if prestamo.docente %}
+        <strong>Docente:</strong> {{ prestamo.docente.nombre }}<br>
+    {% elif prestamo.estudiante %}
+        <strong>Estudiante:</strong> {{ prestamo.estudiante.nombre }} ({{ prestamo.estudiante.rut }})<br>
+        {% if prestamo.estudiante.carrera %}
+            <strong>Carrera:</strong> {{ prestamo.estudiante.carrera }}<br>
+        {% endif %}
+    {% else %}
+        <strong>Solicitante:</strong> -<br>
+    {% endif %}
+
+    <strong>Asignatura:</strong>
+    {% if prestamo.asignatura %}
+        {{ prestamo.asignatura.nombre }}
+    {% else %}
+        -
+    {% endif %}
+    <br>
+
+    <strong>Estado actual:</strong> {{ prestamo.get_estado_display }}
+</p>
+
+{% if mensaje %}
+<div class="ok">{{ mensaje }}</div>
+{% endif %}
+
+{% if error %}
+<div class="error">{{ error }}</div>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+
+    <h3>Detalle del préstamo</h3>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Herramienta</th>
+                <th>Cant. prestada</th>
+                <th>Cant. devuelta</th>
+
+                {% if not solo_lectura %}
+                <th>Devolver ahora</th>
+                {% endif %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for det in prestamo.detalles.all %}
+            <tr>
+                <td>{{ det.herramienta.codigo }}</td>
+                <td>{{ det.herramienta.nombre }}</td>
+                <td>{{ det.cantidad_entregada }}</td>
+                <td>{{ det.cantidad_devuelta }}</td>
+
+                {% if not solo_lectura %}
+                <td>
+                    <input 
+                        type="number"
+                        name="detalle_{{ det.id }}_devuelta"
+                        min="0"
+                        max="{{ det.cantidad_entregada }}"
+                        value="{{ det.cantidad_devuelta }}"
+                    >
+                </td>
+                {% endif %}
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="{% if solo_lectura %}4{% else %}5{% endif %}">
+                    Este préstamo no tiene herramientas asociadas.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Bitácora de devolución</h3>
+    <p style="font-size: 13px; color: #555;">
+        Anota aquí comentarios sobre la devolución (faltantes, daños, retrasos u observaciones).
+    </p>
+
+    <textarea name="bitacora_devolucion"
+              rows="4"
+              {% if solo_lectura %}readonly{% endif %}
+    >{{ prestamo.bitacora_devolucion }}</textarea>
+
+    <br><br>
+
+    {% if not solo_lectura %}
+        <button type="submit" class="btn btn-primary">Guardar devolución</button>
+    {% else %}
+        <p style="font-size: 13px; color:#555;">
+            Este préstamo ya está completamente devuelto. Información en solo lectura.
+        </p>
+    {% endif %}
+
+    <a href="{% url 'lista_prestamos' %}" class="btn btn-secondary">Volver a préstamos</a>
+
+</form>
+
+</body>
+</html>

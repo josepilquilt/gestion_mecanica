@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Informe de Préstamos - Pañol</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .subtitulo {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .barra-superior {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .barra-superior .acciones {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primario {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-secundario {
+            background-color: #6c757d;
+            color: #fff;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Filtros */
+        form.filtros {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: flex-end;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        form.filtros .campo {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.8rem;
+        }
+
+        form.filtros input[type="date"],
+        form.filtros input[type="text"],
+        form.filtros select {
+            padding: 4px 6px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            min-width: 150px;
+            font-size: 0.85rem;
+        }
+
+        /* Panel de resumen y TOPs */
+        .panel-informes {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .tarjeta {
+            background-color: #fff;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-size: 0.85rem;
+        }
+
+        .tarjeta h3 {
+            margin: 0 0 8px 0;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4px;
+        }
+
+        .tarjeta ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .tarjeta ul li {
+            margin-bottom: 4px;
+        }
+
+        .tarjeta .kpi {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .tarjeta .kpi span.valor {
+            font-weight: bold;
+        }
+
+        /* Tabla principal */
+        .contenedor-tabla {
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            max-height: 520px;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            background-color: #f0f0f0;
+            z-index: 1;
+        }
+
+        th, td {
+            padding: 6px 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fdfdfd;
+        }
+
+        .estado-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .estado-pendiente {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .estado-devuelto {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .estado-parcial {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .resumen-linea {
+            margin-top: 5px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .resumen-linea span {
+            margin-right: 15px;
+        }
+
+        .sin-resultados {
+            padding: 10px;
+            color: #666;
+            font-style: italic;
+        }
+
+        @media (max-width: 1100px) {
+            .panel-informes {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 800px) {
+            .panel-informes {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Informe de Préstamos</h1>
+    <div class="subtitulo">
+        Panel de información del sistema de préstamos del pañol. Permite filtrar por fecha y estado,
+        y muestra los principales indicadores: totales, herramientas más usadas, llaves, autos,
+        docentes, asignaturas y pañoleros.
+    </div>
+
+    <div class="barra-superior">
+        <div></div>
+        <div class="acciones">
+            <a href="/" class="btn btn-secundario">Volver al menú</a>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <form method="get" class="filtros">
+        <div class="campo">
+            <label for="id_fecha_desde">Fecha desde:</label>
+            <input type="date" id="id_fecha_desde" name="fecha_desde" value="{{ request.GET.fecha_desde }}">
+        </div>
+        <div class="campo">
+            <label for="id_fecha_hasta">Fecha hasta:</label>
+            <input type="date" id="id_fecha_hasta" name="fecha_hasta" value="{{ request.GET.fecha_hasta }}">
+        </div>
+
+        <div class="campo">
+            <label for="id_estado">Estado:</label>
+            <select id="id_estado" name="estado">
+                <option value="">(Todos)</option>
+                <option value="pendiente" {% if request.GET.estado == "pendiente" %}selected{% endif %}>Pendiente</option>
+                <option value="devuelto" {% if request.GET.estado == "devuelto" %}selected{% endif %}>Devuelto</option>
+                <option value="devuelto_parcial" {% if request.GET.estado == "devuelto_parcial" %}selected{% endif %}>Devuelto parcial</option>
+                
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="id_texto">Docente / Estudiante / Asignatura:</label>
+            <input
+                type="text"
+                id="id_texto"
+                name="q"
+                value="{{ request.GET.q }}"
+                placeholder="Nombre docente, alumno, asignatura..."
+            >
+        </div>
+
+        <div class="campo">
+            <label>&nbsp;</label>
+            <button type="submit" class="btn btn-primario">Aplicar filtros</button>
+        </div>
+
+        {% if request.GET %}
+        <div class="campo">
+            <label>&nbsp;</label>
+            <a href="{% url 'informe_prestamos' %}" class="btn btn-secundario">Limpiar</a>
+        </div>
+        {% endif %}
+    </form>
+
+    <!-- Resumen general -->
+    <div class="resumen-linea">
+        <span><strong>Total de préstamos:</strong> {{ resumen.total_prestamos }}</span>
+        <span><strong>Docentes distintos:</strong> {{ resumen.total_docentes }}</span>
+        <span><strong>Estudiantes distintos:</strong> {{ resumen.total_estudiantes }}</span>
+        <span><strong>Asignaturas:</strong> {{ resumen.total_asignaturas }}</span>
+        <span><strong>Pañoleros:</strong> {{ resumen.total_panoleros }}</span>
+    </div>
+
+    <!-- Panel de tarjetas con Top 5 -->
+    <div class="panel-informes">
+
+        <!-- Tarjeta resumen / KPIs -->
+        <div class="tarjeta">
+            <h3>Resumen rápido</h3>
+            <div class="kpi">
+                <span>Préstamos:</span>
+                <span class="valor">{{ resumen.total_prestamos }}</span>
+            </div>
+            <div class="kpi">
+                <span>Docentes distintos:</span>
+                <span class="valor">{{ resumen.total_docentes }}</span>
+            </div>
+            <div class="kpi">
+                <span>Estudiantes distintos:</span>
+                <span class="valor">{{ resumen.total_estudiantes }}</span>
+            </div>
+            <div class="kpi">
+                <span>Asignaturas usadas:</span>
+                <span class="valor">{{ resumen.total_asignaturas }}</span>
+            </div>
+            <div class="kpi">
+                <span>Pañoleros activos (en filtros):</span>
+                <span class="valor">{{ resumen.total_panoleros }}</span>
+            </div>
+        </div>
+
+        <!-- Tarjeta Top herramientas -->
+        <div class="tarjeta">
+            <h3>Top 5 herramientas más prestadas</h3>
+            <ul>
+                {% for h in top_herramientas %}
+                    <li>
+                        <strong>{{ h.herramienta__nombre }}</strong>
+                        ({{ h.herramienta__codigo }})
+                        — Cantidad total: {{ h.total_prestada }},
+                        Préstamos: {{ h.num_prestamos }}
+                    </li>
+                {% empty %}
+                    <li>No hay datos de herramientas en este rango.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Tarjeta Top llaves (incluye autos) -->
+        <div class="tarjeta">
+            <h3>Top 5 llaves (incluye llaves de auto)</h3>
+            <ul>
+                {% for h in top_llaves %}
+                    <li>
+                        <strong>{{ h.herramienta__nombre }}</strong>
+                        ({{ h.herramienta__codigo }})
+                        — Préstamos: {{ h.num_prestamos }},
+                        Unidades: {{ h.total_prestada }}
+                    </li>
+                {% empty %}
+                    <li>No hay movimientos de llaves en este rango.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Tarjeta Top autos (llave_auto) -->
+        <div class="tarjeta">
+            <h3>Top 5 autos (según llaves de auto)</h3>
+            <ul>
+                {% for a in top_autos %}
+                    <li>
+                        <strong>{{ a.herramienta__nombre }}</strong>
+                        ({{ a.herramienta__codigo }})
+                        — Préstamos: {{ a.num_prestamos }}
+                    </li>
+                {% empty %}
+                    <li>No hay datos de llaves de auto en este rango.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Tarjeta Top docentes -->
+        <div class="tarjeta">
+            <h3>Top 5 docentes (cantidad de préstamos)</h3>
+            <ul>
+                {% for d in top_docentes %}
+                    <li>
+                        <strong>{{ d.docente__nombre }}</strong>
+                        ({{ d.docente__codigo }})
+                        — Préstamos: {{ d.num_prestamos }}
+                    </li>
+                {% empty %}
+                    <li>No hay préstamos de docentes en este rango.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Tarjeta Top asignaturas -->
+        <div class="tarjeta">
+            <h3>Top 5 asignaturas</h3>
+            <ul>
+                {% for a in top_asignaturas %}
+                    <li>
+                        <strong>{{ a.asignatura__nombre }}</strong>
+                        — Préstamos: {{ a.num_prestamos }}
+                    </li>
+                {% empty %}
+                    <li>No hay préstamos asociados a asignaturas en este rango.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Tarjeta Top pañoleros -->
+        <div class="tarjeta">
+            <h3>Top 5 pañoleros (préstamos gestionados)</h3>
+            <ul>
+                {% for p in top_panoleros %}
+                    <li>
+                        <strong>{{ p.panolero__nombre }}</strong>
+                        — Préstamos: {{ p.num_prestamos }}
+                    </li>
+                {% empty %}
+                    <li>No hay pañoleros con préstamos en este rango.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tabla principal de préstamos -->
+    <div class="contenedor-tabla">
+        <table>
+            <thead>
+                <tr>
+                    <th>Código préstamo</th>
+                    <th>Fecha</th>
+                    <th>Solicitante</th>
+                    <th>Asignatura</th>
+                    <th>Pañolero</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in prestamos %}
+                    <tr>
+                        <td>{{ p.codigo_prestamo }}</td>
+                        <td>{{ p.fecha }}</td>
+                        <td>
+                            {% if p.docente %}
+                                {{ p.docente.nombre }}
+                            {% elif p.estudiante %}
+                                {{ p.estudiante.nombre }}{% if p.estudiante.carrera %} ({{ p.estudiante.carrera }}){% endif %}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if p.asignatura %}
+                                {{ p.asignatura.nombre }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if p.panolero %}
+                                {{ p.panolero.nombre }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="estado-badge
+                                {% if p.estado == 'pendiente' %}
+                                    estado-pendiente
+                                {% elif p.estado == 'devuelto' %}
+                                    estado-devuelto
+                                {% elif p.estado == 'devuelto_parcial' %}
+                                    estado-parcial
+                                {% elif p.estado == 'anulado' %}
+                                    estado-parcial
+                                {% else %}
+                                    estado-parcial
+                                {% endif %}
+                            ">
+                                {{ p.estado }}
+                            </span>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6" class="sin-resultados">
+                            No se encontraron préstamos para los filtros seleccionados.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

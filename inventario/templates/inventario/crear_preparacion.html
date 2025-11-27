@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Preparación (Listado de clase)</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .ok    { background: #d4edda; padding: 10px; margin-bottom: 10px; }
+        .error { background: #f8d7da; padding: 10px; margin-bottom: 10px; }
+
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+        th, td { border: 1px solid #ccc; padding: 4px; }
+        th { background: #f0f0f0; }
+        input[type="number"] { width: 70px; }
+        input[readonly] { background: #eee; }
+        .btn { padding: 6px 12px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<h1>Crear preparación de clase</h1>
+
+<a href="{% url 'menu_principal' %}">Volver al menú</a>
+<br></br>
+
+{% if mensaje %}
+<div class="ok">{{ mensaje }}</div>
+{% endif %}
+
+{% if error %}
+<div class="error">{{ error }}</div>
+{% endif %}
+
+<form method="POST" id="form-preparacion">
+    {% csrf_token %}
+
+    <h3>Datos del solicitante</h3>
+
+    <label>Tipo solicitante:</label>
+    <select name="tipo_solicitante">
+        <option value="docente">Docente</option>
+    </select>
+
+    <br><br>
+
+    <label>Docente:</label>
+    <select name="docente_codigo">
+        <option value="">-- Seleccione --</option>
+        {% for d in docentes %}
+        <option value="{{ d.codigo }}">{{ d.nombre }}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    <label>Asignatura:</label>
+    <input type="text"
+       name="asignatura_nombre"
+       id="asignatura_nombre"
+       placeholder="Escribir nombre de la asignatura">
+
+    <h3>Datos de la preparación</h3>
+
+    <label>Fecha de la clase:</label>
+    <input type="date" name="fecha" required>
+
+    <label>Hora de inicio:</label>
+    <input type="time" name="hora_inicio" required>
+
+    <!-- 👉 NUEVO: HORA FIN -->
+    <label>Hora de término:</label>
+    <input type="time" name="hora_fin" required>
+
+    <br><br>
+
+    <label>Observaciones (opcional):</label><br>
+    <textarea name="observaciones" rows="3" cols="60"></textarea>
+
+    <h3>Herramientas preparadas</h3>
+    <p style="font-size: 13px; color:#555;">
+        Escanea el código de cada herramienta en la columna "Código".
+        Si la cantidad queda en 0, puedes cambiarla manualmente.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Herramienta</th>
+                <th>Stock disp. (informativo)</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# 20 filas vacías para escanear #}
+            {% for i in "01234567890123456789" %}
+            <tr>
+                <td>
+                    <input type="text"
+                           name="codigo_herramienta"
+                           class="codigo-input"
+                           data-row="{{ forloop.counter0 }}">
+                </td>
+                <td>
+                    <input type="text"
+                           class="nombre-input"
+                           data-row="{{ forloop.counter0 }}"
+                           readonly>
+                </td>
+                <td>
+                    <input type="text"
+                           class="stock-input"
+                           data-row="{{ forloop.counter0 }}"
+                           readonly>
+                </td>
+                <td>
+                    <input type="number"
+                           name="cantidad"
+                           class="cantidad-input"
+                           data-row="{{ forloop.counter0 }}"
+                           value="0"
+                           min="0">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <button type="submit" class="btn">Guardar preparación</button>
+</form>
+
+<br>
+<a href="{% url 'lista_preparaciones' %}">Volver a listado de preparaciones</a>
+
+<script>
+// Evitar que ENTER envíe el formulario completo
+document.getElementById("form-preparacion").addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && e.target.tagName.toLowerCase() !== "textarea") {
+        e.preventDefault();
+    }
+});
+
+// Mover foco a la siguiente fila de código
+function moverFocoSiguienteCodigo(inputActual) {
+    const codigos = Array.from(document.querySelectorAll(".codigo-input"));
+    const idx = codigos.indexOf(inputActual);
+    if (idx !== -1 && idx + 1 < codigos.length) {
+        const siguiente = codigos[idx + 1];
+        siguiente.focus();
+        siguiente.select();   // para que el siguiente escaneo reemplace
+    }
+}
+
+// Buscar la herramienta, rellenar datos y (opcional) mover el foco
+function buscarHerramientaPorCodigo(inputCodigo, moverFoco) {
+    const codigo = inputCodigo.value.trim();
+    const row = inputCodigo.dataset.row;
+
+    const nombreInput = document.querySelector('.nombre-input[data-row="' + row + '"]');
+    const stockInput  = document.querySelector('.stock-input[data-row="' + row + '"]');
+    const cantInput   = document.querySelector('.cantidad-input[data-row="' + row + '"]');
+
+    if (!codigo) {
+        nombreInput.value = "";
+        stockInput.value = "";
+        return;
+    }
+
+    fetch(`/inventario/api/herramienta/?codigo=${encodeURIComponent(codigo)}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.ok) {
+                nombreInput.value = data.nombre;
+                stockInput.value  = data.stock_disponible;
+
+                // Si la cantidad está en 0, pon 1 (primer escaneo)
+                let actual = parseInt(cantInput.value || "0", 10);
+                if (actual <= 0) {
+                    cantInput.value = 1;
+                }
+
+                if (moverFoco) {
+                    moverFocoSiguienteCodigo(inputCodigo);
+                }
+            } else {
+                nombreInput.value = "No encontrado";
+                stockInput.value = "";
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            nombreInput.value = "Error al buscar";
+            stockInput.value = "";
+        });
+}
+
+// Con ENTER: buscar + saltar a la fila de abajo
+document.querySelectorAll(".codigo-input").forEach((input) => {
+    input.addEventListener("blur", function() {
+        buscarHerramientaPorCodigo(this, false);
+    });
+
+    input.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();                    // NO enviar formulario
+            buscarHerramientaPorCodigo(this, true); // buscar y saltar
+        }
+    });
+});
+</script>
+
+</body>
+</html>

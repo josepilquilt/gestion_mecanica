@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de baja #{{ baja.id }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { margin-bottom: 10px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+        th, td { border: 1px solid #ccc; padding: 6px 8px; font-size: 14px; }
+        th { background: #f0f0f0; }
+        .campo-label { font-weight: bold; width: 180px; }
+        .bloque { margin-top: 15px; }
+        a { color: #003399; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        textarea { width: 100%; max-width: 100%; }
+    </style>
+</head>
+<body>
+
+<h1>Detalle de baja #{{ baja.id }}</h1>
+
+<a href="{% url 'lista_bajas' %}">Volver al listado de bajas</a>
+<br><br>
+
+<div class="bloque">
+    <table>
+        <tr>
+            <td class="campo-label">Fecha registro:</td>
+            <td>{{ baja.fecha_registro }}{% if baja.hora_registro %} {{ baja.hora_registro }}{% endif %}</td>
+        </tr>
+        <tr>
+            <td class="campo-label">Pañolero:</td>
+            <td>{{ baja.panolero.nombre }}</td>
+        </tr>
+        <tr>
+            <td class="campo-label">Docente:</td>
+            <td>
+                {% if baja.docente %}
+                    {{ baja.docente.nombre }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="campo-label">Asignatura:</td>
+            <td>
+                {% if baja.asignatura %}
+                    {{ baja.asignatura.nombre }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="campo-label">Fecha actividad:</td>
+            <td>
+                {% if baja.fecha_clase %}
+                    {{ baja.fecha_clase }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="campo-label">Hora inicio actividad:</td>
+            <td>
+                {% if baja.hora_inicio_clase %}
+                    {{ baja.hora_inicio_clase }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td class="campo-label">Motivo general:</td>
+            <td>{{ baja.motivo_general }}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="bloque">
+    <h3>Observaciones / contexto (incluye info de estudiante si aplica)</h3>
+    <textarea rows="4" readonly>{{ baja.observaciones }}</textarea>
+</div>
+
+<div class="bloque">
+    <h3>Herramientas dadas de baja</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Herramienta</th>
+                <th>Cantidad baja</th>
+                <th>Motivo (detalle)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for det in detalles %}
+            <tr>
+                <td>{{ det.herramienta.codigo }}</td>
+                <td>{{ det.herramienta.nombre }}</td>
+                <td>{{ det.cantidad_baja }}</td>
+                <td>{{ det.motivo }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Esta baja no tiene herramientas asociadas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<br>
+<a href="{% url 'lista_bajas' %}">Volver al listado de bajas</a>
+
+</body>
+</html>

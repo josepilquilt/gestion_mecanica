@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingreso | Sistema de Gestión de Pañol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Variables de Color (Corporativo) */
+        :root {
+            --color-principal: #772323; /* Azul Oscuro */
+            --color-acento: #007bff;   /* Azul para Botones/Links */
+            --color-fondo: #f0f4f8;    /* Fondo Azul Claro Suave */
+            --color-borde: #ced4da;
+            --color-error: #dc3545;    /* Rojo de Error */
+            --transicion-rapida: all 0.2s ease-in-out;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--color-fondo);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Tarjeta de Login (Mejorada) */
+        .login-card {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Sombra más prominente */
+            width: 100%;
+            max-width: 380px; /* Un poco más de ancho para ser más moderno */
+            border-top: 5px solid var(--color-principal); /* Borde superior de acento */
+        }
+        
+        /* Título del Formulario */
+        .card-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-size: 1.6em; /* Un poco más grande */
+            color: var(--color-principal);
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* Estilo de la Etiqueta */
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        /* Estilo de los Campos de Entrada */
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--color-borde);
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: border-color var(--transicion-rapida), box-shadow var(--transicion-rapida);
+        }
+        
+        /* Efecto al enfocar los campos */
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: var(--color-acento);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            outline: none;
+        }
+
+        /* Estilo del Botón */
+        .btn {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px 0;
+            background: var(--color-principal);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1em;
+            transition: background var(--transicion-rapida);
+        }
+        .btn:hover {
+            background: var(--color-acento); /* Cambio a un azul más brillante al pasar el ratón */
+        }
+        
+        /* Mensajes de Error */
+        .errorlist, .error {
+            color: var(--color-error);
+            font-size: 0.85em;
+            margin-bottom: 15px;
+            padding: 8px 12px;
+            background-color: #f8d7da; /* Fondo suave para errores */
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            list-style: none;
+        }
+
+        /* Texto de Ayuda */
+        .help {
+            margin-top: 20px;
+            font-size: 0.8em;
+            text-align: center;
+            color: #6c757d;
+            border-top: 1px dashed #e9ecef;
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="login-card">
+    
+    <div class="card-header">
+        <h1>Sistema de Gestión de Pañol</h1>
+        <p style="color: #6c757d; font-size: 0.9em;">Inicia sesión para acceder al sistema.</p>
+    </div>
+
+    {% if form.errors %}
+        <ul class="errorlist">
+            <li>Usuario o contraseña incorrectos. Intenta nuevamente.</li>
+        </ul>
+    {% endif %}
+
+    {% if next and user.is_authenticated %}
+        <p class="error">
+            Tu cuenta no tiene acceso a esta página.
+        </p>
+    {% endif %}
+
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        <label for="id_username">Usuario:</label>
+        {{ form.username }}
+
+        <label for="id_password">Contraseña:</label>
+        {{ form.password }}
+
+        {# Campo "next" para redirigir #}
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}">
+        {% endif %}
+
+        <button type="submit" class="btn">Ingresar</button>
+    </form>
+
+    <p class="help">
+        Usa las credenciales creadas en el panel de administración.
+    </p>
+
+</div>
+</body>
+</html>

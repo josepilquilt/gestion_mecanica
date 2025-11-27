@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Menú Principal — Sistema de Gestión de Pañol</title>
+    <style>
+        body { font-family: Arial; margin: 30px; }
+        h1 { margin-bottom: 10px; }
+        ul { padding: 0; }
+        li { margin: 10px 0; list-style: none; }
+        a {
+            color: #003399;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        a:hover { text-decoration: underline; }
+        .pendiente {
+            color: #888;
+            font-style: italic;
+        }
+        .seccion {
+            margin-top: 25px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Sistema de Gestión de Pañol</h1>
+    <p>Bienvenido. Selecciona un módulo para continuar:</p>
+    <a href="#" onclick="confirmarLogout()">Cerrar sesión</a>
+
+
+    <ul>
+        <!-- ADMIN -->
+        {% if user.is_staff or user.is_superuser %}
+            <li class="seccion">Administración</li>
+            <li><a href="/admin/">Administración del sistema</a></li>
+        {% endif %}
+
+        <!-- INVENTARIO -->
+        <li class="seccion">Inventario</li>
+        <li><a href="{% url 'lista_herramientas' %}">Inventario de herramientas</a></li>
+        <li><a href="{% url 'gestionar_herramienta' %}">Gestión de herramientas</a></li>
+
+        <!-- PREPARACIÓN DE CLASES -->
+        <li class="seccion">Preparación de clases</li>
+        <li><a href="{% url 'crear_preparacion' %}">Crear preparación de clase</a></li>
+        <li><a href="{% url 'lista_preparaciones' %}">Listado de preparaciones</a></li>
+
+        <!-- PRÉSTAMOS -->
+        <li class="seccion">Préstamos</li>
+        <li><a href="{% url 'crear_prestamo' %}">Registrar préstamo</a></li>
+        <li><a href="{% url 'lista_prestamos' %}">Listado de préstamos</a></li>
+
+        <!-- DEVOLUCIONES -->
+        <li class="seccion">Devoluciones</li>
+        <li><span class="pendiente">Registrar devolución (desde listado de préstamos)</span></li>
+
+        <!-- OTROS MÓDULOS -->
+        <li class="seccion">Otros módulos</li>
+        <li><a href="{% url 'registrar_baja' %}">Registrar baja de herramientas</a></li>
+        <li><a href="{% url 'lista_bajas' %}">Listado de bajas de herramientas</a></li>
+        
+        <li class="seccion">Informes</li>
+        <li><a href="{% url 'informe_prestamos' %}">Informe de préstamos</a></li>
+        <li><a href="{% url 'panel_kpis' %}">Informe de préstamos 2</a></li>
+
+
+    </ul>
+
+<script>
+function confirmarLogout() {
+    if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+        // Usa la URL de Django para logout y para la página de mensaje
+        window.location.href = "{% url 'logout' %}?next={% url 'logout_msg' %}";
+    }
+}
+</script>
+</body>
+</html>

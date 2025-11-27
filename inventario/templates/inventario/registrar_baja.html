@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar baja de herramientas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { margin-bottom: 10px; }
+        .ok { background: #d4edda; padding: 10px; margin-bottom: 10px; }
+        .error { background: #f8d7da; padding: 10px; margin-bottom: 10px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+        th, td { border: 1px solid #ccc; padding: 6px 8px; font-size: 14px; }
+        th { background: #f0f0f0; }
+        input[type="number"] { width: 80px; }
+        input[readonly] { background: #eee; }
+        textarea { width: 100%; max-width: 100%; }
+        .btn { padding: 6px 12px; cursor: pointer; }
+        .subtitulo { font-weight: bold; margin-top: 20px; }
+        .grupo { margin-bottom: 10px; }
+        label { display: inline-block; min-width: 170px; }
+        .info-prestamo {
+            font-size: 13px;
+            color: #555;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Registrar baja de herramientas</h1>
+
+<a href="{% url 'menu_principal' %}">Volver al menú</a>
+<br><br>
+
+{% if mensaje %}
+<div class="ok">{{ mensaje }}</div>
+{% endif %}
+
+{% if error %}
+<div class="error">{{ error }}</div>
+{% endif %}
+
+<form method="POST" id="form-baja">
+    {% csrf_token %}
+
+    <!-- PAÑOLERO (solo informativo) -->
+    <div class="grupo">
+        <strong>Pañolero:</strong>
+        {{ panolero.nombre }}
+    </div>
+
+    <!-- CONTEXTO DE LA BAJA -->
+    <div class="subtitulo">Contexto de la baja</div>
+
+    <div class="grupo">
+        <label>Código de préstamo ref.:</label>
+        <input type="text"
+               name="codigo_prestamo_ctx"
+               id="codigo_prestamo_ctx"
+               placeholder="Ej: P20251125140727"
+               style="width: 220px;">
+    </div>
+
+    <div id="info_prestamo" class="info-prestamo"></div>
+
+    <div class="grupo">
+        <label>Docente:</label>
+        <select name="docente_codigo" id="docente_select">
+            <option value="">-- Sin docente / no aplica --</option>
+            {% for d in docentes %}
+            <option value="{{ d.codigo }}">{{ d.nombre }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="grupo">
+        <label>Estudiante (nombre):</label>
+        <input type="text"
+               id="estudiante_nombre"
+               readonly
+               style="width: 300px;">
+    </div>
+
+    <div class="grupo">
+        <label>RUT estudiante:</label>
+        <input type="text"
+               id="estudiante_rut"
+               readonly
+               style="width: 200px;">
+    </div>
+
+    <div class="grupo">
+        <label>Carrera estudiante:</label>
+        <input type="text"
+               id="estudiante_carrera"
+               readonly
+               style="width: 300px;">
+    </div>
+
+    <div class="grupo">
+        <label>Asignatura:</label>
+        <input type="text"
+               name="asignatura_nombre"
+               id="asignatura_nombre"
+               placeholder="Ej: Taller de Estructuras"
+               style="width: 300px;">
+    </div>
+
+    <div class="grupo">
+        <label>Fecha actividad:</label>
+        <input type="date" name="fecha_clase" id="fecha_clase">
+    </div>
+
+    <div class="grupo">
+        <label>Hora inicio actividad:</label>
+        <input type="time" name="hora_inicio_clase" id="hora_inicio_clase">
+    </div>
+
+    <div class="grupo">
+        <label>Hora término actividad:</label>
+        <input type="time" name="hora_fin_clase" id="hora_fin_clase">
+        <span style="font-size: 12px; color:#555;">
+            (se guarda como texto en las observaciones)
+        </span>
+    </div>
+
+    <div class="subtitulo">Descripción de la baja</div>
+
+    <div class="grupo">
+        <label>Motivo general:</label>
+        <input type="text"
+               name="motivo_general"
+               style="width: 100%;"
+               placeholder="Ej: Rotura por accidente en taller, pérdida por error, etc.">
+    </div>
+
+    <div class="grupo">
+        <label>Observaciones (opcional):</label><br>
+        <textarea name="observaciones" rows="3"></textarea>
+    </div>
+
+    <div class="subtitulo">Herramientas a dar de baja</div>
+    <p style="font-size: 13px; color:#555;">
+        Escanea o escribe el código de cada herramienta en la columna "Código".
+        Se mostrará el nombre y el stock disponible. Ingresa la cantidad a dar de baja.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Herramienta</th>
+                <th>Stock disp. actual</th>
+                <th>Cantidad de baja</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in "01234567890123456789" %}
+            <tr>
+                <td>
+                    <input type="text"
+                           name="codigo_herramienta"
+                           class="codigo-input"
+                           data-row="{{ forloop.counter0 }}">
+                </td>
+                <td>
+                    <input type="text"
+                           class="nombre-input"
+                           data-row="{{ forloop.counter0 }}"
+                           readonly>
+                </td>
+                <td>
+                    <input type="text"
+                           class="stock-input"
+                           data-row="{{ forloop.counter0 }}"
+                           readonly>
+                </td>
+                <td>
+                    <input type="number"
+                           name="cantidad_baja"
+                           class="cantidad-input"
+                           data-row="{{ forloop.counter0 }}"
+                           value="0"
+                           min="0">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <button type="submit" class="btn">Registrar bajas</button>
+</form>
+
+<script>
+// Evitar que ENTER envíe el formulario completo
+document.getElementById("form-baja").addEventListener("keydown", function(e) {
+    if (e.key === "Enter" && e.target.tagName.toLowerCase() !== "textarea") {
+        e.preventDefault();
+    }
+});
+
+// -------------------------
+// Autocompletar por préstamo
+// -------------------------
+function limpiarContextoPrestamo() {
+    document.getElementById("info_prestamo").textContent = "";
+
+    const selDoc = document.getElementById("docente_select");
+    if (selDoc) selDoc.value = "";
+
+    document.getElementById("asignatura_nombre").value = "";
+    document.getElementById("fecha_clase").value = "";
+    document.getElementById("hora_inicio_clase").value = "";
+    document.getElementById("hora_fin_clase").value = "";
+
+    document.getElementById("estudiante_nombre").value = "";
+    document.getElementById("estudiante_rut").value = "";
+    document.getElementById("estudiante_carrera").value = "";
+}
+
+function cargarPrestamoPorCodigo(codigo) {
+    if (!codigo) {
+        limpiarContextoPrestamo();
+        return;
+    }
+
+    fetch(`/prestamos/api/?codigo=${encodeURIComponent(codigo)}`)
+        .then(r => r.json())
+        .then(data => {
+            if (!data.ok) {
+                alert(data.error || "No se encontró el préstamo.");
+                limpiarContextoPrestamo();
+                return;
+            }
+
+            const infoDiv = document.getElementById("info_prestamo");
+            infoDiv.textContent =
+                `Préstamo ${data.codigo_prestamo} | ` +
+                `Pañolero: ${data.panolero_nombre || "-"} | ` +
+                `Docente: ${data.docente_nombre || "-"} | ` +
+                `Estudiante: ${data.estudiante_nombre || "-"}`;
+
+            // Docente
+            const selDoc = document.getElementById("docente_select");
+            if (selDoc && data.docente_codigo) {
+                selDoc.value = data.docente_codigo.toString();
+            }
+
+            // Asignatura
+            const inpAsig = document.getElementById("asignatura_nombre");
+            if (inpAsig) {
+                inpAsig.value = data.asignatura_nombre || "";
+            }
+
+            // Fecha / horas
+            const fAct = document.getElementById("fecha_clase");
+            if (fAct && data.fecha) {
+                fAct.value = data.fecha;
+            }
+
+            const hIni = document.getElementById("hora_inicio_clase");
+            if (hIni && data.hora_inicio) {
+                hIni.value = data.hora_inicio;
+            }
+
+            const hFin = document.getElementById("hora_fin_clase");
+            if (hFin && data.hora_fin) {
+                hFin.value = data.hora_fin;
+            }
+
+            // Estudiante
+            document.getElementById("estudiante_nombre").value =
+                data.estudiante_nombre || "";
+            document.getElementById("estudiante_rut").value =
+                data.estudiante_rut || "";
+            document.getElementById("estudiante_carrera").value =
+                data.estudiante_carrera || "";
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Ocurrió un error al buscar el préstamo.");
+            limpiarContextoPrestamo();
+        });
+}
+
+const codPrestamoInput = document.getElementById("codigo_prestamo_ctx");
+codPrestamoInput.addEventListener("blur", function() {
+    cargarPrestamoPorCodigo(this.value.trim());
+});
+codPrestamoInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        cargarPrestamoPorCodigo(this.value.trim());
+    }
+});
+
+// -------------------------
+// Búsqueda de herramientas
+// -------------------------
+function moverFocoSiguienteCodigo(inputActual) {
+    const codigos = Array.from(document.querySelectorAll(".codigo-input"));
+    const idx = codigos.indexOf(inputActual);
+    if (idx !== -1 && idx + 1 < codigos.length) {
+        const siguiente = codigos[idx + 1];
+        siguiente.focus();
+        siguiente.select();
+    }
+}
+
+function buscarHerramientaPorCodigo(inputCodigo, moverFoco) {
+    const codigo = inputCodigo.value.trim();
+    const row = inputCodigo.dataset.row;
+
+    const nombreInput = document.querySelector('.nombre-input[data-row="' + row + '"]');
+    const stockInput  = document.querySelector('.stock-input[data-row="' + row + '"]');
+    const cantInput   = document.querySelector('.cantidad-input[data-row="' + row + '"]');
+
+    if (!codigo) {
+        nombreInput.value = "";
+        stockInput.value = "";
+        return;
+    }
+
+    fetch(`/inventario/api/herramienta/?codigo=${encodeURIComponent(codigo)}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.ok) {
+                nombreInput.value = data.nombre;
+                stockInput.value  = data.stock_disponible;
+
+                let actual = parseInt(cantInput.value || "0", 10);
+                if (actual < 0) {
+                    cantInput.value = 0;
+                }
+
+                if (moverFoco) {
+                    moverFocoSiguienteCodigo(inputCodigo);
+                }
+            } else {
+                nombreInput.value = "No encontrado";
+                stockInput.value = "";
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            nombreInput.value = "Error al buscar";
+            stockInput.value = "";
+        });
+}
+
+document.querySelectorAll(".codigo-input").forEach((input) => {
+    input.addEventListener("blur", function() {
+        buscarHerramientaPorCodigo(this, false);
+    });
+
+    input.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            buscarHerramientaPorCodigo(this, true);
+        }
+    });
+});
+</script>
+
+</body>
+</html>

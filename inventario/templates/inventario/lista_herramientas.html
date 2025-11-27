@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario de Herramientas - Pañol</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .subtitulo {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .barra-superior {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .barra-superior .acciones {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-primario {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-secundario {
+            background-color: #6c757d;
+            color: #fff;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        form.busqueda {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        form.busqueda input[type="text"] {
+            padding: 5px 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            min-width: 260px;
+        }
+
+        form.busqueda button {
+            padding: 6px 10px;
+        }
+
+        .contenedor-tabla {
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            max-height: 520px;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            background-color: #f0f0f0;
+            z-index: 1;
+        }
+
+        th, td {
+            padding: 6px 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fdfdfd;
+        }
+
+        .fila-consumible {
+            background-color: #fff1f0;
+        }
+
+        .fila-herramienta {
+            background-color: #e8f5ff;
+        }
+
+        .fila-fijos {
+            background-color: #f4f4f4;
+        }
+
+        .fila-llave {
+            background-color: #e0f7ff; /* celeste suave para llaves */
+        }
+
+        .tag-tipo {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .tag-consumible {
+            background-color: #ffccc7;
+            color: #a8071a;
+        }
+
+        .tag-herramienta {
+            background-color: #bae7ff;
+            color: #0050b3;
+        }
+
+        .tag-fijos {
+            background-color: #d9d9d9;
+            color: #262626;
+        }
+
+        .tag-llave {
+            background-color: #cceeff;
+            color: #003a8c;
+        }
+
+        .resumen {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .resumen span {
+            margin-right: 15px;
+        }
+
+        .sin-resultados {
+            padding: 10px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Inventario de Herramientas</h1>
+    <div class="subtitulo">
+        Vista de consulta del pañol de Mecánica. Se muestran herramientas, consumibles, llaves y equipos fijos,
+        incluyendo aquellos con stock 0.
+    </div>
+
+    <div class="barra-superior">
+        <form method="GET" class="busqueda">
+            <label for="id_q">Buscar:</label>
+            <input
+                type="text"
+                id="id_q"
+                name="q"
+                value="{{ query }}"
+                placeholder="Código, código de barra o nombre de herramienta"
+            >
+            <button type="submit" class="btn btn-primario">Buscar</button>
+            {% if query %}
+                <a href="{% url 'lista_herramientas' %}" class="btn btn-secundario">Limpiar</a>
+            {% endif %}
+        </form>
+
+        <div class="acciones">
+            <button type="button" onclick="window.location.href='/'" class="btn btn-secundario">
+                Volver al menú
+            </button>
+        </div>
+    </div>
+
+    <div class="resumen">
+        <span><strong>Total registros:</strong> {{ herramientas|length }}</span>
+        {% if query %}
+            <span><strong>Búsqueda:</strong> "{{ query }}"</span>
+        {% endif %}
+    </div>
+
+    <div class="contenedor-tabla">
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Código de barra</th>
+                    <th>Nombre herramienta / equipo</th>
+                    <th>Stock total</th>
+                    <th>Stock disponible</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for h in herramientas %}
+                    {% with tipo_lower=h.tipo|default_if_none:""|lower %}
+                    <tr class="
+                        {% if 'consumible' in tipo_lower %}
+                            fila-consumible
+                        {% elif tipo_lower|slice:":5" == 'llave' %}
+                            fila-llave
+                        {% elif 'fijo' in tipo_lower %}
+                            fila-fijos
+                        {% else %}
+                            fila-herramienta
+                        {% endif %}
+                    ">
+                        <td>{{ h.codigo }}</td>
+                        <td>{{ h.codigo_barra }}</td>
+                        <td>{{ h.nombre }}</td>
+                        <td>{{ h.stock }}</td>
+                        <td>{{ h.stock_disponible }}</td>
+                        <td>
+                            {% if 'consumible' in tipo_lower %}
+                                <span class="tag-tipo tag-consumible">Consumible</span>
+                            {% elif tipo_lower|slice:":5" == 'llave' %}
+                                <span class="tag-tipo tag-llave">
+                                    {% if tipo_lower == 'llave_auto' %}
+                                        Llave auto
+                                    {% else %}
+                                        Llave
+                                    {% endif %}
+                                </span>
+                            {% elif 'fijo' in tipo_lower %}
+                                <span class="tag-tipo tag-fijos">Fijo</span>
+                            {% else %}
+                                {# Muestra el tipo real si existe, si no, lo deja como Herramienta #}
+                                {% if h.tipo %}
+                                    <span class="tag-tipo tag-herramienta">{{ h.tipo }}</span>
+                                {% else %}
+                                    <span class="tag-tipo tag-herramienta">Herramienta</span>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endwith %}
+                {% empty %}
+                    <tr>
+                        <td colspan="6" class="sin-resultados">
+                            No hay herramientas registradas o no se encontraron resultados para la búsqueda actual.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de preparación {{ preparacion.codigo_preparacion }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { margin-bottom: 5px; }
+        .bloque { margin-bottom: 15px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+        th, td { border: 1px solid #ccc; padding: 6px 8px; font-size: 14px; }
+        th { background: #f0f0f0; }
+        .label { font-weight: bold; }
+        .estado-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .estado-pendiente { background:#fff3cd; color:#856404; }
+        .estado-usado { background:#d4edda; color:#155724; }
+        .estado-anulado { background:#f8d7da; color:#721c24; }
+        .btn-link { text-decoration:none; color:#007bff; }
+    </style>
+</head>
+<body>
+
+<h1>Detalle de preparación {{ preparacion.codigo_preparacion }}</h1>
+
+<div class="bloque">
+    <a href="{% url 'lista_preparaciones' %}" class="btn-link">← Volver al listado</a>
+</div>
+
+<div class="bloque">
+    <p><span class="label">Código preparación:</span> {{ preparacion.codigo_preparacion }}</p>
+    <p><span class="label">Fecha:</span> {{ preparacion.fecha }}</p>
+    <p>
+        <span class="label">Hora inicio:</span> {{ preparacion.hora_inicio }}
+        &nbsp;|&nbsp;
+        <span class="label">Hora fin:</span> {{ preparacion.hora_fin }}
+    </p>
+    <p>
+        <span class="label">Docente:</span>
+        {% if preparacion.docente %}
+            {{ preparacion.docente.nombre }}
+        {% else %}
+            -
+        {% endif %}
+    </p>
+    <p>
+        <span class="label">Asignatura:</span>
+        {% if preparacion.asignatura %}
+            {{ preparacion.asignatura.nombre }}
+        {% else %}
+            -
+        {% endif %}
+    </p>
+    <p>
+        <span class="label">Pañolero:</span>
+        {% if preparacion.panolero %}
+            {{ preparacion.panolero.nombre }}
+        {% else %}
+            -
+        {% endif %}
+    </p>
+    <p>
+        <span class="label">Estado:</span>
+        {% if preparacion.estado == 'pendiente' %}
+            <span class="estado-badge estado-pendiente">{{ preparacion.get_estado_display }}</span>
+        {% elif preparacion.estado == 'usado' %}
+            <span class="estado-badge estado-usado">{{ preparacion.get_estado_display }}</span>
+        {% elif preparacion.estado == 'anulado' %}
+            <span class="estado-badge estado-anulado">{{ preparacion.get_estado_display }}</span>
+        {% else %}
+            {{ preparacion.get_estado_display }}
+        {% endif %}
+    </p>
+</div>
+
+<div class="bloque">
+    <p class="label">Observaciones:</p>
+    <p>
+        {% if preparacion.observaciones %}
+            {{ preparacion.observaciones|linebreaksbr }}
+        {% else %}
+            (Sin observaciones)
+        {% endif %}
+    </p>
+</div>
+
+<div class="bloque">
+    <h3>Herramientas preparadas</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Código herramienta</th>
+                <th>Nombre</th>
+                <th>Cantidad preparada</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for det in preparacion.detalles.all %}
+            <tr>
+                <td>{{ det.herramienta.codigo }}</td>
+                <td>{{ det.herramienta.nombre }}</td>
+                <td>{{ det.cantidad_solicitada }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No hay herramientas asociadas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestionar herramientas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            margin-bottom: 0.3rem;
+        }
+        .mensajes {
+            margin: 10px 0;
+        }
+        .ok {
+            background: #d4edda;
+            color: #155724;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .contenedor {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 6px;
+            flex: 1 1 320px;
+            max-width: 480px;
+        }
+        label {
+            display: block;
+            margin-top: 8px;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 5px;
+            margin-top: 3px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 4px 6px;
+            text-align: left;
+        }
+        th {
+            background: #f4f4f4;
+        }
+        .tabla-contenedor {
+            max-height: 400px;
+            overflow: auto;
+            border: 1px solid #ccc;
+            margin-top: 15px;
+        }
+        .fila-consumible {
+            background-color: #fff3cd; /* amarillo suave para consumibles */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Gestión de herramientas</h1>
+    <p><a href="{% url 'menu_principal' %}">← Volver al menú principal</a></p>
+
+    <div class="mensajes">
+        {% if mensaje %}
+            <div class="ok">{{ mensaje }}</div>
+        {% endif %}
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+    </div>
+
+    <div class="contenedor">
+
+        <!-- 1) CREAR NUEVA HERRAMIENTA -->
+        <div class="card">
+            <h2>Registrar nueva herramienta</h2>
+            <p>
+                El <strong>código</strong> y el <strong>código de barra</strong> se generan automáticamente.
+            </p>
+            <form method="post" action="{% url 'gestionar_herramienta' %}">
+                {% csrf_token %}
+                <input type="hidden" name="accion" value="crear">
+
+                <label for="nombre">Nombre de la herramienta:</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="tipo">Tipo:</label>
+                <select id="tipo" name="tipo">
+                    <option value="herramienta">Fijo</option>
+                    <option value="consumible">Consumible</option>
+                </select>
+
+                <label for="stock">Stock inicial:</label>
+                <input type="number" id="stock" name="stock" min="0" value="0">
+
+                <button type="submit">Crear herramienta</button>
+            </form>
+        </div>
+
+        <!-- 2) SUMAR STOCK A HERRAMIENTA EXISTENTE -->
+        <div class="card">
+            <h2>Sumar stock</h2>
+
+            <!-- Buscador por código / nombre (GET) -->
+            <form method="get" action="{% url 'gestionar_herramienta' %}">
+                <label for="q_stock">Buscar herramienta (código o nombre):</label>
+                <input type="text" id="q_stock" name="q_stock" value="{{ q_stock }}">
+                <button type="submit">Buscar</button>
+            </form>
+
+            <!-- Form para sumar stock (POST) -->
+            <form method="post" action="{% url 'gestionar_herramienta' %}">
+                {% csrf_token %}
+                <input type="hidden" name="accion" value="sumar_stock">
+
+                <label for="codigo_existente">Herramienta:</label>
+                <select id="codigo_existente" name="codigo_existente" required>
+                    <option value="">-- Seleccione herramienta --</option>
+                    {% for h in herramientas_busqueda %}
+                        <option value="{{ h.codigo }}">
+                            {{ h.codigo }} - {{ h.nombre }} (Stock: {{ h.stock }}, Disp: {{ h.stock_disponible }})
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <label for="cantidad_sumar">Cantidad a sumar:</label>
+                <input type="number" id="cantidad_sumar" name="cantidad_sumar" min="1" value="1">
+
+                <button type="submit">Agregar stock</button>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- LISTADO COMPLETO (INVENTARIO ACTUAL) -->
+    <h2>Inventario actual</h2>
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Código de barra</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Stock</th>
+                    <th>Disponible</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for h in herramientas %}
+                    <tr {% if h.tipo == "consumible" %}class="fila-consumible"{% endif %}>
+                        <td>{{ h.codigo }}</td>
+                        <td>{{ h.codigo_barra }}</td>
+                        <td>{{ h.nombre }}</td>
+                        <td>{{ h.tipo }}</td>
+                        <td>{{ h.stock }}</td>
+                        <td>{{ h.stock_disponible }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6">No hay herramientas registradas.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

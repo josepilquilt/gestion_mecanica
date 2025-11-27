@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Préstamos</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+        table, th, td { border: 1px solid #ccc; padding: 5px; }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            text-transform: capitalize;
+        }
+
+        /* Estados de préstamo */
+        .pendiente       { background: #ffecb3; }
+        .devuelto        { background: #c8e6c9; }
+        .devuelto_parcial{ background: #ffe0b2; }
+        .anulado         { background: #ffcdd2; }
+        .entregado       { background: #bbdefb; }
+
+        /* Roles (docente / estudiante) */
+        .role-pill {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        .docente-pill {
+            background: #e3f2fd;   /* azul clarito */
+            color: #0d47a1;
+        }
+        .estudiante-pill {
+            background: #fce4ec;   /* rosado clarito */
+            color: #880e4f;
+        }
+        .role-empty {
+            color: #999;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Préstamos registrados</h1>
+<a href="{% url 'menu_principal' %}">Volver al menú</a>
+<br><br>
+
+<form method="GET">
+    <input type="text" name="q" placeholder="Buscar préstamo..." value="{{ query }}">
+    <button type="submit">Buscar</button>
+</form>
+
+<br>
+
+<a href="{% url 'crear_prestamo' %}">➕ Registrar nuevo préstamo</a>
+
+<table>
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Fecha</th>
+            <th>Docente</th>
+            <th>Estudiante</th>
+            <th>Asignatura</th>
+            <th>Pañolero</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for p in prestamos %}
+        <tr>
+            <td>{{ p.codigo_prestamo }}</td>
+            <td>{{ p.fecha }}</td>
+
+            <!-- DOCENTE -->
+            <td>
+                {% if p.docente %}
+                    <span class="role-pill docente-pill">
+                        {{ p.docente.nombre }}
+                    </span>
+                {% else %}
+                    <span class="role-empty">-</span>
+                {% endif %}
+            </td>
+
+            <!-- ESTUDIANTE -->
+            <td>
+                {% if p.estudiante %}
+                    <span class="role-pill estudiante-pill">
+                        {{ p.estudiante.nombre }} ({{ p.estudiante.rut }})
+                    </span>
+                {% else %}
+                    <span class="role-empty">-</span>
+                {% endif %}
+            </td>
+
+            <!-- ASIGNATURA -->
+            <td>
+                {% if p.asignatura %}
+                    {{ p.asignatura.nombre }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+
+            <!-- PAÑOLERO -->
+            <td>{{ p.panolero.nombre }}</td>
+
+            <!-- ESTADO -->
+            <td>
+                <span class="badge {{ p.estado }}">
+                    {{ p.estado }}
+                    {# O si prefieres etiqueta bonita: {{ p.get_estado_display }} #}
+                </span>
+            </td>
+
+            <td>
+                <a href="{% url 'registrar_devolucion' p.id %}">Registrar devolución</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<a href="{% url 'menu_principal' %}">Volver al menú</a>
+
+</body>
+</html>

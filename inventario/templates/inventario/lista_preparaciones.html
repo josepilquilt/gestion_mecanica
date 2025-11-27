@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de preparaciones de clase</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { margin-bottom: 10px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
+        th, td { border: 1px solid #ccc; padding: 6px 8px; font-size: 14px; }
+        th { background: #f0f0f0; }
+        .filtros { margin-bottom: 10px; }
+        .filtros label { margin-right: 5px; }
+        .btn { padding: 4px 8px; cursor: pointer; font-size: 12px; }
+        .btn-link { text-decoration: none; color: #007bff; font-size: 13px; }
+        .btn-anular {
+            background: #dc3545;
+            color: #fff;
+            border: 1px solid #dc3545;
+        }
+        .btn-ver {
+            background: #17a2b8;
+            color: #fff;
+            border: 1px solid #17a2b8;
+        }
+        .estado-badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .estado-pendiente { background:#fff3cd; color:#856404; }
+        .estado-usado     { background:#d4edda; color:#155724; }
+        .estado-anulado   { background:#f8d7da; color:#721c24; }
+    </style>
+</head>
+<body>
+
+<h1>Listado de preparaciones (clases)</h1>
+
+<div style="margin-bottom: 10px;">
+    <a href="{% url 'crear_preparacion' %}" class="btn-link">➕ Crear nueva preparación</a> |
+    <a href="{% url 'menu_principal' %}" class="btn-link">Volver al menú</a>
+</div>
+
+<form method="GET" class="filtros">
+    <label>Buscar:</label>
+    <input type="text" name="q" value="{{ query|default_if_none:'' }}">
+
+    <label style="margin-left: 10px;">Fecha:</label>
+    <input type="date" name="fecha" value="{{ fecha|default_if_none:'' }}">
+
+    <button type="submit" class="btn">Filtrar</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Código prep.</th>
+            <th>Fecha</th>
+            <th>Hora inicio</th>
+            <th>Hora fin</th>
+            <th>Docente</th>
+            <th>Asignatura</th>
+            <th>Pañolero</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in preparaciones %}
+        <tr>
+            <td>{{ p.codigo_preparacion }}</td>
+            <td>{{ p.fecha }}</td>
+            <td>{{ p.hora_inicio }}</td>
+            <td>{{ p.hora_fin }}</td>
+            <td>
+                {% if p.docente %}
+                    {{ p.docente.nombre }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if p.asignatura %}
+                    {{ p.asignatura.nombre }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if p.panolero %}
+                    {{ p.panolero.nombre }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if p.estado == 'pendiente' %}
+                    <span class="estado-badge estado-pendiente">{{ p.get_estado_display }}</span>
+                {% elif p.estado == 'usado' %}
+                    <span class="estado-badge estado-usado">{{ p.get_estado_display }}</span>
+                {% elif p.estado == 'anulado' %}
+                    <span class="estado-badge estado-anulado">{{ p.get_estado_display }}</span>
+                {% else %}
+                    {{ p.get_estado_display }}
+                {% endif %}
+            </td>
+            <td>
+                <!-- Ver descripción -->
+                <a href="{% url 'detalle_preparacion' p.id %}">
+                    <button type="button" class="btn btn-ver">Ver</button>
+                </a>
+
+                <!-- Anular solo si sigue pendiente -->
+                {% if p.estado == 'pendiente' %}
+                <form method="post"
+                      action="{% url 'anular_preparacion' p.id %}"
+                      style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="btn btn-anular"
+                            onclick="return confirm('¿Seguro que deseas anular esta preparación?');">
+                        Anular
+                    </button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="9">No hay preparaciones registradas.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>
