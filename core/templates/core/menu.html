@@ -2,82 +2,285 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú Principal — Sistema de Gestión de Pañol</title>
     <style>
-        body { font-family: Arial; margin: 30px; }
-        h1 { margin-bottom: 10px; }
-        ul { padding: 0; }
-        li { margin: 10px 0; list-style: none; }
-        a {
-            color: #003399;
+        /* Variables para colores (rojos) */
+        :root {
+            --primary-color: #cc0000;
+            --secondary-color: rgba(255, 255, 255, 0.95);
+            --accent-color: #ff4444;
+            --text-color: #333;
+            --hover-color: #aa0000;
+            --pending-color: #888;
+            --shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            --border-radius: 10px;
+        }
+
+        /* Fondo de página con imagen de mecánica */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text-color);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Contenedor */
+        .container {
+            max-width: 1000px;
+            width: 90%;
+            background: var(--secondary-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(15px);
+        }
+
+        /* Header con logo */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .title-logout {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+
+        .logout a {
+            color: var(--primary-color);
             font-weight: bold;
             text-decoration: none;
+            padding: 8px 16px;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
         }
-        a:hover { text-decoration: underline; }
-        .pendiente {
-            color: #888;
-            font-style: italic;
+
+        .logout a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
         }
+
+        .header p {
+            font-size: 1.1em;
+            margin-bottom: 0;
+        }
+
+        /* Navegación en grid de 3 columnas */
+        nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
         .seccion {
-            margin-top: 25px;
+            margin-bottom: 15px;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 1.2em;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 8px;
+        }
+
+        /* Lista */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        /* Enlaces */
+        a {
+            color: var(--text-color);
+            font-weight: 500;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            background: white;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+            display: block;
+            text-align: center;
+        }
+
+        a:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Pendiente */
+        .pendiente {
+            color: var(--pending-color);
+            font-style: italic;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            display: block;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            nav {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .title-logout {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .logout {
+                margin-top: 10px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .logo {
+                width: 120px;
+            }
         }
     </style>
 </head>
-
 <body>
+    <div class="container">
+        <div class="header">
+            <img src="https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png" alt="Logo INACAP" class="logo">
+            <div class="title-logout">
+                <h1>Sistema de Gestión de Pañol</h1>
+                <div class="logout">
+                    <a href="#" onclick="confirmarLogout()">Cerrar sesión</a>
+                </div>
+            </div>
+            <p>Bienvenido. Selecciona un módulo para continuar:</p>
+        </div>
 
-    <h1>Sistema de Gestión de Pañol</h1>
-    <p>Bienvenido. Selecciona un módulo para continuar:</p>
-    <a href="#" onclick="confirmarLogout()">Cerrar sesión</a>
+        <nav>
+            <!-- ADMIN -->
+            {% if user.is_staff or user.is_superuser %}
+                <div class="section">
+                    <div class="seccion">Administración</div>
+                    <ul>
+                        <li><a href="/admin/">Administración del sistema</a></li>
+                        </ul>
+                </div>
+            {% endif %}
 
+            <!-- INVENTARIO -->
+            <div class="section">
+                <div class="seccion">Inventario</div>
+                <ul>
+                    <li><a href="{% url 'lista_herramientas' %}">Inventario de herramientas</a></li>
+                    <li><a href="{% url 'gestionar_herramienta' %}">Gestión de herramientas</a></li>
+                </ul>
+            </div>
+            <!-- PRÉSTAMOS -->
+            <div class="section">
+                <div class="seccion">Préstamos</div>
+                <ul>
+                    <li><a href="{% url 'crear_prestamo' %}">Registrar préstamo</a></li>
+                    <li><a href="{% url 'lista_prestamos' %}">Listado de préstamos</a></li>
+                </ul>
+            </div>
+            <!-- PREPARACIÓN DE CLASES -->
+            <div class="section">
+                <div class="seccion">Preparación de clases</div>
+                <ul>
+                    <li><a href="{% url 'crear_preparacion' %}">Crear preparación de clase</a></li>
+                    <li><a href="{% url 'lista_preparaciones' %}">Listado de preparaciones</a></li>
+                </ul>
+            </div>
 
-    <ul>
-        <!-- ADMIN -->
-        {% if user.is_staff or user.is_superuser %}
-            <li class="seccion">Administración</li>
-            <li><a href="/admin/">Administración del sistema</a></li>
-        {% endif %}
+            
 
-        <!-- INVENTARIO -->
-        <li class="seccion">Inventario</li>
-        <li><a href="{% url 'lista_herramientas' %}">Inventario de herramientas</a></li>
-        <li><a href="{% url 'gestionar_herramienta' %}">Gestión de herramientas</a></li>
+            <!-- DEVOLUCIONES -->
+            <div class="section">
+                <div class="seccion">Devoluciones</div>
+                <ul>
+                    <li><span class="pendiente">Registrar devolución (desde listado de préstamos)</span></li>
+                </ul>
+            </div>
 
-        <!-- PREPARACIÓN DE CLASES -->
-        <li class="seccion">Preparación de clases</li>
-        <li><a href="{% url 'crear_preparacion' %}">Crear preparación de clase</a></li>
-        <li><a href="{% url 'lista_preparaciones' %}">Listado de preparaciones</a></li>
+            <!-- OTROS MÓDULOS -->
+            <div class="section">
+                <div class="seccion">Baja de Herramienta</div>
+                <ul>
+                    <li><a href="{% url 'registrar_baja' %}">Registrar baja de herramientas</a></li>
+                    <li><a href="{% url 'lista_bajas' %}">Listado de bajas de herramientas</a></li>
+                </ul>
+            </div>
 
-        <!-- PRÉSTAMOS -->
-        <li class="seccion">Préstamos</li>
-        <li><a href="{% url 'crear_prestamo' %}">Registrar préstamo</a></li>
-        <li><a href="{% url 'lista_prestamos' %}">Listado de préstamos</a></li>
+            <!-- INFORMES -->
+            <div class="section">
+                <div class="seccion">Vistas</div>
+                <ul>
+                    <li><a href="{% url 'informe_prestamos' %}">Bitácora</a></li>
+                    {% if user.is_staff or user.is_superuser %}
+                        <li><a href="{% url 'panel_kpis' %}">Panel de indicadores</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+                </ul>
+            </div>
+        </nav>
+    </div>
 
-        <!-- DEVOLUCIONES -->
-        <li class="seccion">Devoluciones</li>
-        <li><span class="pendiente">Registrar devolución (desde listado de préstamos)</span></li>
-
-        <!-- OTROS MÓDULOS -->
-        <li class="seccion">Otros módulos</li>
-        <li><a href="{% url 'registrar_baja' %}">Registrar baja de herramientas</a></li>
-        <li><a href="{% url 'lista_bajas' %}">Listado de bajas de herramientas</a></li>
-        
-        <li class="seccion">Informes</li>
-        <li><a href="{% url 'informe_prestamos' %}">Informe de préstamos</a></li>
-        <li><a href="{% url 'panel_kpis' %}">Informe de préstamos 2</a></li>
-
-
-    </ul>
-
-<script>
-function confirmarLogout() {
-    if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
-        // Usa la URL de Django para logout y para la página de mensaje
-        window.location.href = "{% url 'logout' %}?next={% url 'logout_msg' %}";
-    }
-}
-</script>
+    <script>
+        function confirmarLogout() {
+            if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+                window.location.href = "{% url 'logout' %}?next={% url 'logout_msg' %}";
+            }
+        }
+    </script>
 </body>
 </html>

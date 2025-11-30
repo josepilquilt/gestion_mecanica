@@ -143,4 +143,4 @@ LOGIN_URL = 'login'
 # Opcional: después de logout, podrías mandarlo al login o a tu logout_msg
 LOGOUT_REDIRECT_URL = 'login'  # o 'logout_msg' si quieres
 
-ALLOWED_HOSTS = ["10.234.209.139", "localhost", "127.0.0.1"]
+

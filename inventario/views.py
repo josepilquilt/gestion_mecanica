@@ -33,6 +33,7 @@ from .models import (
 # ---------------------------------------------------
 # 1) LISTA DE HERRAMIENTAS (INVENTARIO)
 # ---------------------------------------------------
+@login_required
 def lista_herramientas(request):
     query = request.GET.get("q", "")
 
@@ -1167,13 +1168,32 @@ def registrar_baja(request):
 def lista_bajas(request):
     """
     Lista de bajas registradas, ordenadas de más reciente a más antigua.
+    Permite filtrar por texto y por rango de fechas (fecha_registro).
     """
     q = request.GET.get("q", "").strip()
+    fecha_desde = request.GET.get("fecha_desde", "").strip()
+    fecha_hasta = request.GET.get("fecha_hasta", "").strip()
 
     bajas = Baja.objects.select_related(
         "panolero", "docente", "asignatura"
-    ).all().order_by("-fecha_registro", "-id")
+    ).all()
 
+    # --- Filtro por fechas (usando fecha_registro) ---
+    if fecha_desde:
+        try:
+            fd = timezone.datetime.strptime(fecha_desde, "%Y-%m-%d").date()
+            bajas = bajas.filter(fecha_registro__gte=fd)
+        except ValueError:
+            pass
+
+    if fecha_hasta:
+        try:
+            fh = timezone.datetime.strptime(fecha_hasta, "%Y-%m-%d").date()
+            bajas = bajas.filter(fecha_registro__lte=fh)
+        except ValueError:
+            pass
+
+    # --- Filtro por texto ---
     if q:
         bajas = bajas.filter(
             Q(motivo_general__icontains=q)
@@ -1183,9 +1203,13 @@ def lista_bajas(request):
             | Q(asignatura__nombre__icontains=q)
         )
 
+    bajas = bajas.order_by("-fecha_registro", "-id")
+
     return render(request, "inventario/lista_bajas.html", {
         "bajas": bajas,
         "query": q,
+        "fecha_desde": fecha_desde,
+        "fecha_hasta": fecha_hasta,
     })
 
 #Api codigo prestamo para 
@@ -1193,7 +1217,7 @@ def lista_bajas(request):
 def api_prestamo_por_codigo(request):
     """
     Devuelve información básica de un préstamo dado su código,
-    para autocompletar el formulario de bajas.
+    para autocompletar el formulario de bajas y mostrar herramientas prestadas.
     """
     codigo = request.GET.get("codigo", "").strip()
     if not codigo:
@@ -1208,12 +1232,25 @@ def api_prestamo_por_codigo(request):
             "estudiante",
             "asignatura",
             "panolero",
+        ).prefetch_related(
+            "detalles__herramienta"       # 👈 IMPORTANTE: cargamos los detalles
         ).get(codigo_prestamo=codigo)
     except Prestamo.DoesNotExist:
         return JsonResponse(
             {"ok": False, "error": "Préstamo no encontrado."},
             status=404
         )
+
+    # Armamos la lista de herramientas prestadas
+    detalles = []
+    for det in p.detalles.all():
+        detalles.append({
+            "id": det.id,
+            "codigo": det.herramienta.codigo,
+            "nombre": det.herramienta.nombre,
+            "cantidad_entregada": det.cantidad_entregada,
+            "cantidad_devuelta": det.cantidad_devuelta,
+        })
 
     data = {
         "ok": True,
@@ -1227,10 +1264,15 @@ def api_prestamo_por_codigo(request):
 
         "estudiante_rut": p.estudiante.rut if p.estudiante else "",
         "estudiante_nombre": p.estudiante.nombre if p.estudiante else "",
-        "estudiante_carrera": p.estudiante.carrera if (p.estudiante and p.estudiante.carrera) else "",
+        "estudiante_carrera": (
+            p.estudiante.carrera if (p.estudiante and p.estudiante.carrera) else ""
+        ),
 
         "asignatura_nombre": p.asignatura.nombre if p.asignatura else "",
         "panolero_nombre": p.panolero.nombre if p.panolero else "",
+
+        # 👇 NUEVO: herramientas del préstamo
+        "detalles": detalles,
     }
 
     return JsonResponse(data)

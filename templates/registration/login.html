@@ -5,15 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ingreso | Sistema de Gestión de Pañol</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Variables de Color (Corporativo) */
+        /* Variables de Color (Cambiadas a Rojo para consistencia con INACAP) */
         :root {
-            --color-principal: #772323; /* Azul Oscuro */
-            --color-acento: #007bff;   /* Azul para Botones/Links */
-            --color-fondo: #f0f4f8;    /* Fondo Azul Claro Suave */
+            --color-principal: #cc0000; /* Rojo Oscuro */
+            --color-acento: #ff4444;   /* Rojo para Botones/Links */
+            --color-fondo: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); /* Gradiente suave */
             --color-borde: #ced4da;
-            --color-error: #dc3545;    /* Rojo de Error */
-            --transicion-rapida: all 0.2s ease-in-out;
+            --color-error: #dc3545;
+            --color-texto: #495057;
+            --color-texto-secundario: #6c757d;
+            --transicion-rapida: all 0.3s ease-in-out;
+            --sombra: 0 15px 35px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
         }
 
         body {
@@ -27,98 +32,173 @@
             padding: 20px;
         }
 
-        /* Tarjeta de Login (Mejorada) */
+        /* Tarjeta de Login (Mejorada con más diseño) */
         .login-card {
             background: white;
-            padding: 30px 40px;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* Sombra más prominente */
+            padding: 40px 50px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--sombra);
             width: 100%;
-            max-width: 380px; /* Un poco más de ancho para ser más moderno */
-            border-top: 5px solid var(--color-principal); /* Borde superior de acento */
+            max-width: 420px;
+            border-top: 6px solid var(--color-principal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--color-principal), var(--color-acento));
         }
         
-        /* Título del Formulario */
+        /* Header con Logo */
         .card-header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
         h1 {
-            font-size: 1.6em; /* Un poco más grande */
+            font-size: 1.8em;
             color: var(--color-principal);
             font-weight: 700;
             margin: 0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header p {
+            color: var(--color-texto-secundario);
+            font-size: 0.95em;
+            margin-top: 5px;
         }
 
         /* Estilo de la Etiqueta */
         label {
             display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-size: 0.9em;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-size: 0.95em;
             font-weight: 500;
-            color: #495057;
+            color: var(--color-texto);
+            display: flex;
+            align-items: center;
+        }
+
+        label i {
+            margin-right: 8px;
+            color: var(--color-principal);
         }
         
         /* Estilo de los Campos de Entrada */
+        .input-container {
+            position: relative;
+        }
+
         input[type="text"],
         input[type="password"] {
             width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--color-borde);
-            border-radius: 5px;
+            padding: 12px 15px 12px 40px;
+            border: 2px solid var(--color-borde);
+            border-radius: 8px;
             box-sizing: border-box;
             font-size: 1em;
-            transition: border-color var(--transicion-rapida), box-shadow var(--transicion-rapida);
+            transition: var(--transicion-rapida);
+            background: #f8f9fa;
         }
         
-        /* Efecto al enfocar los campos */
         input[type="text"]:focus,
         input[type="password"]:focus {
             border-color: var(--color-acento);
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            box-shadow: 0 0 0 4px rgba(255, 68, 68, 0.2);
             outline: none;
+            background: white;
+        }
+
+        .input-container i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-texto-secundario);
+            font-size: 1.1em;
         }
 
         /* Estilo del Botón */
         .btn {
-            margin-top: 25px;
+            margin-top: 30px;
             width: 100%;
-            padding: 12px 0;
-            background: var(--color-principal);
+            padding: 14px 0;
+            background: linear-gradient(135deg, var(--color-principal), var(--color-acento));
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 700;
-            font-size: 1em;
-            transition: background var(--transicion-rapida);
+            font-size: 1.1em;
+            transition: var(--transicion-rapida);
+            box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
         }
+
         .btn:hover {
-            background: var(--color-acento); /* Cambio a un azul más brillante al pasar el ratón */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(204, 0, 0, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
         }
         
         /* Mensajes de Error */
         .errorlist, .error {
             color: var(--color-error);
-            font-size: 0.85em;
-            margin-bottom: 15px;
-            padding: 8px 12px;
-            background-color: #f8d7da; /* Fondo suave para errores */
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background-color: #f8d7da;
             border: 1px solid #f5c6cb;
-            border-radius: 5px;
+            border-radius: 8px;
             list-style: none;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         /* Texto de Ayuda */
         .help {
-            margin-top: 20px;
-            font-size: 0.8em;
+            margin-top: 25px;
+            font-size: 0.85em;
             text-align: center;
-            color: #6c757d;
+            color: var(--color-texto-secundario);
             border-top: 1px dashed #e9ecef;
-            padding-top: 15px;
+            padding-top: 20px;
+        }
+
+        /* Animación sutil */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 25px;
+                max-width: 90%;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            .logo {
+                width: 100px;
+            }
         }
     </style>
 </head>
@@ -126,8 +206,9 @@
 <div class="login-card">
     
     <div class="card-header">
+        <img src="https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png" alt="Logo INACAP" class="logo">
         <h1>Sistema de Gestión de Pañol</h1>
-        <p style="color: #6c757d; font-size: 0.9em;">Inicia sesión para acceder al sistema.</p>
+        <p>Inicia sesión para acceder al sistema.</p>
     </div>
 
     {% if form.errors %}
@@ -145,18 +226,24 @@
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
 
-        <label for="id_username">Usuario:</label>
-        {{ form.username }}
+        <label for="id_username"><i class="fas fa-user"></i> Usuario:</label>
+        <div class="input-container">
+            <i class="fas fa-user"></i>
+            {{ form.username }}
+        </div>
 
-        <label for="id_password">Contraseña:</label>
-        {{ form.password }}
+        <label for="id_password"><i class="fas fa-lock"></i> Contraseña:</label>
+        <div class="input-container">
+            <i class="fas fa-lock"></i>
+            {{ form.password }}
+        </div>
 
         {# Campo "next" para redirigir #}
         {% if next %}
             <input type="hidden" name="next" value="{{ next }}">
         {% endif %}
 
-        <button type="submit" class="btn">Ingresar</button>
+        <button type="submit" class="btn"><i class="fas fa-sign-in-alt"></i> Ingresar</button>
     </form>
 
     <p class="help">

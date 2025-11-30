@@ -4,23 +4,61 @@
     <meta charset="UTF-8">
     <title>Listado de Préstamos</title>
     <style>
-        body { font-family: Arial; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
-        table, th, td { border: 1px solid #ccc; padding: 5px; }
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background-color: #f4f4f4; 
+        }
+        .header {
+            text-align: center;
+            background-color: #003366; /* Azul INACAP */
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .logo {
+            max-height: 60px;
+            margin-bottom: 10px;
+        }
+        table { 
+            border-collapse: collapse; 
+            width: 100%; 
+            margin-top: 15px; 
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        table, th, td { 
+            border: 1px solid #ddd; 
+            padding: 10px; 
+        }
+        th {
+            background-color: #003366;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #e9ecef;
+        }
 
         .badge {
             padding: 4px 8px;
             border-radius: 4px;
             font-size: 12px;
             text-transform: capitalize;
+            display: inline-block;
         }
 
         /* Estados de préstamo */
-        .pendiente       { background: #ffecb3; }
-        .devuelto        { background: #c8e6c9; }
-        .devuelto_parcial{ background: #ffe0b2; }
-        .anulado         { background: #ffcdd2; }
-        .entregado       { background: #bbdefb; }
+        .pendiente       { background: #ffecb3; color: #f57c00; }
+        .devuelto        { background: #c8e6c9; color: #388e3c; }
+        .devuelto_parcial{ background: #ffe0b2; color: #f57c00; }
+        .anulado         { background: #ffcdd2; color: #d32f2f; }
+        .entregado       { background: #bbdefb; color: #1976d2; }
 
         /* Roles (docente / estudiante) */
         .role-pill {
@@ -42,22 +80,50 @@
             color: #999;
             font-style: italic;
         }
+        .btn-link {
+            color: #003366;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+        .search-form {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .search-form input, .search-form button {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .search-form button {
+            background-color: #003366;
+            color: white;
+            cursor: pointer;
+        }
+        .search-form button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
 
-<h1>Préstamos registrados</h1>
-<a href="{% url 'menu_principal' %}">Volver al menú</a>
+<div class="header">
+    <h1>Préstamos registrados</h1>
+</div>
+
+<a href="{% url 'menu_principal' %}" class="btn-link">←Volver al menú</a>
 <br><br>
 
-<form method="GET">
+<form method="GET" class="search-form">
     <input type="text" name="q" placeholder="Buscar préstamo..." value="{{ query }}">
     <button type="submit">Buscar</button>
 </form>
 
 <br>
 
-<a href="{% url 'crear_prestamo' %}">➕ Registrar nuevo préstamo</a>
+<a href="{% url 'crear_prestamo' %}" class="btn-link">➕ Registrar nuevo préstamo</a>
 
 <table>
     <thead>
@@ -122,7 +188,7 @@
             </td>
 
             <td>
-                <a href="{% url 'registrar_devolucion' p.id %}">Registrar devolución</a>
+                <a href="{% url 'registrar_devolucion' p.id %}" class="btn-link">Registrar devolución</a>
             </td>
         </tr>
         {% endfor %}
@@ -130,7 +196,7 @@
 </table>
 
 <br>
-<a href="{% url 'menu_principal' %}">Volver al menú</a>
+<a href="{% url 'menu_principal' %}" class="btn-link">Volver al menú</a>
 
 </body>
 </html>

@@ -2,30 +2,81 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventario de Herramientas - Pañol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Variables de Color (Rojo para consistencia) */
+        :root {
+            --color-principal: #cc0000;
+            --color-acento: #ff4444;
+            --color-fondo: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            --color-borde: #ced4da;
+            --color-texto: #495057;
+            --color-texto-secundario: #6c757d;
+            --color-header: #ffffff;
+            --color-tabla-header: #f0f0f0;
+            --color-fila-even: #fdfdfd;
+            --color-consumible: #fff1f0;
+            --color-herramienta: #e8f5ff;
+            --color-fijos: #f4f4f4;
+            --color-llave: #e0f7ff;
+            --sombra: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+            --transicion: all 0.3s ease;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+        }
+
+        /* Header con Logo */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: var(--color-header);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--sombra);
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
         h1 {
             margin-bottom: 5px;
+            color: var(--color-principal);
+            font-size: 2em;
+            font-weight: 700;
         }
 
         .subtitulo {
-            color: #555;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
+            color: var(--color-texto-secundario);
+            margin-bottom: 0;
+            font-size: 1em;
         }
 
+        /* Barra Superior */
         .barra-superior {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: var(--color-header);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--sombra);
         }
 
         .barra-superior .acciones {
@@ -34,100 +85,143 @@
         }
 
         .btn {
-            padding: 6px 12px;
-            border-radius: 4px;
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
             border: none;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: var(--transicion);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .btn-primario {
-            background-color: #007bff;
+            background: linear-gradient(135deg, var(--color-principal), var(--color-acento));
             color: #fff;
+            box-shadow: 0 2px 4px rgba(204, 0, 0, 0.3);
         }
 
         .btn-secundario {
-            background-color: #6c757d;
+            background: #6c757d;
             color: #fff;
         }
 
         .btn:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
+        /* Formulario de Búsqueda */
         form.busqueda {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
+        }
+
+        form.busqueda label {
+            font-weight: 500;
+            color: var(--color-texto);
         }
 
         form.busqueda input[type="text"] {
-            padding: 5px 8px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            min-width: 260px;
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--color-borde);
+            min-width: 280px;
+            font-size: 0.9em;
+            transition: var(--transicion);
         }
 
-        form.busqueda button {
-            padding: 6px 10px;
+        form.busqueda input[type="text"]:focus {
+            border-color: var(--color-acento);
+            box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.2);
+            outline: none;
         }
 
+        /* Resumen */
+        .resumen {
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            color: var(--color-texto-secundario);
+            background: var(--color-header);
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--sombra);
+        }
+
+        .resumen span {
+            margin-right: 20px;
+            font-weight: 500;
+        }
+
+        /* Contenedor de Tabla */
         .contenedor-tabla {
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            max-height: 520px;
+            border: 1px solid var(--color-borde);
+            background-color: var(--color-header);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            max-height: 600px;
             overflow-y: auto;
-            overflow-x: auto;
         }
 
         table {
             border-collapse: collapse;
             width: 100%;
-            font-size: 0.9rem;
+            font-size: 0.9em;
         }
 
         thead {
             position: sticky;
             top: 0;
-            background-color: #f0f0f0;
+            background: var(--color-tabla-header);
             z-index: 1;
         }
 
         th, td {
-            padding: 6px 8px;
-            border: 1px solid #ddd;
+            padding: 12px 15px;
+            border: 1px solid var(--color-borde);
             text-align: left;
         }
 
         th {
-            font-weight: bold;
+            font-weight: 700;
+            color: var(--color-principal);
+            text-transform: uppercase;
+            font-size: 0.8em;
         }
 
         tr:nth-child(even) {
-            background-color: #fdfdfd;
+            background-color: var(--color-fila-even);
+        }
+
+        tr:hover {
+            background-color: rgba(204, 0, 0, 0.05);
+            transition: var(--transicion);
         }
 
         .fila-consumible {
-            background-color: #fff1f0;
+            background-color: var(--color-consumible);
         }
 
         .fila-herramienta {
-            background-color: #e8f5ff;
+            background-color: var(--color-herramienta);
         }
 
         .fila-fijos {
-            background-color: #f4f4f4;
+            background-color: var(--color-fijos);
         }
 
         .fila-llave {
-            background-color: #e0f7ff; /* celeste suave para llaves */
+            background-color: var(--color-llave);
         }
 
         .tag-tipo {
-            padding: 2px 6px;
+            padding: 4px 8px;
             border-radius: 4px;
-            font-size: 0.75rem;
+            font-size: 0.75em;
             font-weight: bold;
             text-transform: uppercase;
         }
@@ -152,34 +246,52 @@
             color: #003a8c;
         }
 
-        .resumen {
-            margin-top: 10px;
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .resumen span {
-            margin-right: 15px;
-        }
-
         .sin-resultados {
-            padding: 10px;
-            color: #666;
+            padding: 20px;
+            color: var(--color-texto-secundario);
             font-style: italic;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .barra-superior {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .barra-superior .acciones {
+                justify-content: center;
+            }
+            form.busqueda {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            form.busqueda input[type="text"] {
+                min-width: auto;
+            }
+            .contenedor-tabla {
+                max-height: 400px;
+            }
+            th, td {
+                padding: 8px 10px;
+                font-size: 0.8em;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>Inventario de Herramientas</h1>
-    <div class="subtitulo">
-        Vista de consulta del pañol de Mecánica. Se muestran herramientas, consumibles, llaves y equipos fijos,
-        incluyendo aquellos con stock 0.
+    <div class="header">
+        <img src="https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png" alt="Logo INACAP" class="logo">
+        <h1>Inventario de Herramientas</h1>
+        <div class="subtitulo">
+            Lista de Inventario
+        </div>
     </div>
 
     <div class="barra-superior">
         <form method="GET" class="busqueda">
-            <label for="id_q">Buscar:</label>
+            <label for="id_q"><i class="fas fa-search"></i> Buscar:</label>
             <input
                 type="text"
                 id="id_q"
@@ -187,15 +299,15 @@
                 value="{{ query }}"
                 placeholder="Código, código de barra o nombre de herramienta"
             >
-            <button type="submit" class="btn btn-primario">Buscar</button>
+            <button type="submit" class="btn btn-primario"><i class="fas fa-search"></i> Buscar</button>
             {% if query %}
-                <a href="{% url 'lista_herramientas' %}" class="btn btn-secundario">Limpiar</a>
+                <a href="{% url 'lista_herramientas' %}" class="btn btn-secundario"><i class="fas fa-times"></i> Limpiar</a>
             {% endif %}
         </form>
 
         <div class="acciones">
             <button type="button" onclick="window.location.href='/'" class="btn btn-secundario">
-                Volver al menú
+                <i class="fas fa-arrow-left"></i> Volver al menú
             </button>
         </div>
     </div>
@@ -252,7 +364,6 @@
                             {% elif 'fijo' in tipo_lower %}
                                 <span class="tag-tipo tag-fijos">Fijo</span>
                             {% else %}
-                                {# Muestra el tipo real si existe, si no, lo deja como Herramienta #}
                                 {% if h.tipo %}
                                     <span class="tag-tipo tag-herramienta">{{ h.tipo }}</span>
                                 {% else %}

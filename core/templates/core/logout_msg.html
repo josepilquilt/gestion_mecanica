@@ -2,28 +2,136 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Sesión cerrada</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión Cerrada</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: Arial; text-align: center; margin-top: 40px;}
-        .msg {
-            padding: 20px;
-            background: #eafaf1;
-            color: #2e7d32;
-            border: 1px solid #b2dfdb;
-            width: 50%;
-            margin: auto;
-            border-radius: 6px;
+        /* Variables de Color (Rojo para consistencia) */
+        :root {
+            --color-principal: #cc0000;
+            --color-acento: #ff4444;
+            --color-fondo: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            --color-header: #ffffff;
+            --color-msg: #eafaf1;
+            --color-msg-texto: #2e7d32;
+            --color-borde: #b2dfdb;
+            --sombra: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transicion: all 0.3s ease;
         }
-        a { text-decoration: none; color: #3366cc; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--color-fondo);
+            color: #495057;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Header */
+        .header {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .logo {
+            width: 100px;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Mensaje */
+        .msg {
+            padding: 40px;
+            background: var(--color-msg);
+            color: var(--color-msg-texto);
+            border: 2px solid var(--color-borde);
+            border-radius: var(--border-radius);
+            box-shadow: var(--sombra);
+            max-width: 500px;
+            width: 90%;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        .msg h2 {
+            margin-bottom: 15px;
+            color: var(--color-principal);
+            font-size: 1.8em;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .msg p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        .msg a {
+            text-decoration: none;
+            color: var(--color-principal);
+            font-weight: 600;
+            font-size: 1em;
+            padding: 12px 24px;
+            border: 2px solid var(--color-principal);
+            border-radius: var(--border-radius);
+            transition: var(--transicion);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .msg a:hover {
+            background: var(--color-principal);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(204, 0, 0, 0.3);
+        }
+
+        /* Animación */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .msg {
+                padding: 30px 20px;
+            }
+            .msg h2 {
+                font-size: 1.5em;
+            }
+            .msg p {
+                font-size: 1em;
+            }
+            .logo {
+                width: 80px;
+            }
+        }
     </style>
 </head>
 <body>
 
-<div class="msg">
-    <h2>Sesión cerrada correctamente</h2>
-    <p>Has salido del sistema con éxito.</p>
-    <p><a href="/">Volver al menú principal</a></p>
-</div>
+    <div class="header">
+        <img src="https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png" alt="Logo INACAP" class="logo">
+    </div>
+
+    <div class="msg">
+        <h2><i class="fas fa-check-circle"></i> Sesión cerrada correctamente</h2>
+        <p>Has salido del sistema con éxito.</p>
+        <p><a href="/"><i class="fas fa-home"></i> Volver al menú principal</a></p>
+    </div>
 
 </body>
 </html>

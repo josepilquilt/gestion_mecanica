@@ -59,6 +59,9 @@
                id="codigo_prestamo_ctx"
                placeholder="Ej: P20251125140727"
                style="width: 220px;">
+        <span style="font-size: 12px; color:#555;">
+            (al cargar un préstamo, se llenan automáticamente las herramientas abajo)
+        </span>
     </div>
 
     <div id="info_prestamo" class="info-prestamo"></div>
@@ -141,15 +144,18 @@
 
     <div class="subtitulo">Herramientas a dar de baja</div>
     <p style="font-size: 13px; color:#555;">
-        Escanea o escribe el código de cada herramienta en la columna "Código".
-        Se mostrará el nombre y el stock disponible. Ingresa la cantidad a dar de baja.
+        Puedes cargar un préstamo ingresando su código arriba, o escanear/escribir el código
+        de cada herramienta en la columna "Código". La tabla mostrará el nombre, cantidades
+        prestadas/devueltas, el stock disponible y podrás indicar la cantidad a dar de baja.
     </p>
 
-    <table>
+    <table id="tabla_bajas">
         <thead>
             <tr>
                 <th>Código</th>
                 <th>Herramienta</th>
+                <th>Prestada</th>
+                <th>Devuelta</th>
                 <th>Stock disp. actual</th>
                 <th>Cantidad de baja</th>
             </tr>
@@ -166,6 +172,18 @@
                 <td>
                     <input type="text"
                            class="nombre-input"
+                           data-row="{{ forloop.counter0 }}"
+                           readonly>
+                </td>
+                <td>
+                    <input type="text"
+                           class="prestada-input"
+                           data-row="{{ forloop.counter0 }}"
+                           readonly>
+                </td>
+                <td>
+                    <input type="text"
+                           class="devuelta-input"
                            data-row="{{ forloop.counter0 }}"
                            readonly>
                 </td>
@@ -201,7 +219,7 @@ document.getElementById("form-baja").addEventListener("keydown", function(e) {
 });
 
 // -------------------------
-// Autocompletar por préstamo
+// Limpia contexto de préstamo
 // -------------------------
 function limpiarContextoPrestamo() {
     document.getElementById("info_prestamo").textContent = "";
@@ -217,8 +235,29 @@ function limpiarContextoPrestamo() {
     document.getElementById("estudiante_nombre").value = "";
     document.getElementById("estudiante_rut").value = "";
     document.getElementById("estudiante_carrera").value = "";
+
+    // También limpiamos la tabla de herramientas
+    const codigos  = Array.from(document.querySelectorAll(".codigo-input"));
+    const nombres  = Array.from(document.querySelectorAll(".nombre-input"));
+    const prestada = Array.from(document.querySelectorAll(".prestada-input"));
+    const devuelta = Array.from(document.querySelectorAll(".devuelta-input"));
+    const stock    = Array.from(document.querySelectorAll(".stock-input"));
+    const cants    = Array.from(document.querySelectorAll(".cantidad-input"));
+
+    for (let i = 0; i < codigos.length; i++) {
+        codigos[i].value  = "";
+        nombres[i].value  = "";
+        stock[i].value    = "";
+        cants[i].value    = "0";
+        cants[i].removeAttribute("max");
+        if (prestada[i]) prestada[i].value = "";
+        if (devuelta[i]) devuelta[i].value = "";
+    }
 }
 
+// -------------------------
+// Cargar préstamo por código
+// -------------------------
 function cargarPrestamoPorCodigo(codigo) {
     if (!codigo) {
         limpiarContextoPrestamo();
@@ -276,6 +315,58 @@ function cargarPrestamoPorCodigo(codigo) {
                 data.estudiante_rut || "";
             document.getElementById("estudiante_carrera").value =
                 data.estudiante_carrera || "";
+
+            // ==============================
+            // Cargar DETALLES del préstamo
+            // ==============================
+            const codigos  = Array.from(document.querySelectorAll(".codigo-input"));
+            const nombres  = Array.from(document.querySelectorAll(".nombre-input"));
+            const prestada = Array.from(document.querySelectorAll(".prestada-input"));
+            const devuelta = Array.from(document.querySelectorAll(".devuelta-input"));
+            const stock    = Array.from(document.querySelectorAll(".stock-input"));
+            const cants    = Array.from(document.querySelectorAll(".cantidad-input"));
+
+            // Limpiar filas
+            for (let i = 0; i < codigos.length; i++) {
+                codigos[i].value  = "";
+                nombres[i].value  = "";
+                stock[i].value    = "";
+                cants[i].value    = "0";
+                cants[i].removeAttribute("max");
+                if (prestada[i]) prestada[i].value = "";
+                if (devuelta[i]) devuelta[i].value = "";
+            }
+
+            if (Array.isArray(data.detalles)) {
+                data.detalles.forEach((det, idx) => {
+                    if (idx >= codigos.length) return;
+
+                    const codInput      = codigos[idx];
+                    const prestadaInput = prestada[idx];
+                    const devueltaInput = devuelta[idx];
+                    const cantInput     = cants[idx];
+
+                    codInput.value = det.codigo || "";
+
+                    if (prestadaInput) {
+                        prestadaInput.value = det.cantidad_entregada ?? "";
+                    }
+                    if (devueltaInput) {
+                        devueltaInput.value = det.cantidad_devuelta ?? "";
+                    }
+
+                    // Llamamos a la API de herramienta para completar nombre y stock
+                    buscarHerramientaPorCodigo(codInput, false);
+
+                    // Máximo baja razonable según lo prestado no devuelto
+                    const cantPrestada = det.cantidad_entregada || 0;
+                    const cantDevuelta = det.cantidad_devuelta || 0;
+                    const maxPosible = Math.max(0, cantPrestada - cantDevuelta);
+                    if (maxPosible > 0) {
+                        cantInput.max = maxPosible;
+                    }
+                });
+            }
         })
         .catch(err => {
             console.error(err);
@@ -296,7 +387,7 @@ codPrestamoInput.addEventListener("keydown", function(e) {
 });
 
 // -------------------------
-// Búsqueda de herramientas
+// Búsqueda de herramientas (manual o desde préstamo)
 // -------------------------
 function moverFocoSiguienteCodigo(inputActual) {
     const codigos = Array.from(document.querySelectorAll(".codigo-input"));
@@ -312,9 +403,9 @@ function buscarHerramientaPorCodigo(inputCodigo, moverFoco) {
     const codigo = inputCodigo.value.trim();
     const row = inputCodigo.dataset.row;
 
-    const nombreInput = document.querySelector('.nombre-input[data-row="' + row + '"]');
-    const stockInput  = document.querySelector('.stock-input[data-row="' + row + '"]');
-    const cantInput   = document.querySelector('.cantidad-input[data-row="' + row + '"]');
+    const nombreInput   = document.querySelector('.nombre-input[data-row="' + row + '"]');
+    const stockInput    = document.querySelector('.stock-input[data-row="' + row + '"]');
+    const cantInput     = document.querySelector('.cantidad-input[data-row="' + row + '"]');
 
     if (!codigo) {
         nombreInput.value = "";
@@ -349,6 +440,7 @@ function buscarHerramientaPorCodigo(inputCodigo, moverFoco) {
         });
 }
 
+// Listeners para los códigos (modo manual)
 document.querySelectorAll(".codigo-input").forEach((input) => {
     input.addEventListener("blur", function() {
         buscarHerramientaPorCodigo(this, false);
