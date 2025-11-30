@@ -429,7 +429,7 @@ def crear_prestamo(request):
             })
 
         # ---------------------------------------------
-        # REGISTRO DEL PRÉSTAMO (AQUÍ ESTABA EL DOBLE DESCUENTO)
+        # REGISTRO DEL PRÉSTAMO
         # ---------------------------------------------
         try:
             with transaction.atomic():
@@ -469,6 +469,8 @@ def crear_prestamo(request):
                         )
 
                     tipo_herr = (herramienta.tipo or "").strip().lower()
+                    # 👇 más tolerante: cualquier tipo que contenga "consum"
+                    es_consumible = "consum" in tipo_herr
 
                     # 🚫 Estudiante no puede pedir llaves / llaves de auto
                     if tipo_solicitante == "estudiante" and tipo_herr.startswith("llave"):
@@ -478,7 +480,6 @@ def crear_prestamo(request):
                         )
 
                     # Validar stock_disponible SOLO si NO viene de preparación.
-                    # Si viene de preparación, asumimos que ya se reservó antes.
                     if not desde_preparacion:
                         if herramienta.stock_disponible < cantidad:
                             raise ValueError(
@@ -493,8 +494,8 @@ def crear_prestamo(request):
 
                     # Ajuste de stock TOTAL:
                     # - Consumible: se consume al prestar (venga o no de preparación)
-                    # - No consumible: stock total no cambia, solo disponible (ya manejado arriba).
-                    if tipo_herr == "consumible":
+                    # - No consumible: stock total no cambia, solo disponible.
+                    if es_consumible:
                         herramienta.stock -= cantidad
                         if herramienta.stock < 0:
                             herramienta.stock = 0
@@ -512,7 +513,7 @@ def crear_prestamo(request):
                         cantidad_devuelta=0
                     )
 
-                # Si todas las líneas son consumibles, cerramos el préstamo como devuelto
+                # ⬇⬇⬇ AQUÍ SE CIERRA AUTOMÁTICAMENTE SI TODO ES CONSUMIBLE
                 if solo_consumibles:
                     prestamo.estado = "devuelto"
                     prestamo.save(update_fields=["estado"])
@@ -550,6 +551,15 @@ def crear_prestamo(request):
 # ---------------------------------------------------
 @login_required
 def registrar_devolucion(request, prestamo_id):
+    """
+    Registra la devolución parcial o total de un préstamo.
+    - Ajusta stock_disponible de las herramientas.
+    - Si la herramienta es consumible, también ajusta el stock total.
+    - Actualiza el estado del préstamo:
+      * Si todas las herramientas NO consumibles están devueltas → devuelto.
+      * Si falta alguna NO consumible → devuelto_parcial.
+      * Los consumibles no devueltos no bloquean el cierre del préstamo.
+    """
     prestamo = get_object_or_404(
         Prestamo.objects.prefetch_related("detalles__herramienta"),
         id=prestamo_id
@@ -558,7 +568,7 @@ def registrar_devolucion(request, prestamo_id):
     mensaje = None
     error = None
 
-    # Solo lectura SOLO si está anulado
+    # Solo lectura si el préstamo está anulado
     solo_lectura = prestamo.estado in ["anulado"]
 
     if request.method == "POST" and not solo_lectura:
@@ -568,17 +578,21 @@ def registrar_devolucion(request, prestamo_id):
                     campo = f"detalle_{detalle.id}_devuelta"
                     valor_str = request.POST.get(campo, "").strip()
 
+                    # Si no viene nada, mantenemos la cantidad actual
                     try:
                         nueva_cantidad = int(valor_str)
-                    except ValueError:
+                    except (ValueError, TypeError):
                         nueva_cantidad = detalle.cantidad_devuelta
 
+                    # No permitir negativos
                     if nueva_cantidad < 0:
                         nueva_cantidad = 0
 
+                    # No permitir devolver más de lo entregado
                     if nueva_cantidad > detalle.cantidad_entregada:
                         nueva_cantidad = detalle.cantidad_entregada
 
+                    # Diferencia vs lo que ya estaba devuelto
                     delta = nueva_cantidad - detalle.cantidad_devuelta
 
                     if delta != 0:
@@ -587,27 +601,49 @@ def registrar_devolucion(request, prestamo_id):
 
                         herramienta = detalle.herramienta
 
-                        # Siempre ajustamos stock disponible
+                        # Siempre ajustamos el stock disponible
                         herramienta.stock_disponible += delta
 
-                        # Si es consumible, también corregimos stock total
-                        if (herramienta.tipo or "").strip().lower() == "consumible":
+                        # Si es consumible, también ajustamos el stock total
+                        tipo_h = (herramienta.tipo or "").strip().lower()
+                        es_consumible = "consum" in tipo_h
+
+                        if es_consumible:
                             herramienta.stock += delta
                             if herramienta.stock < 0:
                                 herramienta.stock = 0
 
+                        if herramienta.stock_disponible < 0:
+                            herramienta.stock_disponible = 0
+
                         herramienta.save()
 
-                # Revisamos si todas las líneas están completamente devueltas
-                todos_completos = all(
-                    d.cantidad_devuelta == d.cantidad_entregada
-                    for d in prestamo.detalles.all()
-                )
+                # ----------- NUEVA LÓGICA DE ESTADO -----------
+                detalles = list(prestamo.detalles.all())
 
-                if todos_completos:
+                # Consideramos solo herramientas NO consumibles
+                detalles_no_consumibles = []
+                for d in detalles:
+                    tipo_h = (d.herramienta.tipo or "").strip().lower()
+                    es_consumible = "consum" in tipo_h
+                    if not es_consumible:
+                        detalles_no_consumibles.append(d)
+
+                if not detalles_no_consumibles:
+                    # Si no hay no-consumibles, todo es consumible → lo consideramos devuelto
                     prestamo.estado = "devuelto"
                 else:
-                    prestamo.estado = "devuelto_parcial"
+                    # El estado depende SOLO de las herramientas no consumibles
+                    todos_no_consumibles_completos = all(
+                        d.cantidad_devuelta == d.cantidad_entregada
+                        for d in detalles_no_consumibles
+                    )
+
+                    if todos_no_consumibles_completos:
+                        prestamo.estado = "devuelto"
+                    else:
+                        prestamo.estado = "devuelto_parcial"
+                # ---------------------------------------------
 
                 bitacora_texto = request.POST.get("bitacora_devolucion", "").strip()
                 prestamo.bitacora_devolucion = bitacora_texto
