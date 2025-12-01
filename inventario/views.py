@@ -1515,12 +1515,16 @@ def informe_prestamos(request):
 
 
 #KPI DASBOAR
-# inventario/views.py
+
 @login_required
 def panel_kpis(request):
-    semestre = request.GET.get("semestre", "")        # ej. "2025-1"
-    carrera_filtro = request.GET.get("carrera", "")   # carrera de estudiante
-    asignatura_filtro = request.GET.get("asignatura", "")  # nombre asignatura
+    semestre = request.GET.get("semestre", "")              # ej. "2025-1"
+    carrera_filtro = request.GET.get("carrera", "")         # carrera de estudiante
+    asignatura_filtro = request.GET.get("asignatura", "")   # nombre asignatura
+
+    # 🔹 NUEVO: rango de fechas (YYYY-MM-DD)
+    fecha_desde_str = request.GET.get("fecha_desde", "").strip()
+    fecha_hasta_str = request.GET.get("fecha_hasta", "").strip()
 
     prestamos = Prestamo.objects.select_related(
         "docente", "estudiante", "asignatura", "panolero"
@@ -1542,7 +1546,26 @@ def panel_kpis(request):
                     fecha__month__in=[8, 9, 10, 11, 12],
                 )
         except ValueError:
-            # si viene mal formateado, no se filtra
+            # si viene mal formateado, no se filtra por semestre
+            pass
+
+    # --- 🔹 FILTRO POR RANGO DE FECHAS ---
+    if fecha_desde_str:
+        try:
+            fecha_desde = timezone.datetime.strptime(
+                fecha_desde_str, "%Y-%m-%d"
+            ).date()
+            prestamos = prestamos.filter(fecha__gte=fecha_desde)
+        except ValueError:
+            pass
+
+    if fecha_hasta_str:
+        try:
+            fecha_hasta = timezone.datetime.strptime(
+                fecha_hasta_str, "%Y-%m-%d"
+            ).date()
+            prestamos = prestamos.filter(fecha__lte=fecha_hasta)
+        except ValueError:
             pass
 
     # --- FILTRO POR CARRERA (solo préstamos de estudiantes) ---
@@ -1566,7 +1589,7 @@ def panel_kpis(request):
     total_prest_estudiante = prestamos.filter(estudiante__isnull=False).count()
     total_prest_otros = total_prestamos - total_prest_docente - total_prest_estudiante
 
-    # 🔹 NUEVO: cuántos pañoleros distintos han intervenido en estos préstamos
+    # 🔹 cuántos pañoleros distintos han intervenido en estos préstamos
     total_panoleros = (
         prestamos.exclude(panolero__isnull=True)
         .values("panolero")
@@ -1611,7 +1634,7 @@ def panel_kpis(request):
         .order_by("-total_prestamos")[:5]
     )
 
-    # Top 5 asignaturas (puede interpretarse como "laboratorio" de la imagen)
+    # Top 5 asignaturas
     top_asignaturas = (
         prestamos.filter(asignatura__isnull=False)
         .values("asignatura__nombre")
@@ -1619,7 +1642,7 @@ def panel_kpis(request):
         .order_by("-total_prestamos")[:5]
     )
 
-    # 🔹 NUEVO: TOP 5 PAÑOLEROS POR CANTIDAD DE PRÉSTAMOS REGISTRADOS
+    # Top 5 pañoleros por cantidad de préstamos registrados
     top_panoleros = (
         prestamos.filter(panolero__isnull=False)
         .values("panolero__nombre")
@@ -1654,7 +1677,6 @@ def panel_kpis(request):
         "total_prest_estudiante": total_prest_estudiante,
         "total_prest_otros": total_prest_otros,
 
-        # 🔹 KPIs / ranking de pañoleros
         "total_panoleros": total_panoleros,
         "top_panoleros": top_panoleros,
 
@@ -1670,53 +1692,183 @@ def panel_kpis(request):
         "semestre_sel": semestre,
         "carrera_sel": carrera_filtro,
         "asignatura_sel": asignatura_filtro,
+
+        # 🔹 para mantener el rango de fechas en los inputs y en exportación
+        "fecha_desde": fecha_desde_str,
+        "fecha_hasta": fecha_hasta_str,
     }
     return render(request, "inventario/panel_kpis.html", context)
+
+
+
 
 #Exportar
 @login_required
 def exportar_panel_kpis(request):
-    # === mismos filtros que en panel_kpis ===
     semestre = request.GET.get("semestre", "")
     carrera = request.GET.get("carrera", "")
     asignatura_nombre = request.GET.get("asignatura", "")
 
+    # ================== BASE QUERY ==================
     prestamos = Prestamo.objects.select_related(
         "docente", "estudiante", "asignatura", "panolero"
     )
 
-    # Filtro semestre
+    # ----- Filtro por semestre (igual que en panel_kpis) -----
     if semestre:
-        año, sem = semestre.split("-")
-        año = int(año)
-        if sem == "1":
-            prestamos = prestamos.filter(
-                fecha__year=año,
-                fecha__month__in=[3,4,5,6,7],
-            )
-        elif sem == "2":
-            prestamos = prestamos.filter(
-                fecha__year=año,
-                fecha__month__in=[8,9,10,11,12],
-            )
+        try:
+            año_str, sem_str = semestre.split("-")  # "2025-1"
+            año = int(año_str)
+            if sem_str == "1":   # 1er semestre
+                prestamos = prestamos.filter(
+                    fecha__year=año,
+                    fecha__month__in=[3, 4, 5, 6, 7],
+                )
+            elif sem_str == "2":  # 2º semestre
+                prestamos = prestamos.filter(
+                    fecha__year=año,
+                    fecha__month__in=[8, 9, 10, 11, 12],
+                )
+        except ValueError:
+            # Si viene mal formateado, no se filtra por semestre
+            pass
 
-    # Filtro carrera (por estudiante)
+    # ----- Filtro por carrera (solo préstamos con estudiante) -----
     if carrera:
         prestamos = prestamos.filter(estudiante__carrera=carrera)
 
-    # Filtro asignatura (por nombre)
+    # ----- Filtro por asignatura (por nombre) -----
     if asignatura_nombre:
         prestamos = prestamos.filter(asignatura__nombre=asignatura_nombre)
+
+    # ================== CÁLCULO DE KPIs ==================
+    from django.db.models import Sum, Count
+
+    total_prestamos = prestamos.count()
+
+    total_herramientas = (
+        PrestamoDetalle.objects
+        .filter(prestamo__in=prestamos)
+        .aggregate(total=Sum("cantidad_entregada"))["total"] or 0
+    )
+
+    total_prest_docente = prestamos.filter(docente__isnull=False).count()
+    total_prest_estudiante = prestamos.filter(estudiante__isnull=False).count()
+    total_prest_otros = total_prestamos - total_prest_docente - total_prest_estudiante
+
+    total_panoleros = (
+        prestamos.exclude(panolero__isnull=True)
+        .values("panolero")
+        .distinct()
+        .count()
+    )
+
+    # ----- Top 5 docentes -----
+    top_docentes = (
+        prestamos.filter(docente__isnull=False)
+        .values("docente__nombre", "docente__codigo")
+        .annotate(total_prestamos=Count("id"))
+        .order_by("-total_prestamos")[:5]
+    )
+
+    # ----- Top 5 carreras -----
+    top_carreras = (
+        prestamos.filter(estudiante__isnull=False, estudiante__carrera__isnull=False)
+        .values("estudiante__carrera")
+        .annotate(total_prestamos=Count("id"))
+        .order_by("-total_prestamos")[:5]
+    )
+
+    # Detalles filtrados (para herramientas / autos)
+    detalles_filtrados = PrestamoDetalle.objects.filter(prestamo__in=prestamos)
+
+    # ----- Top 5 herramientas -----
+    top_herramientas = (
+        detalles_filtrados
+        .values("herramienta__nombre", "herramienta__codigo")
+        .annotate(total_cant=Sum("cantidad_entregada"))
+        .order_by("-total_cant")[:5]
+    )
+
+    # ----- Top 5 autos (llaves auto) -----
+    top_autos = (
+        detalles_filtrados
+        .filter(herramienta__tipo__icontains="llave_auto")
+        .values("herramienta__nombre", "herramienta__codigo")
+        .annotate(total_prestamos=Count("prestamo", distinct=True))
+        .order_by("-total_prestamos")[:5]
+    )
+
+    # ----- Top 5 asignaturas -----
+    top_asignaturas = (
+        prestamos.filter(asignatura__isnull=False)
+        .values("asignatura__nombre")
+        .annotate(total_prestamos=Count("id"))
+        .order_by("-total_prestamos")[:5]
+    )
+
+    # ----- Top 5 pañoleros -----
+    top_panoleros = (
+        prestamos.filter(panolero__isnull=False)
+        .values("panolero__nombre")
+        .annotate(total_prestamos=Count("id"))
+        .order_by("-total_prestamos")[:5]
+    )
 
     formato = request.GET.get("formato", "excel").lower()
 
     # ======================================================
-    #   EXPORTAR A EXCEL (openpyxl)
+    #   EXPORTAR A EXCEL
     # ======================================================
     if formato == "excel":
+        import openpyxl
+
         wb = openpyxl.Workbook()
-        ws = wb.active
-        ws.title = "Préstamos"
+
+        # --- Hoja 1: KPIs ---
+        ws_kpi = wb.active
+        ws_kpi.title = "KPIs"
+
+        ws_kpi.append(["KPI", "Valor"])
+        ws_kpi.append(["Total de préstamos", total_prestamos])
+        ws_kpi.append(["Herramientas entregadas", total_herramientas])
+        ws_kpi.append(["Préstamos a docentes", total_prest_docente])
+        ws_kpi.append(["Préstamos a estudiantes", total_prest_estudiante])
+        ws_kpi.append(["Préstamos otros", total_prest_otros])
+        ws_kpi.append(["Pañoleros activos", total_panoleros])
+
+        ws_kpi.append([])
+        ws_kpi.append(["Top 5 docentes", "Préstamos"])
+        for d in top_docentes:
+            ws_kpi.append([d["docente__nombre"], d["total_prestamos"]])
+
+        ws_kpi.append([])
+        ws_kpi.append(["Top 5 carreras", "Préstamos"])
+        for c in top_carreras:
+            ws_kpi.append([c["estudiante__carrera"], c["total_prestamos"]])
+
+        ws_kpi.append([])
+        ws_kpi.append(["Top 5 herramientas", "Cantidad entregada"])
+        for h in top_herramientas:
+            ws_kpi.append([h["herramienta__nombre"], h["total_cant"]])
+
+        ws_kpi.append([])
+        ws_kpi.append(["Top 5 asignaturas", "Préstamos"])
+        for a in top_asignaturas:
+            ws_kpi.append([a["asignatura__nombre"], a["total_prestamos"]])
+
+        ws_kpi.append([])
+        ws_kpi.append(["Top 5 llaves de auto", "Préstamos"])
+        for au in top_autos:
+            ws_kpi.append([au["herramienta__nombre"], au["total_prestamos"]])
+
+        ws_kpi.append([])
+        ws_kpi.append(["Top 5 pañoleros", "Préstamos"])
+        for p in top_panoleros:
+            ws_kpi.append([p["panolero__nombre"], p["total_prestamos"]])
+
+        # --- Hoja 2: detalle de préstamos ---
+        ws = wb.create_sheet(title="Préstamos")
 
         encabezados = [
             "Código", "Fecha", "Hora inicio", "Hora fin",
@@ -1754,26 +1906,127 @@ def exportar_panel_kpis(request):
         return response
 
     # ======================================================
-    #   EXPORTAR A PDF (reportlab)
-    #   (recuerda: pip install reportlab)
+    #   EXPORTAR A PDF (resumen de KPIs + rankings + listado)
     # ======================================================
     if formato == "pdf":
         from reportlab.pdfgen import canvas
         from reportlab.lib.pagesizes import letter
+        from reportlab.lib.utils import ImageReader
+        import urllib.request
 
         response = HttpResponse(content_type="application/pdf")
-        response["Content-Disposition"] = 'attachment; filename=\"panel_kpis.pdf\"'
+        response["Content-Disposition"] = 'attachment; filename="panel_kpis.pdf"'
 
         c = canvas.Canvas(response, pagesize=letter)
         width, height = letter
 
-        y = height - 40
+        # -------- LOGO DESDE URL (ESQUINA SUPERIOR DERECHA) --------
+        try:
+            logo_url = "https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png "  # <-- CAMBIA ESTA URL
+            logo_stream = urllib.request.urlopen(logo_url)
+            logo_image = ImageReader(logo_stream)
+
+            logo_width = 80   # ancho en puntos
+            logo_height = 40  # alto en puntos
+            x = width - logo_width - 40   # margen derecho
+            y = height - logo_height - 30 # margen superior
+
+            c.drawImage(
+                logo_image,
+                x,
+                y,
+                width=logo_width,
+                height=logo_height,
+                preserveAspectRatio=True,
+                mask="auto",
+            )
+        except Exception as e:
+            # Si falla, solo se registra en consola y se sigue sin romper el PDF
+            print("No se pudo cargar el logo desde URL:", e)
+
+        # -------- TÍTULO Y FILTROS --------
+        y = height - 60
         c.setFont("Helvetica-Bold", 14)
-        c.drawString(40, y, "Panel de KPIs - Préstamos filtrados")
-        y -= 25
+        c.drawString(40, y, "Panel de KPIs - Resumen")
+        y -= 20
 
         c.setFont("Helvetica", 9)
+        filtros = [
+            f"Semestre: {semestre or 'Todos'}",
+            f"Carrera: {carrera or 'Todas'}",
+            f"Asignatura: {asignatura_nombre or 'Todas'}",
+        ]
+        for linea in filtros:
+            c.drawString(40, y, linea)
+            y -= 12
+
+        # -------- KPIs GENERALES --------
+        y -= 8
+        c.setFont("Helvetica-Bold", 11)
+        c.drawString(40, y, "KPIs generales")
+        y -= 15
+        c.setFont("Helvetica", 9)
+
+        kpis = [
+            f"Total de préstamos: {total_prestamos}",
+            f"Herramientas entregadas: {total_herramientas}",
+            f"Préstamos a docentes: {total_prest_docente}",
+            f"Préstamos a estudiantes: {total_prest_estudiante}",
+            f"Préstamos otros: {total_prest_otros}",
+            f"Pañoleros activos: {total_panoleros}",
+        ]
+        for l in kpis:
+            c.drawString(40, y, l)
+            y -= 12
+
+        # Helper para control de página
+        def check_page(y_actual):
+            if y_actual < 60:
+                c.showPage()
+                return height - 40
+            return y_actual
+
+        # -------- RANKINGS --------
+        secciones_rank = [
+            ("Top 5 docentes (por préstamos)", top_docentes,
+             lambda d: f"{d['docente__nombre']}: {d['total_prestamos']}"),
+            ("Top 5 carreras (préstamos a estudiantes)", top_carreras,
+             lambda r: f"{r['estudiante__carrera']}: {r['total_prestamos']}"),
+            ("Top 5 herramientas (cantidad entregada)", top_herramientas,
+             lambda h: f"{h['herramienta__nombre']}: {h['total_cant']}"),
+            ("Top 5 asignaturas (préstamos)", top_asignaturas,
+             lambda a: f"{a['asignatura__nombre']}: {a['total_prestamos']}"),
+            ("Top 5 llaves de auto (préstamos)", top_autos,
+             lambda au: f"{au['herramienta__nombre']}: {au['total_prestamos']}"),
+            ("Top 5 pañoleros (préstamos registrados)", top_panoleros,
+             lambda p: f"{p['panolero__nombre']}: {p['total_prestamos']}"),
+        ]
+
+        for titulo, lista, fmt in secciones_rank:
+            y = check_page(y - 10)
+            c.setFont("Helvetica-Bold", 11)
+            c.drawString(40, y, titulo)
+            y -= 15
+            c.setFont("Helvetica", 9)
+
+            if not lista:
+                c.drawString(50, y, "Sin registros para este ranking.")
+                y -= 12
+            else:
+                for item in lista:
+                    y = check_page(y)
+                    c.drawString(50, y, f"- {fmt(item)}")
+                    y -= 12
+
+        # -------- LISTADO RESUMEN DE PRÉSTAMOS --------
+        y = check_page(y - 10)
+        c.setFont("Helvetica-Bold", 11)
+        c.drawString(40, y, "Listado de préstamos (resumen)")
+        y -= 15
+        c.setFont("Helvetica", 8)
+
         for p in prestamos:
+            y = check_page(y)
             if p.docente:
                 solicitante = f"{p.docente.nombre} (Docente)"
             elif p.estudiante:
@@ -1782,15 +2035,12 @@ def exportar_panel_kpis(request):
                 solicitante = "-"
 
             asignatura = p.asignatura.nombre if p.asignatura else "-"
-            linea = f"{p.codigo_prestamo} | {p.fecha} | {solicitante} | {asignatura} | {p.estado}"
-
-            c.drawString(40, y, linea[:110])  # corta un poco para no pasarse del margen
-            y -= 12
-
-            if y < 40:        # salto de página
-                c.showPage()
-                c.setFont("Helvetica", 9)
-                y = height - 40
+            linea = (
+                f"{p.codigo_prestamo} | {p.fecha} | "
+                f"{solicitante} | {asignatura} | {p.estado}"
+            )
+            c.drawString(40, y, linea[:110])
+            y -= 11
 
         c.showPage()
         c.save()
@@ -1798,5 +2048,3 @@ def exportar_panel_kpis(request):
 
     # Si llega un formato raro
     return HttpResponse("Formato no soportado", status=400)
-
-
