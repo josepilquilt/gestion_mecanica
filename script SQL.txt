@@ -1,0 +1,398 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 01-12-2025 a las 02:14:22
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `laboratorio`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `asignaturas`
+--
+
+CREATE TABLE `asignaturas` (
+  `id` int(11) NOT NULL,
+  `codigo` varchar(50) DEFAULT NULL,
+  `nombre` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `bajas`
+--
+
+CREATE TABLE `bajas` (
+  `id` int(11) NOT NULL,
+  `fecha_registro` date NOT NULL,
+  `hora_registro` time DEFAULT NULL,
+  `panolero_id` int(11) NOT NULL,
+  `docente_codigo` int(11) DEFAULT NULL,
+  `asignatura_id` int(11) DEFAULT NULL,
+  `fecha_clase` date DEFAULT NULL,
+  `hora_inicio_clase` time DEFAULT NULL,
+  `seccion` varchar(50) DEFAULT NULL,
+  `motivo_general` varchar(255) DEFAULT NULL,
+  `observaciones` text DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `baja_detalle`
+--
+
+CREATE TABLE `baja_detalle` (
+  `id` int(11) NOT NULL,
+  `baja_id` int(11) NOT NULL,
+  `herramienta_codigo` varchar(20) NOT NULL,
+  `cantidad_baja` int(11) NOT NULL,
+  `motivo` varchar(255) DEFAULT NULL,
+  `observacion` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `docentes`
+--
+
+CREATE TABLE `docentes` (
+  `codigo` int(11) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `activo` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estudiantes`
+--
+
+CREATE TABLE `estudiantes` (
+  `rut` varchar(20) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `carrera` varchar(255) DEFAULT NULL,
+  `activo` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `herramientas`
+--
+
+CREATE TABLE `herramientas` (
+  `codigo` varchar(20) NOT NULL,
+  `codigo_barra` varchar(50) DEFAULT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `stock_disponible` int(11) DEFAULT 0,
+  `stock` int(11) DEFAULT 0,
+  `tipo` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `panoleros`
+--
+
+CREATE TABLE `panoleros` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `codigo` varchar(20) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `rol` enum('panolero','jefe') DEFAULT 'panolero',
+  `activo` tinyint(1) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `preparaciones`
+--
+
+CREATE TABLE `preparaciones` (
+  `id` int(11) NOT NULL,
+  `codigo_preparacion` varchar(50) NOT NULL,
+  `fecha` date NOT NULL,
+  `hora_inicio` time DEFAULT NULL,
+  `hora_fin` time DEFAULT NULL,
+  `panolero_id` int(11) NOT NULL,
+  `docente_codigo` int(11) DEFAULT NULL,
+  `asignatura_id` int(11) DEFAULT NULL,
+  `observaciones` text DEFAULT NULL,
+  `estado` enum('pendiente','usado','anulado') NOT NULL DEFAULT 'pendiente',
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `preparacion_detalle`
+--
+
+CREATE TABLE `preparacion_detalle` (
+  `id` int(11) NOT NULL,
+  `preparacion_id` int(11) NOT NULL,
+  `herramienta_codigo` varchar(20) NOT NULL,
+  `cantidad_solicitada` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `prestamos`
+--
+
+CREATE TABLE `prestamos` (
+  `id` int(11) NOT NULL,
+  `codigo_prestamo` varchar(50) NOT NULL,
+  `fecha` date NOT NULL,
+  `hora_inicio` time NOT NULL,
+  `hora_fin` time DEFAULT NULL,
+  `panolero_id` int(11) NOT NULL,
+  `docente_codigo` int(11) DEFAULT NULL,
+  `estudiante_rut` varchar(20) DEFAULT NULL,
+  `asignatura_id` int(11) DEFAULT NULL,
+  `estado` enum('pendiente','entregado','devuelto_parcial','devuelto','anulado') DEFAULT 'pendiente',
+  `observaciones` text DEFAULT NULL,
+  `bitacora_devolucion` text DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `prestamo_detalle`
+--
+
+CREATE TABLE `prestamo_detalle` (
+  `id` int(11) NOT NULL,
+  `prestamo_id` int(11) NOT NULL,
+  `herramienta_codigo` varchar(20) NOT NULL,
+  `cantidad_solicitada` int(11) NOT NULL,
+  `cantidad_entregada` int(11) NOT NULL,
+  `cantidad_devuelta` int(11) DEFAULT 0,
+  `observacion` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `asignaturas`
+--
+ALTER TABLE `asignaturas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_asignaturas_codigo` (`codigo`);
+
+--
+-- Indices de la tabla `bajas`
+--
+ALTER TABLE `bajas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_baja_panolero` (`panolero_id`),
+  ADD KEY `fk_baja_docente` (`docente_codigo`),
+  ADD KEY `fk_baja_asignatura` (`asignatura_id`);
+
+--
+-- Indices de la tabla `baja_detalle`
+--
+ALTER TABLE `baja_detalle`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_baja_detalle_baja` (`baja_id`),
+  ADD KEY `fk_baja_detalle_herramienta` (`herramienta_codigo`);
+
+--
+-- Indices de la tabla `docentes`
+--
+ALTER TABLE `docentes`
+  ADD PRIMARY KEY (`codigo`);
+
+--
+-- Indices de la tabla `estudiantes`
+--
+ALTER TABLE `estudiantes`
+  ADD PRIMARY KEY (`rut`);
+
+--
+-- Indices de la tabla `herramientas`
+--
+ALTER TABLE `herramientas`
+  ADD PRIMARY KEY (`codigo`);
+
+--
+-- Indices de la tabla `panoleros`
+--
+ALTER TABLE `panoleros`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_panoleros_codigo` (`codigo`),
+  ADD KEY `fk_panolero_user` (`user_id`);
+
+--
+-- Indices de la tabla `preparaciones`
+--
+ALTER TABLE `preparaciones`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_preparaciones_codigo` (`codigo_preparacion`),
+  ADD KEY `fk_preparacion_panolero` (`panolero_id`),
+  ADD KEY `fk_preparacion_docente` (`docente_codigo`),
+  ADD KEY `fk_preparacion_asignatura` (`asignatura_id`);
+
+--
+-- Indices de la tabla `preparacion_detalle`
+--
+ALTER TABLE `preparacion_detalle`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_preparacion_detalle_preparacion` (`preparacion_id`),
+  ADD KEY `fk_preparacion_detalle_herramienta` (`herramienta_codigo`);
+
+--
+-- Indices de la tabla `prestamos`
+--
+ALTER TABLE `prestamos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_prestamos_codigo` (`codigo_prestamo`),
+  ADD KEY `fk_prestamo_panolero` (`panolero_id`),
+  ADD KEY `fk_prestamo_docente` (`docente_codigo`),
+  ADD KEY `fk_prestamo_estudiante` (`estudiante_rut`),
+  ADD KEY `fk_prestamo_asignatura` (`asignatura_id`),
+  ADD KEY `idx_prestamos_codigo` (`codigo_prestamo`);
+
+--
+-- Indices de la tabla `prestamo_detalle`
+--
+ALTER TABLE `prestamo_detalle`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_detalle_herramienta` (`herramienta_codigo`),
+  ADD KEY `idx_detalle_prestamo` (`prestamo_id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `asignaturas`
+--
+ALTER TABLE `asignaturas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `bajas`
+--
+ALTER TABLE `bajas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `baja_detalle`
+--
+ALTER TABLE `baja_detalle`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `panoleros`
+--
+ALTER TABLE `panoleros`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `preparaciones`
+--
+ALTER TABLE `preparaciones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `preparacion_detalle`
+--
+ALTER TABLE `preparacion_detalle`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `prestamos`
+--
+ALTER TABLE `prestamos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `prestamo_detalle`
+--
+ALTER TABLE `prestamo_detalle`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `bajas`
+--
+ALTER TABLE `bajas`
+  ADD CONSTRAINT `fk_baja_asignatura` FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas` (`id`),
+  ADD CONSTRAINT `fk_baja_docente` FOREIGN KEY (`docente_codigo`) REFERENCES `docentes` (`codigo`),
+  ADD CONSTRAINT `fk_baja_panolero` FOREIGN KEY (`panolero_id`) REFERENCES `panoleros` (`id`);
+
+--
+-- Filtros para la tabla `baja_detalle`
+--
+ALTER TABLE `baja_detalle`
+  ADD CONSTRAINT `fk_baja_detalle_baja` FOREIGN KEY (`baja_id`) REFERENCES `bajas` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_baja_detalle_herramienta` FOREIGN KEY (`herramienta_codigo`) REFERENCES `herramientas` (`codigo`);
+
+--
+-- Filtros para la tabla `preparaciones`
+--
+ALTER TABLE `preparaciones`
+  ADD CONSTRAINT `fk_preparacion_asignatura` FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas` (`id`),
+  ADD CONSTRAINT `fk_preparacion_docente` FOREIGN KEY (`docente_codigo`) REFERENCES `docentes` (`codigo`),
+  ADD CONSTRAINT `fk_preparacion_panolero` FOREIGN KEY (`panolero_id`) REFERENCES `panoleros` (`id`);
+
+--
+-- Filtros para la tabla `preparacion_detalle`
+--
+ALTER TABLE `preparacion_detalle`
+  ADD CONSTRAINT `fk_preparacion_detalle_herramienta` FOREIGN KEY (`herramienta_codigo`) REFERENCES `herramientas` (`codigo`),
+  ADD CONSTRAINT `fk_preparacion_detalle_preparacion` FOREIGN KEY (`preparacion_id`) REFERENCES `preparaciones` (`id`);
+
+--
+-- Filtros para la tabla `prestamos`
+--
+ALTER TABLE `prestamos`
+  ADD CONSTRAINT `fk_prestamo_asignatura` FOREIGN KEY (`asignatura_id`) REFERENCES `asignaturas` (`id`),
+  ADD CONSTRAINT `fk_prestamo_docente` FOREIGN KEY (`docente_codigo`) REFERENCES `docentes` (`codigo`),
+  ADD CONSTRAINT `fk_prestamo_estudiante` FOREIGN KEY (`estudiante_rut`) REFERENCES `estudiantes` (`rut`),
+  ADD CONSTRAINT `fk_prestamo_panolero` FOREIGN KEY (`panolero_id`) REFERENCES `panoleros` (`id`);
+
+--
+-- Filtros para la tabla `prestamo_detalle`
+--
+ALTER TABLE `prestamo_detalle`
+  ADD CONSTRAINT `fk_detalle_herramienta` FOREIGN KEY (`herramienta_codigo`) REFERENCES `herramientas` (`codigo`),
+  ADD CONSTRAINT `fk_detalle_prestamo` FOREIGN KEY (`prestamo_id`) REFERENCES `prestamos` (`id`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
