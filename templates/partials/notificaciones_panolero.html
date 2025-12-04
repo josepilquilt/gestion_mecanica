@@ -1,0 +1,57 @@
+{% if notif_30min_preps or notif_5min_preps %}
+<style>
+    .notif-bar {
+        background: #fff3cd;
+        border: 1px solid #ffeeba;
+        color: #856404;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .notif-item {
+        margin-bottom: 5px;
+    }
+    .notif-item-5 {
+        font-weight: bold;
+        color: #721c24;
+    }
+    .notif-badge {
+        display: inline-block;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        margin-right: 6px;
+    }
+    .notif-badge-30 {
+        background: #cce5ff;
+        color: #004085;
+    }
+    .notif-badge-5 {
+        background: #f8d7da;
+        color: #721c24;
+    }
+</style>
+
+<div class="notif-bar">
+    {% for prep in notif_30min_preps %}
+        <div class="notif-item">
+            <span class="notif-badge notif-badge-30">30 min</span>
+            Preparación {{ prep.codigo_preparacion }}
+            — {{ prep.docente.nombre }} / {{ prep.asignatura.nombre }}
+            — Inicio: {{ prep.hora_inicio|time:"H:i" }}
+        </div>
+    {% endfor %}
+
+    {% for prep in notif_5min_preps %}
+        <div class="notif-item notif-item-5">
+            <span class="notif-badge notif-badge-5">5 min</span>
+            ¡Atención! En 5 minutos se entrega la preparación
+            {{ prep.codigo_preparacion }}
+            — {{ prep.docente.nombre }} / {{ prep.asignatura.nombre }}
+            — Inicio: {{ prep.hora_inicio|time:"H:i" }}
+        </div>
+    {% endfor %}
+</div>
+{% endif %}

@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
-from django.db.models import Q, Sum, Count
+from django.db.models import Q, Sum, Count, Max
 from django.utils import timezone
 from django.http import JsonResponse
 from datetime import timedelta
 from django.db.models.functions import TruncMonth
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
+from django.contrib.auth.models import Group
+from .forms import HerramientaForm
 
 
 #
@@ -29,6 +33,110 @@ from .models import (
     Baja,
     BajaDetalle
 )
+
+## Nuevo
+from .forms import HerramientaForm, CrearUsuarioForm
+
+
+def es_jefe_panol(user):
+    if not user.is_authenticated:
+        return False
+
+    pan = Panolero.objects.filter(user=user, activo=True).first()
+    if not pan:
+        return False
+
+    # En tu tabla, el rol de jefatura es 'jefe'
+    return (pan.rol or "").lower() == "jefe"
+
+
+
+
+# ---------------------------------------------
+# VISTA: ADMINISTRACIÓN DE USUARIOS
+# ---------------------------------------------
+
+@login_required
+@user_passes_test(es_jefe_panol)
+def administracion(request):
+    if request.method == "POST":
+        form = CrearUsuarioForm(request.POST)
+        if form.is_valid():
+            user = None
+            try:
+                # 1) Crear usuario Django (auth_user)
+                user = form.save(commit=False)
+                user.is_staff = False      # no damos staff por defecto
+                user.is_superuser = False  # ni superusuario
+                user.save()
+
+                # 2) Datos de apoyo
+                rol = (form.cleaned_data.get("rol") or "").upper().strip()
+                nombre_completo = f"{user.first_name} {user.last_name}".strip()
+
+                # 3) Si es PAÑOLERO
+                if rol == "PANOLERO":
+                    grupo, _ = Group.objects.get_or_create(name="Pañolero")
+                    user.groups.add(grupo)
+
+                    Panolero.objects.create(
+                        user=user,
+                        nombre=nombre_completo,
+                        rol="panolero",  # texto que usas en la tabla
+                        activo=True,
+                    )
+
+                # 4) Si es DOCENTE
+                elif rol == "DOCENTE":
+                    grupo, _ = Group.objects.get_or_create(name="Docente")
+                    user.groups.add(grupo)
+
+                    # Buscamos el último código numérico y sumamos 1
+                    ultimo_codigo = Docente.objects.aggregate(
+                        max_codigo=Max("codigo")
+                    )["max_codigo"] or 0
+                    nuevo_codigo = ultimo_codigo + 1
+
+                    Docente.objects.create(
+                        codigo=nuevo_codigo,      # ej: 40001, 40002, ...
+                        nombre=nombre_completo,   # ej: "JUAN PÉREZ"
+                        activo=True,
+                    )
+
+                else:
+                    messages.error(request, f"Rol no reconocido: {rol}")
+                    if user:
+                        user.delete()
+                    return render(
+                        request,
+                        "inventario/administracion.html",
+                        {"form": form},
+                    )
+
+                messages.success(request, "Usuario creado correctamente.")
+                return redirect("administracion")
+
+            except Exception as e:
+                # Si algo falla al crear Panolero/Docente, borramos el user Django
+                if user:
+                    try:
+                        user.delete()
+                    except Exception:
+                        pass
+                messages.error(
+                    request,
+                    f"Ocurrió un error al crear el usuario: {e}",
+                )
+        else:
+            # Formulario no válido: errores en username, contraseña, etc.
+            messages.error(request, "Revisa los datos del formulario.")
+    else:
+        form = CrearUsuarioForm()
+
+    return render(request, "inventario/administracion.html", {"form": form})
+
+
+
 
 # ---------------------------------------------------
 # 1) LISTA DE HERRAMIENTAS (INVENTARIO)
@@ -252,6 +360,7 @@ def crear_prestamo(request):
     mensaje = None
     error = None
 
+    # 👉 Sólo pañolero puede registrar préstamos
     panolero = obtener_panolero_desde_user(request.user)
     if panolero is None:
         error = (
@@ -452,7 +561,7 @@ def crear_prestamo(request):
 
                 # Flag para ver si TODAS las líneas son consumibles
                 solo_consumibles  = True
-                # True si viene de una preparación (el stock_disponible YA fue reservado)
+                # True si viene de una preparación (el stock_disponible NO se tocó en la preparación)
                 desde_preparacion = prep_origen is not None
 
                 for codigo, cantidad in lineas_validas:
@@ -479,18 +588,31 @@ def crear_prestamo(request):
                             f"Herramienta: {herramienta.nombre}"
                         )
 
-                    # Validar stock_disponible SOLO si NO viene de preparación.
-                    if not desde_preparacion:
+                    # -------- VALIDACIÓN DE STOCK --------
+                    if desde_preparacion:
+                        # Viene de una preparación: usamos stock físico disponible,
+                        # la planificación ya consideró disponibilidad.
                         if herramienta.stock_disponible < cantidad:
                             raise ValueError(
-                                f"No hay suficiente stock disponible para {herramienta.nombre}. "
-                                f"Disponible: {herramienta.stock_disponible}, "
+                                f"No hay suficiente stock disponible para {herramienta.nombre} "
+                                f"al momento de entregar la preparación. "
+                                f"Disponible: {herramienta.stock_disponible}, solicitado: {cantidad}"
+                            )
+                    else:
+                        # Préstamo directo: respetar preparaciones en los próximos 15 minutos
+                        stock_efectivo = stock_disponible_respetando_preps(herramienta)
+                        if stock_efectivo < cantidad:
+                            raise ValueError(
+                                f"No hay suficiente stock disponible para {herramienta.nombre} "
+                                f"considerando preparaciones próximas. "
+                                f"Disponible efectivo: {max(stock_efectivo, 0)}, "
                                 f"solicitado: {cantidad}"
                             )
-                        # Préstamo normal → baja stock_disponible aquí
-                        herramienta.stock_disponible -= cantidad
-                        if herramienta.stock_disponible < 0:
-                            herramienta.stock_disponible = 0
+
+                    # Descontar SIEMPRE del stock_disponible al concretar el préstamo
+                    herramienta.stock_disponible -= cantidad
+                    if herramienta.stock_disponible < 0:
+                        herramienta.stock_disponible = 0
 
                     # Ajuste de stock TOTAL:
                     # - Consumible: se consume al prestar (venga o no de preparación)
@@ -513,7 +635,7 @@ def crear_prestamo(request):
                         cantidad_devuelta=0
                     )
 
-                # ⬇⬇⬇ AQUÍ SE CIERRA AUTOMÁTICAMENTE SI TODO ES CONSUMIBLE
+                # ⬇⬇⬇ CIERRE AUTOMÁTICO SI TODO ES CONSUMIBLE
                 if solo_consumibles:
                     prestamo.estado = "devuelto"
                     prestamo.save(update_fields=["estado"])
@@ -703,6 +825,7 @@ def lista_preparaciones(request):
 
 
 
+
 # ---------------------------------------------------
 # 7) CREAR PREPARACIÓN (LISTADO DE CLASE / PICKING)
 # ---------------------------------------------------
@@ -711,8 +834,34 @@ def crear_preparacion(request):
     mensaje = None
     error = None
 
-    panolero = obtener_panolero_desde_user(request.user)
-    if panolero is None:
+    user = request.user
+
+    # 👉 ¿Este usuario pertenece al grupo "Docente"?
+    es_docente = user.groups.filter(name="Docente").exists()
+
+    # 👉 Intentamos vincularlo a un registro de la tabla Docente por nombre completo
+    docente_actual = None
+    if es_docente:
+        nombre_full = (f"{user.first_name} {user.last_name}").strip()
+        if nombre_full:
+            docente_actual = Docente.objects.filter(
+                nombre__iexact=nombre_full,
+                activo=True
+            ).first()
+
+    # 👉 Pañolero asociado al usuario (para perfil pañolero)
+    panolero = obtener_panolero_desde_user(user)
+
+    # 👉 Si no hay pañolero y es DOCENTE,
+    #    usamos por defecto la JEFATURA como responsable de la preparación
+    if panolero is None and es_docente:
+        panolero = Panolero.objects.filter(
+            rol__in=["jefe", "Jefe", "jefatura", "Jefatura"],
+            activo=True
+        ).first()
+
+    # 👉 Si NO es docente y NO tenemos pañolero, bloqueamos
+    if panolero is None and not es_docente:
         error = (
             "Tu usuario no está asociado a ningún pañolero activo. "
             "Pide a la jefatura que te registre en el módulo de pañoleros."
@@ -722,6 +871,8 @@ def crear_preparacion(request):
             "error": error,
             "docentes": Docente.objects.filter(activo=True).order_by("nombre"),
             "asignaturas": Asignatura.objects.all().order_by("nombre"),
+            "es_docente": es_docente,
+            "docente_actual": docente_actual,
         })
 
     # -------------------------------
@@ -745,17 +896,26 @@ def crear_preparacion(request):
 
         # ---------------- DOCENTE ----------------
         if tipo_solicitante == "docente":
-            if docente_codigo:
-                docente = Docente.objects.filter(
-                    codigo=docente_codigo,
-                    activo=True
-                ).first()
+            if es_docente:
+                # 👉 Docente logueado: usamos siempre su propio registro
+                docente = docente_actual
                 if docente is None:
-                    error = "Docente no válido o inactivo."
+                    error = (
+                        "Tu usuario no está vinculado a un docente activo en el sistema. "
+                        "Consulta con jefatura."
+                    )
             else:
-                error = "Debes seleccionar un docente."
+                # 👉 Vista pañolero: selecciona docente desde combo
+                if docente_codigo:
+                    docente = Docente.objects.filter(
+                        codigo=docente_codigo,
+                        activo=True
+                    ).first()
+                    if docente is None:
+                        error = "Docente no válido o inactivo."
+                else:
+                    error = "Debes seleccionar un docente."
         else:
-            # Por diseño, las preparaciones anticipadas son para clases (docentes)
             error = "Las preparaciones anticipadas solo pueden ser solicitadas por docentes."
 
         # ---------------- ASIGNATURA (por NOMBRE) ----------------
@@ -775,6 +935,16 @@ def crear_preparacion(request):
             fecha = None
             if not error:
                 error = "Debes indicar la fecha de la clase."
+
+        # 🔹 Regla: mínimo 2 días de anticipación para la preparación
+        if fecha and not error:
+            hoy = timezone.localdate()
+            min_fecha = hoy + timedelta(days=2)
+            if fecha < min_fecha:
+                error = (
+                    f"Las preparaciones deben crearse con al menos 2 días de anticipación. "
+                    f"Fecha mínima permitida: {min_fecha.strftime('%Y-%m-%d')}."
+                )
 
         # ---------------- HORAS ----------------
         try:
@@ -814,10 +984,12 @@ def crear_preparacion(request):
                 "error": error,
                 "docentes": Docente.objects.filter(activo=True).order_by("nombre"),
                 "asignaturas": Asignatura.objects.all().order_by("nombre"),
+                "es_docente": es_docente,
+                "docente_actual": docente_actual,
             })
 
         # ---------------------------------------------
-        # REGISTRO DE PREPARACIÓN + RESERVA DE STOCK
+        # REGISTRO DE PREPARACIÓN (SIN tocar stock_disponible)
         # ---------------------------------------------
         try:
             with transaction.atomic():
@@ -828,7 +1000,7 @@ def crear_preparacion(request):
                     fecha=fecha,
                     hora_inicio=hora_inicio,
                     hora_fin=hora_fin,
-                    panolero=panolero,
+                    panolero=panolero,   # 👉 aquí ya nunca será None
                     docente=docente,
                     asignatura=asignatura,
                     estado="pendiente",
@@ -836,7 +1008,6 @@ def crear_preparacion(request):
                 )
 
                 for codigo, cantidad in lineas_validas:
-                    # Buscar por código o código de barra
                     herramienta = Herramienta.objects.filter(codigo=codigo).first()
                     if herramienta is None:
                         herramienta = Herramienta.objects.filter(
@@ -848,25 +1019,20 @@ def crear_preparacion(request):
                             f"No se encontró ninguna herramienta con código/código de barra '{codigo}'."
                         )
 
-                    # Validar stock disponible para reservar
+                    # 🔹 Solo validamos contra el stock disponible actual,
+                    #    pero NO lo descontamos en esta etapa.
                     if herramienta.stock_disponible < cantidad:
                         raise ValueError(
                             f"No hay suficiente stock disponible para {herramienta.nombre}. "
-                            f"Disponible: {herramienta.stock_disponible}, solicitado: {cantidad}"
+                            f"Disponible hoy: {herramienta.stock_disponible}, solicitado: {cantidad}"
                         )
 
-                    # Crear detalle de preparación
+                    # Se registra la línea de preparación (reserva lógica)
                     PreparacionDetalle.objects.create(
                         preparacion=prep,
                         herramienta=herramienta,
                         cantidad_solicitada=cantidad,
                     )
-
-                    # 🔹 Reservar stock → baja SOLO stock_disponible
-                    herramienta.stock_disponible -= cantidad
-                    if herramienta.stock_disponible < 0:
-                        herramienta.stock_disponible = 0
-                    herramienta.save()
 
                 mensaje = (
                     f"Preparación creada correctamente. "
@@ -881,6 +1047,8 @@ def crear_preparacion(request):
             "error": error,
             "docentes": Docente.objects.filter(activo=True).order_by("nombre"),
             "asignaturas": Asignatura.objects.all().order_by("nombre"),
+            "es_docente": es_docente,
+            "docente_actual": docente_actual,
         })
 
     # -------------------------------
@@ -891,6 +1059,8 @@ def crear_preparacion(request):
         "error": None,
         "docentes": Docente.objects.filter(activo=True).order_by("nombre"),
         "asignaturas": Asignatura.objects.all().order_by("nombre"),
+        "es_docente": es_docente,
+        "docente_actual": docente_actual,
     })
 
 
@@ -1198,6 +1368,44 @@ def registrar_baja(request):
         "panolero": panolero,
     })
 
+#####
+#####
+#####
+#####
+#Stock ectivo considerando preparaciones 
+def stock_disponible_respetando_preps(herramienta, ahora=None):
+    """
+    Devuelve el stock disponible efectivo de una herramienta, descontando
+    las preparaciones PENDIENTES del día cuya hora_inicio está en los
+    próximos 15 minutos.
+    """
+    if ahora is None:
+        ahora = timezone.localtime()
+
+    hoy = ahora.date()
+    ventana_fin = ahora + timedelta(minutes=15)
+  
+
+
+    # Stock disponible físico en pañol
+    base = herramienta.stock_disponible
+
+    # Cantidad reservada en preparaciones pendientes del día,
+    # con hora_inicio entre ahora y ahora+15 min
+    reservas = (
+        PreparacionDetalle.objects
+        .filter(
+            herramienta=herramienta,
+            preparacion__estado="pendiente",
+            preparacion__fecha=hoy,
+            preparacion__hora_inicio__gte=ahora.time(),
+            preparacion__hora_inicio__lte=ventana_fin.time(),
+        )
+        .aggregate(total=Sum("cantidad_solicitada"))["total"] or 0
+    )
+
+    return base - reservas
+
 
 #Lista de bajas 
 @login_required
@@ -1339,8 +1547,7 @@ def detalle_baja(request, baja_id):
 #-----------------------------------
 #INFORMES
 #-----------------------------------
-from django.db.models import Q, Count, Sum
-from django.utils import timezone
+
 
 @login_required
 def informe_prestamos(request):
@@ -1699,9 +1906,6 @@ def panel_kpis(request):
     }
     return render(request, "inventario/panel_kpis.html", context)
 
-
-
-
 #Exportar
 @login_required
 def exportar_panel_kpis(request):
@@ -2048,3 +2252,4 @@ def exportar_panel_kpis(request):
 
     # Si llega un formato raro
     return HttpResponse("Formato no soportado", status=400)
+

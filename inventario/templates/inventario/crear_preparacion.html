@@ -48,13 +48,22 @@
 
         <br><br>
 
-        <label>Docente:</label>
-        <select name="docente_codigo">
-            <option value="">-- Seleccione --</option>
-            {% for d in docentes %}
-            <option value="{{ d.codigo }}">{{ d.nombre }}</option>
-            {% endfor %}
-        </select>
+        <label>Docente</label>
+
+        {% if es_docente and docente_actual %}
+            {# 👉 Docente logueado: se muestra fijo y se manda el código oculto #}
+            <p><strong>{{ docente_actual.codigo }} - {{ docente_actual.nombre }}</strong></p>
+            <input type="hidden" name="docente_codigo" value="{{ docente_actual.codigo }}">
+        {% else %}
+            {# 👉 Vista normal (pañolero u otros) #}
+            <select name="docente_codigo" id="docente_codigo">
+                <option value="">--- Seleccione docente ---</option>
+                {% for d in docentes %}
+                    <option value="{{ d.codigo }}">{{ d.codigo }} - {{ d.nombre }}</option>
+                {% endfor %}
+            </select>
+        {% endif %}
+
 
         <br><br>
 

@@ -192,10 +192,16 @@
         }
     </style>
 </head>
+
 <body>
+    
+    <div class="container">
+        {% include "partials/notificaciones_panolero.html" %}
+        <!-- aquí sigue tu header y el resto del menú -->
     <div class="container">
         <div class="header">
-            <img src="https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png" alt="Logo INACAP" class="logo">
+            <img src="https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png"
+                 alt="Logo INACAP" class="logo">
             <div class="title-logout">
                 <h1>Sistema de Gestión de Pañol</h1>
                 <div class="logout">
@@ -206,13 +212,43 @@
         </div>
 
         <nav>
-            <!-- ADMIN -->
-            {% if user.is_staff or user.is_superuser %}
+            {# ================== MENÚ PARA DOCENTE ================== #}
+            {% if es_docente %}
+
+                <!-- INVENTARIO (SOLO LISTA) -->
+                <div class="section">
+                    <div class="seccion">Inventario</div>
+                    <ul>
+                        <li>
+                            <a href="{% url 'lista_herramientas' %}">
+                                Inventario de herramientas
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- PREPARACIÓN DE CLASES (SOLO CREAR) -->
+                <div class="section">
+                    <div class="seccion">Preparación de clases</div>
+                    <ul>
+                        <li>
+                            <a href="{% url 'crear_preparacion' %}">
+                                Crear preparación de clase
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            {% else %}
+            {# ================== MENÚ PARA PAÑOLEROS / JEFATURA / ADMIN ================== #}
+
+            <!-- ADMINISTRACIÓN (solo jefatura o staff/superuser) -->
+            {% if es_jefe or user.is_staff or user.is_superuser %}
                 <div class="section">
                     <div class="seccion">Administración</div>
                     <ul>
-                        <li><a href="/admin/">Administración del sistema</a></li>
-                        </ul>
+                        <li><a href="{% url 'administracion' %}">Administración del sistema</a></li>
+                    </ul>
                 </div>
             {% endif %}
 
@@ -224,6 +260,7 @@
                     <li><a href="{% url 'gestionar_herramienta' %}">Gestión de herramientas</a></li>
                 </ul>
             </div>
+
             <!-- PRÉSTAMOS -->
             <div class="section">
                 <div class="seccion">Préstamos</div>
@@ -232,6 +269,7 @@
                     <li><a href="{% url 'lista_prestamos' %}">Listado de préstamos</a></li>
                 </ul>
             </div>
+
             <!-- PREPARACIÓN DE CLASES -->
             <div class="section">
                 <div class="seccion">Preparación de clases</div>
@@ -241,8 +279,6 @@
                 </ul>
             </div>
 
-            
-
             <!-- DEVOLUCIONES -->
             <div class="section">
                 <div class="seccion">Devoluciones</div>
@@ -251,7 +287,7 @@
                 </ul>
             </div>
 
-            <!-- OTROS MÓDULOS -->
+            <!-- BAJA DE HERRAMIENTA -->
             <div class="section">
                 <div class="seccion">Baja de Herramienta</div>
                 <ul>
@@ -260,18 +296,18 @@
                 </ul>
             </div>
 
-            <!-- INFORMES -->
+            <!-- VISTAS / INFORMES -->
             <div class="section">
                 <div class="seccion">Vistas</div>
                 <ul>
                     <li><a href="{% url 'informe_prestamos' %}">Bitácora</a></li>
-                    {% if user.is_staff or user.is_superuser %}
+                    {% if es_jefe or user.is_staff or user.is_superuser %}
                         <li><a href="{% url 'panel_kpis' %}">Panel de indicadores</a></li>
                     {% endif %}
                 </ul>
             </div>
-                </ul>
-            </div>
+
+            {% endif %}
         </nav>
     </div>
 
