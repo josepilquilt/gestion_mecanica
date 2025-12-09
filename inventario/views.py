@@ -10,7 +10,10 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.contrib.auth.models import Group
 from .forms import HerramientaForm
-
+from django.http import JsonResponse
+from .recomendador import recomendar_herramientas
+from . import recomendador as rec
+from datetime import datetime
 
 #
 from django.http import HttpResponse
@@ -1019,12 +1022,30 @@ def crear_preparacion(request):
                             f"No se encontró ninguna herramienta con código/código de barra '{codigo}'."
                         )
 
-                    # 🔹 Solo validamos contra el stock disponible actual,
-                    #    pero NO lo descontamos en esta etapa.
-                    if herramienta.stock_disponible < cantidad:
+                    # 🔹 Reservas ya existentes para ESTA herramienta,
+                    #     en la MISMA fecha y MISMA hora de inicio,
+                    #     solo en preparaciones PENDIENTES.
+                    reservas_existentes = (
+                        PreparacionDetalle.objects
+                        .filter(
+                            herramienta=herramienta,
+                            preparacion__estado="pendiente",
+                            preparacion__fecha=fecha,
+                            preparacion__hora_inicio=hora_inicio,
+                        )
+                        .aggregate(total=Sum("cantidad_solicitada"))["total"] or 0
+                    )
+
+                    # Stock disponible real para ese bloque horario
+                    disponible_para_bloque = herramienta.stock_disponible - reservas_existentes
+
+                    if disponible_para_bloque < cantidad:
                         raise ValueError(
-                            f"No hay suficiente stock disponible para {herramienta.nombre}. "
-                            f"Disponible hoy: {herramienta.stock_disponible}, solicitado: {cantidad}"
+                            f"No hay suficiente stock disponible para {herramienta.nombre} "
+                            f"en esa fecha y hora. "
+                            f"Stock físico: {herramienta.stock_disponible}, "
+                            f"ya reservado en otras preparaciones del mismo bloque: {reservas_existentes}, "
+                            f"solicitado ahora: {cantidad}."
                         )
 
                     # Se registra la línea de preparación (reserva lógica)
@@ -1064,6 +1085,13 @@ def crear_preparacion(request):
     })
 
 
+def vista_recomendaciones(request, asignatura_id):
+    asig = get_object_or_404(Asignatura, id=asignatura_id)
+    recs = rec.recomendar_herramientas(asig.id, top_n=20)  # o todas
+    return render(request, "inventario/recomendaciones.html", {
+        "asignatura": asig,
+        "recomendaciones": recs,
+    })
 
 #parte del registro preparacion 
 
@@ -1146,30 +1174,23 @@ def detalle_preparacion(request, prep_id):
 #Anular una preparacion anticipada de las clases
 @login_required
 def anular_preparacion(request, prep_id):
-    # Traemos también los detalles con sus herramientas
+    # Traemos también los detalles con sus herramientas (por si quieres mostrarlos en una vista futura)
     preparacion = get_object_or_404(
         Preparacion.objects.prefetch_related("detalles__herramienta"),
         id=prep_id
     )
 
-    # Si ya fue usada para un préstamo, no se puede anular ni tocar stock
+    #k
     if preparacion.estado == "usado":
         return redirect("lista_preparaciones")
 
     if request.method == "POST":
-        # Solo devolvemos stock si estaba pendiente (es decir, con reserva activa)
-        if preparacion.estado == "pendiente":
-            for det in preparacion.detalles.all():
-                h = det.herramienta
-                h.stock_disponible += det.cantidad_solicitada
-                h.save()
-
         preparacion.estado = "anulado"
-        preparacion.save(update_fields=["estado"])
+        preparacion.save(update_fields=["estado", "updated_at"])
 
         return redirect("lista_preparaciones")
 
-    # Si no quieres vista de confirmación, redirigimos directo
+    # Si no quieres pantalla de confirmación, redirigimos directo
     return redirect("lista_preparaciones")
 
 #Parete de dar de baja una heramientas 
@@ -1368,9 +1389,7 @@ def registrar_baja(request):
         "panolero": panolero,
     })
 
-#####
-#####
-#####
+
 #####
 #Stock ectivo considerando preparaciones 
 def stock_disponible_respetando_preps(herramienta, ahora=None):
@@ -1805,6 +1824,7 @@ def panel_kpis(request):
     )
 
     # ---------------- TOPs PARA GRÁFICOS ----------------
+
     # Top 5 docentes por cantidad de préstamos
     top_docentes = (
         prestamos.filter(docente__isnull=False)
@@ -1824,9 +1844,28 @@ def panel_kpis(request):
     # Detalles filtrados (para herramientas / autos)
     detalles_filtrados = PrestamoDetalle.objects.filter(prestamo__in=prestamos)
 
-    # Top 5 herramientas más despachadas
+    # Top 5 herramientas más despachadas (general)
     top_herramientas = (
         detalles_filtrados
+        .values("herramienta__nombre", "herramienta__codigo")
+        .annotate(total_cant=Sum("cantidad_entregada"))
+        .order_by("-total_cant")[:5]
+    )
+
+    # 🔹 Top 5 herramientas FIJAS
+    # ajusta el filtro según cómo esté el campo `tipo` en tu modelo (Fijo / FIJO / Herramienta fija, etc.)
+    top_herramientas_fijas = (
+        detalles_filtrados
+        .filter(herramienta__tipo__icontains="fijo")
+        .values("herramienta__nombre", "herramienta__codigo")
+        .annotate(total_cant=Sum("cantidad_entregada"))
+        .order_by("-total_cant")[:5]
+    )
+
+    # 🔹 Top 5 herramientas CONSUMIBLES
+    top_herramientas_consumibles = (
+        detalles_filtrados
+        .filter(herramienta__tipo__icontains="consumible")
         .values("herramienta__nombre", "herramienta__codigo")
         .annotate(total_cant=Sum("cantidad_entregada"))
         .order_by("-total_cant")[:5]
@@ -1890,6 +1929,8 @@ def panel_kpis(request):
         "top_docentes": top_docentes,
         "top_carreras": top_carreras,
         "top_herramientas": top_herramientas,
+        "top_herramientas_fijas": top_herramientas_fijas,             # 👈 NUEVO
+        "top_herramientas_consumibles": top_herramientas_consumibles, # 👈 NUEVO
         "top_autos": top_autos,
         "top_asignaturas": top_asignaturas,
 
@@ -1906,19 +1947,21 @@ def panel_kpis(request):
     }
     return render(request, "inventario/panel_kpis.html", context)
 
-#Exportar
+# Exportar
 @login_required
 def exportar_panel_kpis(request):
     semestre = request.GET.get("semestre", "")
     carrera = request.GET.get("carrera", "")
     asignatura_nombre = request.GET.get("asignatura", "")
+    fecha_desde = request.GET.get("fecha_desde", "")
+    fecha_hasta = request.GET.get("fecha_hasta", "")
 
     # ================== BASE QUERY ==================
     prestamos = Prestamo.objects.select_related(
         "docente", "estudiante", "asignatura", "panolero"
     )
 
-    # ----- Filtro por semestre (igual que en panel_kpis) -----
+    # ----- Filtro por semestre -----
     if semestre:
         try:
             año_str, sem_str = semestre.split("-")  # "2025-1"
@@ -1934,20 +1977,42 @@ def exportar_panel_kpis(request):
                     fecha__month__in=[8, 9, 10, 11, 12],
                 )
         except ValueError:
-            # Si viene mal formateado, no se filtra por semestre
             pass
 
-    # ----- Filtro por carrera (solo préstamos con estudiante) -----
+    # ----- Filtro por carrera -----
     if carrera:
         prestamos = prestamos.filter(estudiante__carrera=carrera)
 
-    # ----- Filtro por asignatura (por nombre) -----
+    # ----- Filtro por asignatura -----
     if asignatura_nombre:
         prestamos = prestamos.filter(asignatura__nombre=asignatura_nombre)
 
-    # ================== CÁLCULO DE KPIs ==================
-    from django.db.models import Sum, Count
+    # ----- Filtro por rango de fechas -----
+    # Si tu input date está en formato YYYY-MM-DD (lo normal del navegador),
+    # con este formato basta. Si tuvieras DD-MM-YYYY, se intenta también.
+    if fecha_desde:
+        parseado = None
+        for fmt in ("%Y-%m-%d", "%d-%m-%Y"):
+            try:
+                parseado = datetime.strptime(fecha_desde, fmt).date()
+                break
+            except ValueError:
+                continue
+        if parseado:
+            prestamos = prestamos.filter(fecha__gte=parseado)
 
+    if fecha_hasta:
+        parseado = None
+        for fmt in ("%Y-%m-%d", "%d-%m-%Y"):
+            try:
+                parseado = datetime.strptime(fecha_hasta, fmt).date()
+                break
+            except ValueError:
+                continue
+        if parseado:
+            prestamos = prestamos.filter(fecha__lte=parseado)
+
+    # ================== CÁLCULO DE KPIs (SOLO CON FILTROS APLICADOS) ==================
     total_prestamos = prestamos.count()
 
     total_herramientas = (
@@ -2022,7 +2087,7 @@ def exportar_panel_kpis(request):
     formato = request.GET.get("formato", "excel").lower()
 
     # ======================================================
-    #   EXPORTAR A EXCEL
+    #   EXPORTAR A EXCEL (detalle completo filtrado)
     # ======================================================
     if formato == "excel":
         import openpyxl
@@ -2071,7 +2136,7 @@ def exportar_panel_kpis(request):
         for p in top_panoleros:
             ws_kpi.append([p["panolero__nombre"], p["total_prestamos"]])
 
-        # --- Hoja 2: detalle de préstamos ---
+        # --- Hoja 2: detalle de préstamos filtrados ---
         ws = wb.create_sheet(title="Préstamos")
 
         encabezados = [
@@ -2105,12 +2170,12 @@ def exportar_panel_kpis(request):
         response = HttpResponse(
             content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
-        response["Content-Disposition"] = 'attachment; filename="panel_kpis.xlsx"'
+        response["Content-Disposition"] = 'attachment; filename=\"panel_kpis.xlsx\"'
         wb.save(response)
         return response
 
     # ======================================================
-    #   EXPORTAR A PDF (resumen de KPIs + rankings + listado)
+    #   EXPORTAR A PDF (KPIs + rankings, todos con filtros)
     # ======================================================
     if formato == "pdf":
         from reportlab.pdfgen import canvas
@@ -2119,21 +2184,24 @@ def exportar_panel_kpis(request):
         import urllib.request
 
         response = HttpResponse(content_type="application/pdf")
-        response["Content-Disposition"] = 'attachment; filename="panel_kpis.pdf"'
+        response["Content-Disposition"] = 'attachment; filename=\"panel_kpis.pdf\"'
 
         c = canvas.Canvas(response, pagesize=letter)
         width, height = letter
 
-        # -------- LOGO DESDE URL (ESQUINA SUPERIOR DERECHA) --------
+        # -------- LOGO --------
         try:
-            logo_url = "https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png "  # <-- CAMBIA ESTA URL
+            logo_url = (
+                "https://afeva.cl/wp-content/uploads/"
+                "bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png"
+            )
             logo_stream = urllib.request.urlopen(logo_url)
             logo_image = ImageReader(logo_stream)
 
-            logo_width = 80   # ancho en puntos
-            logo_height = 40  # alto en puntos
-            x = width - logo_width - 40   # margen derecho
-            y = height - logo_height - 30 # margen superior
+            logo_width = 80
+            logo_height = 40
+            x = width - logo_width - 40
+            y = height - logo_height - 30
 
             c.drawImage(
                 logo_image,
@@ -2145,7 +2213,6 @@ def exportar_panel_kpis(request):
                 mask="auto",
             )
         except Exception as e:
-            # Si falla, solo se registra en consola y se sigue sin romper el PDF
             print("No se pudo cargar el logo desde URL:", e)
 
         # -------- TÍTULO Y FILTROS --------
@@ -2159,12 +2226,14 @@ def exportar_panel_kpis(request):
             f"Semestre: {semestre or 'Todos'}",
             f"Carrera: {carrera or 'Todas'}",
             f"Asignatura: {asignatura_nombre or 'Todas'}",
+            f"Fecha desde: {fecha_desde or '---'}",
+            f"Fecha hasta: {fecha_hasta or '---'}",
         ]
         for linea in filtros:
             c.drawString(40, y, linea)
             y -= 12
 
-        # -------- KPIs GENERALES --------
+        # -------- KPIs GENERALES (FILTRADOS) --------
         y -= 8
         c.setFont("Helvetica-Bold", 11)
         c.drawString(40, y, "KPIs generales")
@@ -2183,14 +2252,13 @@ def exportar_panel_kpis(request):
             c.drawString(40, y, l)
             y -= 12
 
-        # Helper para control de página
         def check_page(y_actual):
             if y_actual < 60:
                 c.showPage()
                 return height - 40
             return y_actual
 
-        # -------- RANKINGS --------
+        # -------- RANKINGS (FILTRADOS) --------
         secciones_rank = [
             ("Top 5 docentes (por préstamos)", top_docentes,
              lambda d: f"{d['docente__nombre']}: {d['total_prestamos']}"),
@@ -2222,34 +2290,59 @@ def exportar_panel_kpis(request):
                     c.drawString(50, y, f"- {fmt(item)}")
                     y -= 12
 
-        # -------- LISTADO RESUMEN DE PRÉSTAMOS --------
-        y = check_page(y - 10)
-        c.setFont("Helvetica-Bold", 11)
-        c.drawString(40, y, "Listado de préstamos (resumen)")
-        y -= 15
-        c.setFont("Helvetica", 8)
-
-        for p in prestamos:
-            y = check_page(y)
-            if p.docente:
-                solicitante = f"{p.docente.nombre} (Docente)"
-            elif p.estudiante:
-                solicitante = f"{p.estudiante.nombre} ({p.estudiante.carrera})"
-            else:
-                solicitante = "-"
-
-            asignatura = p.asignatura.nombre if p.asignatura else "-"
-            linea = (
-                f"{p.codigo_prestamo} | {p.fecha} | "
-                f"{solicitante} | {asignatura} | {p.estado}"
-            )
-            c.drawString(40, y, linea[:110])
-            y -= 11
-
         c.showPage()
         c.save()
         return response
 
-    # Si llega un formato raro
     return HttpResponse("Formato no soportado", status=400)
+
+#IA
+def asignatura_recomendaciones(request, asig_id):
+    """
+    Devuelve un JSON con las herramientas recomendadas para la asignatura.
+    Estructura:
+    {
+        "asignatura": "Nombre asignatura",
+        "id": 12,
+        "recomendaciones": [
+            {"codigo": "12333", "nombre": "ALICATE DE PUNTA", "score": 35.0},
+            ...
+        ]
+    }
+    """
+    # nos aseguramos que exista la asignatura
+    asignatura = get_object_or_404(Asignatura, id=asig_id)
+
+    # llamamos al modelo de recomendación
+    recs = rec.recomendar_herramientas(asig_id, top_n=50)  # puedes subir/bajar el top_n
+
+    data = {
+        "id": asignatura.id,
+        "asignatura": asignatura.nombre,
+        "recomendaciones": [
+            {
+                "codigo": r["herramienta_id"],
+                "nombre": r["nombre"],
+                "score": float(r["score"]),
+            }
+            for r in recs
+        ],
+    }
+
+    return JsonResponse(data)
+    # 1) Buscar la asignatura
+    asignatura = get_object_or_404(Asignatura, id=asig_id)
+
+    # 2) Entrenar modelo (por si no está entrenado en este proceso)
+    rec.entrenar_modelo()
+
+    # 3) Obtener recomendaciones (puedes cambiar top_n)
+    recomendaciones = rec.recomendar_herramientas(asignatura, top_n=20)
+
+    # 4) Renderizar template
+    contexto = {
+        "asignatura": asignatura,
+        "recomendaciones": recomendaciones,
+    }
+    return render(request, "inventario/asignatura_recomendaciones.html", contexto)
 

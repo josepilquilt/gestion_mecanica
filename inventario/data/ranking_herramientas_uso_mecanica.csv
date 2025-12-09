@@ -1,0 +1,1435 @@
+codigo,nombre,stock_disponible,stock,tipo,nivel_uso,categoria
+12334,ALICATE CORTANTE,49,49,Fijos,4,Alicates / pinzas
+12333,ALICATE DE PUNTA,52,52,Fijos,4,Alicates / pinzas
+12336,ALICATE SEEGER,33,33,Fijos,4,Alicates / pinzas
+12335,ALICATE UNIVERSAL,43,43,Fijos,4,Alicates / pinzas
+10826,Alicate de resorte de freno,1,1,Fijos,4,Alicates / pinzas
+10596,"Alicate para anillos elasticos,N°1",1,1,Fijos,4,Alicates / pinzas
+10597,"Alicate para anillos elasticos,N°2",1,1,Fijos,4,Alicates / pinzas
+10598,"Alicate para anillos elasticos,N°3",1,1,Fijos,4,Alicates / pinzas
+10599,"Alicate para anillos elasticos,N°4",1,1,Fijos,4,Alicates / pinzas
+10600,"Alicate para anillos elasticos,N°5",1,1,Fijos,4,Alicates / pinzas
+10601,"Alicate para anillos elasticos,N°6",1,1,Fijos,4,Alicates / pinzas
+11619,"CALIBRADOR DE CORRIENTE,N°1",1,1,Fijos,4,Metrología - Pies de metro
+11620,"CALIBRADOR DE CORRIENTE,N°2",1,1,Fijos,4,Metrología - Pies de metro
+11621,"CALIBRADOR DE CORRIENTE,N°3",1,1,Fijos,4,Metrología - Pies de metro
+11622,"CALIBRADOR DE CORRIENTE,N°4",1,1,Fijos,4,Metrología - Pies de metro
+11623,"CALIBRADOR DE CORRIENTE,N°5",1,1,Fijos,4,Metrología - Pies de metro
+11624,"CALIBRADOR DE CORRIENTE,N°6",1,1,Fijos,4,Metrología - Pies de metro
+11594,"CALIBRADOR DE PRESION,N°1",1,1,Fijos,4,Metrología - Pies de metro
+11595,"CALIBRADOR DE PRESION,N°2",1,1,Fijos,4,Metrología - Pies de metro
+11596,"CALIBRADOR DE PRESION,N°3",1,1,Fijos,4,Metrología - Pies de metro
+11597,"CALIBRADOR DE PRESION,N°4",1,1,Fijos,4,Metrología - Pies de metro
+11598,"CALIBRADOR DE PRESION,N°5",1,1,Fijos,4,Metrología - Pies de metro
+11585,"CALIBRADOR DE PROCESOS 720 SERIES,N°1",1,1,Fijos,4,Metrología - Pies de metro
+11586,"CALIBRADOR DE PROCESOS 720 SERIES,N°2",1,1,Fijos,4,Metrología - Pies de metro
+11587,"CALIBRADOR DE PROCESOS 720 SERIES,N°3",1,1,Fijos,4,Metrología - Pies de metro
+11588,"CALIBRADOR LOOP 707,N°1",1,1,Fijos,4,Metrología - Pies de metro
+11589,"CALIBRADOR LOOP 707,N°2",1,1,Fijos,4,Metrología - Pies de metro
+11590,"CALIBRADOR LOOP 707,N°3",1,1,Fijos,4,Metrología - Pies de metro
+11591,"CALIBRADOR LOOP 707,N°4",1,1,Fijos,4,Metrología - Pies de metro
+11592,"CALIBRADOR LOOP 707,N°5",1,1,Fijos,4,Metrología - Pies de metro
+11693,"CALIBRADORES DE TEMPERATURA, N°1",1,1,Fijos,4,Metrología - Pies de metro
+11694,"CALIBRADORES DE TEMPERATURA, N°2",1,1,Fijos,4,Metrología - Pies de metro
+11695,"CALIBRADORES DE TEMPERATURA, N°3",1,1,Fijos,4,Metrología - Pies de metro
+11696,"CALIBRADORES DE TEMPERATURA, N°4",1,1,Fijos,4,Metrología - Pies de metro
+11697,"CALIBRADORES DE TEMPERATURA, N°5",1,1,Fijos,4,Metrología - Pies de metro
+11698,"CALIBRADORES DE TEMPERATURA, N°6",1,1,Fijos,4,Metrología - Pies de metro
+60027,CARRO NEGROS MECANICOS /LLAVE - 1,1,1,llave_auto,4,Llaves / apriete
+60028,CARRO NEGROS MECANICOS /LLAVE - 2,1,1,llave_auto,4,Llaves / apriete
+60029,CARRO NEGROS MECANICOS /LLAVE - 3,1,1,llave_auto,4,Llaves / apriete
+60030,CARRO NEGROS MECANICOS /LLAVE - 4,1,1,llave_auto,4,Llaves / apriete
+10287,Caja de dado estrella ½,1,1,Fijos,4,Dados / chicharras
+10280,Caja de dados 3/8,12,12,Fijos,4,Dados / chicharras
+10288,Caja llaves punta corona,13,13,Fijos,4,Llaves / apriete
+10272,Cajas de dado 1/4,8,8,Fijos,4,Dados / chicharras
+10253,Cajas de dados de 1/2,29,29,Fijos,4,Dados / chicharras
+10684,Calibrador de profundidad,1,1,Fijos,4,Metrología - Pies de metro
+10339,"Combo , N°1",0,0,Consumible,4,Golpe / percusión
+10340,"Combo , N°2",0,0,Consumible,4,Golpe / percusión
+10341,"Combo , N°3",0,0,Consumible,4,Golpe / percusión
+10342,"Combo , N°4",0,0,Consumible,4,Golpe / percusión
+11296,DESTORNILLADOR BUSCAPLO,16,16,Consumibles,4,Destornilladores
+12338,DESTORNILLADOR DE CRUZ,68,68,Fijos,4,Destornilladores
+10858,DESTORNILLADOR DE IMPACTO  N°1,1,1,Fijos,4,Destornilladores
+10859,DESTORNILLADOR DE IMPACTO  N°2,1,1,Fijos,4,Destornilladores
+10860,DESTORNILLADOR DE IMPACTO  N°3,1,1,Fijos,4,Destornilladores
+10861,DESTORNILLADOR DE IMPACTO  N°4,1,1,Fijos,4,Destornilladores
+10862,DESTORNILLADOR DE IMPACTO  N°5,1,1,Fijos,4,Destornilladores
+12178,DESTORNILLADOR DE IMPACTO  N°6,1,1,Fijos,4,Destornilladores
+12337,DESTORNILLADOR DE PALETA,100,100,Fijos,4,Destornilladores
+12341,DESTORNILLADORES DE DADOS,18,18,Fijos,4,Dados / chicharras
+12340,DESTORNILLADORES TORX,17,17,Fijos,4,Destornilladores
+10304,"Dados torx,N°1",2,2,Fijos,4,Dados / chicharras
+10305,"Dados torx,N°2",1,1,Fijos,4,Dados / chicharras
+10639,"Estuchera con llaves punta corona ,N°1",1,1,Fijos,4,Llaves / apriete
+10640,"Estuchera con llaves punta corona ,N°2",1,1,Fijos,4,Llaves / apriete
+10641,"Estuchera con llaves punta corona ,N°3",1,1,Fijos,4,Llaves / apriete
+10642,"Estuchera con llaves punta corona ,N°4",1,1,Fijos,4,Llaves / apriete
+10643,"Estuchera con llaves punta corona ,N°5",1,1,Fijos,4,Llaves / apriete
+11315,"LLAVE FRANCESA \""8\"",N°1",1,1,Consumibles,4,Llaves / apriete
+12353,LLAVES MAQUETA BALENO,1,1,Fijos,4,Llaves / apriete
+12354,LLAVES MAQUETA FORD,1,1,Fijos,4,Llaves / apriete
+10634,"Llave de torque 1/2 ,N°1",1,1,Fijos,4,Llaves / apriete
+12043,"Llave de torque 1/2 ,N°10",1,1,Fijos,4,Llaves / apriete
+10635,"Llave de torque 1/2 ,N°2",1,1,Fijos,4,Llaves / apriete
+10636,"Llave de torque 1/2 ,N°3",1,1,Fijos,4,Llaves / apriete
+10637,"Llave de torque 1/2 ,N°4",1,1,Fijos,4,Llaves / apriete
+12038,"Llave de torque 1/2 ,N°5",1,1,Fijos,4,Llaves / apriete
+12039,"Llave de torque 1/2 ,N°6",1,1,Fijos,4,Llaves / apriete
+12040,"Llave de torque 1/2 ,N°7",1,1,Fijos,4,Llaves / apriete
+12041,"Llave de torque 1/2 ,N°8",1,1,Fijos,4,Llaves / apriete
+12042,"Llave de torque 1/2 ,N°9",1,1,Fijos,4,Llaves / apriete
+12044,Llave de torque 3/8 N°1,1,1,Fijos,4,Llaves / apriete
+12045,Llave de torque 3/8 N°2,1,1,Fijos,4,Llaves / apriete
+12046,Llave de torque 3/8 N°3,1,1,Fijos,4,Llaves / apriete
+12047,Llave de torque 3/8 N°4,1,1,Fijos,4,Llaves / apriete
+12048,Llave de torque Lautaro,1,1,Fijos,4,Llaves / apriete
+10638,Llave de torque digital,1,1,Fijos,4,Llaves / apriete
+10646,"Llave de torque vlc ,N°1",1,1,Fijos,4,Llaves / apriete
+10647,"Llave de torque vlc ,N°2",1,1,Fijos,4,Llaves / apriete
+10627,"Llaves de torque 3/8 ,N°1",1,1,Fijos,4,Llaves / apriete
+10630,"Llaves de torque 3/8 ,N°1",1,1,Fijos,4,Llaves / apriete
+10628,"Llaves de torque 3/8 ,N°2",1,1,Fijos,4,Llaves / apriete
+10631,"Llaves de torque 3/8 ,N°2",1,1,Fijos,4,Llaves / apriete
+10629,"Llaves de torque 3/8 ,N°3",1,1,Fijos,4,Llaves / apriete
+10632,"Llaves de torque 3/8 ,N°3",1,1,Fijos,4,Llaves / apriete
+10633,"Llaves de torque 3/8 ,N°4",1,1,Fijos,4,Llaves / apriete
+10656,"Llaves de torque,N°1",1,1,Fijos,4,Llaves / apriete
+10657,"Llaves de torque,N°2",1,1,Fijos,4,Llaves / apriete
+10333,"Martillo aluminio ,N°1",0,0,Consumible,4,Golpe / percusión
+10334,"Martillo aluminio ,N°2",0,0,Consumible,4,Golpe / percusión
+10335,"Martillo aluminio ,N°3",0,0,Consumible,4,Golpe / percusión
+10336,"Martillo aluminio ,N°4",0,0,Consumible,4,Golpe / percusión
+10337,"Martillo aluminio ,N°5",0,0,Consumible,4,Golpe / percusión
+10338,"Martillo aluminio ,N°6",0,0,Consumible,4,Golpe / percusión
+10309,"Maza de goma,N°1",0,0,Consumible,4,Golpe / percusión
+10318,"Maza de goma,N°10",0,0,Consumible,4,Golpe / percusión
+10319,"Maza de goma,N°11",0,0,Consumible,4,Golpe / percusión
+10320,"Maza de goma,N°12",0,0,Consumible,4,Golpe / percusión
+10321,"Maza de goma,N°13",0,0,Consumible,4,Golpe / percusión
+10322,"Maza de goma,N°14",0,0,Consumible,4,Golpe / percusión
+10323,"Maza de goma,N°15",0,0,Consumible,4,Golpe / percusión
+10324,"Maza de goma,N°16",0,0,Consumible,4,Golpe / percusión
+10325,"Maza de goma,N°17",0,0,Consumible,4,Golpe / percusión
+10326,"Maza de goma,N°18",0,0,Consumible,4,Golpe / percusión
+10327,"Maza de goma,N°19",0,0,Consumible,4,Golpe / percusión
+10310,"Maza de goma,N°2",0,0,Consumible,4,Golpe / percusión
+10328,"Maza de goma,N°20",0,0,Consumible,4,Golpe / percusión
+10329,"Maza de goma,N°21",0,0,Consumible,4,Golpe / percusión
+10330,"Maza de goma,N°22",0,0,Consumible,4,Golpe / percusión
+10331,"Maza de goma,N°23",0,0,Consumible,4,Golpe / percusión
+10332,"Maza de goma,N°24",0,0,Consumible,4,Golpe / percusión
+10311,"Maza de goma,N°3",0,0,Consumible,4,Golpe / percusión
+10312,"Maza de goma,N°4",0,0,Consumible,4,Golpe / percusión
+10313,"Maza de goma,N°5",0,0,Consumible,4,Golpe / percusión
+10314,"Maza de goma,N°6",0,0,Consumible,4,Golpe / percusión
+10315,"Maza de goma,N°7",0,0,Consumible,4,Golpe / percusión
+10316,"Maza de goma,N°8",0,0,Consumible,4,Golpe / percusión
+10317,"Maza de goma,N°9",0,0,Consumible,4,Golpe / percusión
+11848,Micrometro Digital,10,10,Consumibles,4,Metrología - Micrómetros
+10014,Micrometro Exterior 0-1,6,6,Consumible,4,Metrología - Micrómetros
+10020,Micrometro Exterior 0-1,7,7,Consumible,4,Metrología - Micrómetros
+10063,Micrometro Exterior 0-25,40,40,Consumible,4,Metrología - Micrómetros
+10000,Micrometro Exterior 2-3,7,7,Consumible,4,Metrología - Micrómetros
+10008,Micrometro Exterior 2-3,6,6,Consumible,4,Metrología - Micrómetros
+10124,Micrometro Interior 25-50,31,31,Consumible,4,Metrología - Micrómetros
+10043,Micrometro Interior 5-30,9,9,Consumible,4,Metrología - Micrómetros
+10052,Micrometro Interior 5-30,11,11,Consumible,4,Metrología - Micrómetros
+10027,Micrometro Interior 50-75,12,12,Consumible,4,Metrología - Micrómetros
+10039,Micrometro Interior 50-75,4,4,Consumible,4,Metrología - Micrómetros
+12004,PINZA AMPERIMETRICA 1000A AMPROBE N°1,1,1,Fijos,4,Alicates / pinzas
+12005,PINZA AMPERIMETRICA 1000A AMPROBE N°2,1,1,Fijos,4,Alicates / pinzas
+12006,PINZA AMPERIMETRICA 1000A AMPROBE N°3,1,1,Fijos,4,Alicates / pinzas
+12007,PINZA AMPERIMETRICA 1000A AMPROBE N°4,1,1,Fijos,4,Alicates / pinzas
+12009,PINZA AMPERTIMETRICA 600A AMPROBE N°1,1,1,Fijos,4,Alicates / pinzas
+12010,PINZA AMPERTIMETRICA 600A AMPROBE N°2,1,1,Fijos,4,Alicates / pinzas
+12011,PINZA AMPERTIMETRICA 600A AMPROBE N°3,1,1,Fijos,4,Alicates / pinzas
+12012,PINZA AMPERTIMETRICA 600A AMPROBE N°4,1,1,Fijos,4,Alicates / pinzas
+12013,PINZA AMPERTIMETRICA 600A AMPROBE N°5,1,1,Fijos,4,Alicates / pinzas
+12014,PINZA AMPERTIMETRICA 600A AMPROBE N°6,1,1,Fijos,4,Alicates / pinzas
+12017,PROBADOR DE PINZA DE RESISTENCIA,1,1,Fijos,4,Alicates / pinzas
+11787,"PROBADOR DE PINZA DE RESISTENCIA,N°1",1,1,Fijos,4,Alicates / pinzas
+11788,"PROBADOR DE PINZA DE RESISTENCIA,N°2",1,1,Fijos,4,Alicates / pinzas
+10353,Pie de metro  de 0.5,39,39,Consumible,4,Metrología - Pies de metro
+10397,"Pie de metro de 0.2 ,N°1",31,31,Consumible,4,Metrología - Pies de metro
+10427,Pie de metro tornero,9,9,Consumible,4,Metrología - Pies de metro
+11145,Pinza Amperimétricas AC N°1,1,1,Fijos,4,Alicates / pinzas
+11154,Pinza Amperimétricas AC N°10,1,1,Fijos,4,Alicates / pinzas
+11155,Pinza Amperimétricas AC N°11,1,1,Fijos,4,Alicates / pinzas
+11156,Pinza Amperimétricas AC N°12,1,1,Fijos,4,Alicates / pinzas
+11157,Pinza Amperimétricas AC N°13,1,1,Fijos,4,Alicates / pinzas
+11158,Pinza Amperimétricas AC N°14,1,1,Fijos,4,Alicates / pinzas
+11159,Pinza Amperimétricas AC N°15,1,1,Fijos,4,Alicates / pinzas
+11146,Pinza Amperimétricas AC N°2,1,1,Fijos,4,Alicates / pinzas
+11147,Pinza Amperimétricas AC N°3,1,1,Fijos,4,Alicates / pinzas
+11148,Pinza Amperimétricas AC N°4,1,1,Fijos,4,Alicates / pinzas
+11149,Pinza Amperimétricas AC N°5,1,1,Fijos,4,Alicates / pinzas
+11150,Pinza Amperimétricas AC N°6,1,1,Fijos,4,Alicates / pinzas
+11151,Pinza Amperimétricas AC N°7,1,1,Fijos,4,Alicates / pinzas
+11152,Pinza Amperimétricas AC N°8,1,1,Fijos,4,Alicates / pinzas
+11153,Pinza Amperimétricas AC N°9,1,1,Fijos,4,Alicates / pinzas
+11162,Pinza Amperimétricas DC N°1,1,1,Fijos,4,Alicates / pinzas
+12035,Pinza Amperimétricas DC N°10,1,1,Fijos,4,Alicates / pinzas
+12036,Pinza Amperimétricas DC N°11,1,1,Fijos,4,Alicates / pinzas
+11163,Pinza Amperimétricas DC N°2,1,1,Fijos,4,Alicates / pinzas
+11164,Pinza Amperimétricas DC N°3,1,1,Fijos,4,Alicates / pinzas
+11165,Pinza Amperimétricas DC N°4,1,1,Fijos,4,Alicates / pinzas
+11166,Pinza Amperimétricas DC N°5,1,1,Fijos,4,Alicates / pinzas
+11167,Pinza Amperimétricas DC N°6,1,1,Fijos,4,Alicates / pinzas
+11168,Pinza Amperimétricas DC N°7,1,1,Fijos,4,Alicates / pinzas
+11169,Pinza Amperimétricas DC N°8,1,1,Fijos,4,Alicates / pinzas
+12034,Pinza Amperimétricas DC N°9,1,1,Fijos,4,Alicates / pinzas
+10814,"Pinzas para aros de piston,N°1",1,1,Fijos,4,Alicates / pinzas
+10815,"Pinzas para aros de piston,N°2",1,1,Fijos,4,Alicates / pinzas
+10602,"Regleta de dados allen,N°1",8,8,Fijos,4,Dados / chicharras
+10301,"Set dados allen ,N°1",2,2,Fijos,4,Dados / chicharras
+10302,"Set dados allen ,N°2",1,1,Fijos,4,Dados / chicharras
+10303,"Set dados allen ,N°3",1,1,Fijos,4,Dados / chicharras
+10299,"Set dados de estrella,N°1",1,1,Fijos,4,Dados / chicharras
+10300,"Set dados de estrella,N°2",1,1,Fijos,4,Dados / chicharras
+10827,"Set de llaves allen,N°1",1,1,Fijos,4,Llaves / apriete
+10836,"Set de llaves allen,N°10",1,1,Fijos,4,Llaves / apriete
+10837,"Set de llaves allen,N°11",1,1,Fijos,4,Llaves / apriete
+10838,"Set de llaves allen,N°12",1,1,Fijos,4,Llaves / apriete
+10839,"Set de llaves allen,N°13",1,1,Fijos,4,Llaves / apriete
+10840,"Set de llaves allen,N°14",1,1,Fijos,4,Llaves / apriete
+10841,"Set de llaves allen,N°15",1,1,Fijos,4,Llaves / apriete
+10842,"Set de llaves allen,N°16",1,1,Fijos,4,Llaves / apriete
+10843,"Set de llaves allen,N°17",1,1,Fijos,4,Llaves / apriete
+10844,"Set de llaves allen,N°18",1,1,Fijos,4,Llaves / apriete
+10845,"Set de llaves allen,N°19",1,1,Fijos,4,Llaves / apriete
+10828,"Set de llaves allen,N°2",1,1,Fijos,4,Llaves / apriete
+10846,"Set de llaves allen,N°20",1,1,Fijos,4,Llaves / apriete
+10829,"Set de llaves allen,N°3",1,1,Fijos,4,Llaves / apriete
+10830,"Set de llaves allen,N°4",1,1,Fijos,4,Llaves / apriete
+10831,"Set de llaves allen,N°5",1,1,Fijos,4,Llaves / apriete
+10832,"Set de llaves allen,N°6",1,1,Fijos,4,Llaves / apriete
+10833,"Set de llaves allen,N°7",1,1,Fijos,4,Llaves / apriete
+10834,"Set de llaves allen,N°8",1,1,Fijos,4,Llaves / apriete
+10835,"Set de llaves allen,N°9",1,1,Fijos,4,Llaves / apriete
+10847,Set llaves allen estrella,1,1,Fijos,4,Llaves / apriete
+60034,Tenaza N1,1,1,herramienta,4,Alicates / pinzas
+12249,llave de bola cuerpo 20 mm,1,1,Fijos,4,Llaves / apriete
+12286,llave de paso metalica 20 mm,10,10,Fijos,4,Llaves / apriete
+12285,llave de paso metalica 25 mm,10,10,Fijos,4,Llaves / apriete
+12291,llave de paso paso bola ppr 25mm,10,10,Fijos,4,Llaves / apriete
+12187,llave para sensor oxigeno,4,4,Fijos,4,Llaves / apriete
+11228,martillos de peña,8,8,Consumibles,4,Golpe / percusión
+12214,pinza a tierra,9,9,Fijos,4,Alicates / pinzas
+12244,"valvula bola \""llave\"" 1/2",3,3,Fijos,4,Llaves / apriete
+10940,"Alexometro , N1",1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+10941,"Alexometro , N2",1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+10942,"Alexometro , N3",1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+10943,"Alexometro , N4",1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+10944,"Alexometro , N5",1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+10945,"Alexometro , N6",1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12077,Alexometro N°10,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12078,Alexometro N°11,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12079,Alexometro N°12,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12080,Alexometro N°13,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12081,Alexometro N°14,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12082,Alexometro N°15,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12083,Alexometro N°16,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12084,Alexometro N°17,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12085,Alexometro N°18,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12086,Alexometro N°19,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12074,Alexometro N°7,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12075,Alexometro N°8,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+12076,Alexometro N°9,1,1,Fijos,3,Metrología - Comparadores/Alexómetros
+10145,Caja kit de 108 de extractor de rodamientos SKF,1,1,Fijos,3,Extractores / pullers
+10756,"Compresimetro diesel force ,N°1",1,1,Fijos,3,Otros / específico
+10757,"Compresimetro diesel force ,N°2",1,1,Fijos,3,Otros / específico
+10705,"Compresimetro gasolina,N°1",1,1,Fijos,3,Otros / específico
+10714,"Compresimetro gasolina,N°10",1,1,Fijos,3,Otros / específico
+10738,"Compresimetro gasolina,N°11",1,1,Fijos,3,Otros / específico
+10739,"Compresimetro gasolina,N°12",1,1,Fijos,3,Otros / específico
+10740,"Compresimetro gasolina,N°13",1,1,Fijos,3,Otros / específico
+10741,"Compresimetro gasolina,N°14",1,1,Fijos,3,Otros / específico
+10742,"Compresimetro gasolina,N°15",1,1,Fijos,3,Otros / específico
+10743,"Compresimetro gasolina,N°16",1,1,Fijos,3,Otros / específico
+12104,"Compresimetro gasolina,N°17",1,1,Fijos,3,Otros / específico
+12105,"Compresimetro gasolina,N°18",1,1,Fijos,3,Otros / específico
+10706,"Compresimetro gasolina,N°2",1,1,Fijos,3,Otros / específico
+10707,"Compresimetro gasolina,N°3",1,1,Fijos,3,Otros / específico
+10708,"Compresimetro gasolina,N°4",1,1,Fijos,3,Otros / específico
+10709,"Compresimetro gasolina,N°5",1,1,Fijos,3,Otros / específico
+10710,"Compresimetro gasolina,N°6",1,1,Fijos,3,Otros / específico
+10711,"Compresimetro gasolina,N°7",1,1,Fijos,3,Otros / específico
+10712,"Compresimetro gasolina,N°8",1,1,Fijos,3,Otros / específico
+10713,"Compresimetro gasolina,N°9",1,1,Fijos,3,Otros / específico
+10759,"Compresimetro para motor diesel,N°1",1,1,Fijos,3,Equipos didácticos (bombas/motores)
+12101,"Compresimetro para motor diesel,N°10",1,1,Fijos,3,Equipos didácticos (bombas/motores)
+12102,"Compresimetro para motor diesel,N°11",1,1,Fijos,3,Equipos didácticos (bombas/motores)
+12103,"Compresimetro para motor diesel,N°12",1,1,Fijos,3,Equipos didácticos (bombas/motores)
+10760,"Compresimetro para motor diesel,N°2",1,1,Fijos,3,Equipos didácticos (bombas/motores)
+10761,"Compresimetro para motor diesel,N°3",1,1,Fijos,3,Equipos didácticos (bombas/motores)
+10762,"Compresimetro para motor diesel,N°4",1,1,Fijos,3,Equipos didácticos (bombas/motores)
+10763,"Compresimetro para motor diesel,N°5",1,1,Fijos,3,Equipos didácticos (bombas/motores)
+10764,"Compresimetro para motor diesel,N°6",1,1,Fijos,3,Equipos didácticos (bombas/motores)
+10765,"Compresimetro para motor diesel,N°7",1,1,Fijos,3,Equipos didácticos (bombas/motores)
+10766,"Compresimetro para motor diesel,N°8",1,1,Fijos,3,Equipos didácticos (bombas/motores)
+10767,"Compresimetro para motor diesel,N°9",1,1,Fijos,3,Equipos didácticos (bombas/motores)
+12136,EXTRACTOR DE HOMOCINETICA,1,1,Fijos,3,Extractores / pullers
+12137,EXTRACTOR DE HOMOCINETICA,1,1,Fijos,3,Extractores / pullers
+12138,EXTRACTOR DE HOMOCINETICA,1,1,Fijos,3,Extractores / pullers
+12141,EXTRACTOR DE INYECTORES DE BOQUILLA PARA MERCEDES BENZ,1,1,Fijos,3,Extractores / pullers
+12131,EXTRACTOR TAMBORES DE FRENOS,1,1,Fijos,3,Extractores / pullers
+12132,EXTRACTOR TAMBORES DE FRENOS,1,1,Fijos,3,Extractores / pullers
+12133,EXTRACTOR TAMBORES DE FRENOS,1,1,Fijos,3,Extractores / pullers
+10925,"Extractor de anillos de piston , N°1",1,1,Fijos,3,Extractores / pullers
+10934,"Extractor de anillos de piston , N°10",1,1,Fijos,3,Extractores / pullers
+10935,"Extractor de anillos de piston , N°11",1,1,Fijos,3,Extractores / pullers
+10936,"Extractor de anillos de piston , N°12",1,1,Fijos,3,Extractores / pullers
+10926,"Extractor de anillos de piston , N°2",1,1,Fijos,3,Extractores / pullers
+10927,"Extractor de anillos de piston , N°3",1,1,Fijos,3,Extractores / pullers
+10928,"Extractor de anillos de piston , N°4",1,1,Fijos,3,Extractores / pullers
+10929,"Extractor de anillos de piston , N°5",1,1,Fijos,3,Extractores / pullers
+10930,"Extractor de anillos de piston , N°6",1,1,Fijos,3,Extractores / pullers
+10931,"Extractor de anillos de piston , N°7",1,1,Fijos,3,Extractores / pullers
+10932,"Extractor de anillos de piston , N°8",1,1,Fijos,3,Extractores / pullers
+10933,"Extractor de anillos de piston , N°9",1,1,Fijos,3,Extractores / pullers
+10620,"Extractor de bujia,N°1",1,1,Fijos,3,Extractores / pullers
+10621,"Extractor de bujia,N°2",1,1,Fijos,3,Extractores / pullers
+10622,"Extractor de bujia,N°3",1,1,Fijos,3,Extractores / pullers
+10883,"Extractor de eje de tambores  ,N°1",1,1,Fijos,3,Extractores / pullers
+10884,"Extractor de eje de tambores  ,N°2",1,1,Fijos,3,Extractores / pullers
+10885,"Extractor de eje de tambores  ,N°3",1,1,Fijos,3,Extractores / pullers
+10853,"Extractor de filtro ,N°1",1,1,Fijos,3,Extractores / pullers
+10854,"Extractor de filtro ,N°2",1,1,Fijos,3,Extractores / pullers
+10855,"Extractor de filtro ,N°3",1,1,Fijos,3,Extractores / pullers
+10856,"Extractor de filtro ,N°4",1,1,Fijos,3,Extractores / pullers
+10857,"Extractor de filtro ,N°5",1,1,Fijos,3,Extractores / pullers
+10142,Extractor de golpe SKF,1,1,Fijos,3,Extractores / pullers
+10863,Extractor de homocinetica,1,1,Fijos,3,Extractores / pullers
+10820,Extractor de poleaN°1,1,1,Fijos,3,Extractores / pullers
+10821,Extractor de poleaN°2,1,1,Fijos,3,Extractores / pullers
+10822,Extractor de poleaN°3,1,1,Fijos,3,Extractores / pullers
+10823,Extractor de poleaN°4,1,1,Fijos,3,Extractores / pullers
+10818,Extractor de resorte,1,1,Fijos,3,Extractores / pullers
+10685,"Extractor de rodamiento de transmision,N°1",1,1,Fijos,3,Extractores / pullers
+10686,"Extractor de rodamiento de transmision,N°2",1,1,Fijos,3,Extractores / pullers
+10687,"Extractor de rodamiento de transmision,N°3",1,1,Fijos,3,Extractores / pullers
+10688,"Extractor de rodamiento de transmision,N°4",1,1,Fijos,3,Extractores / pullers
+12115,"Extractor de rodamiento de transmision,N°5",1,1,Fijos,3,Extractores / pullers
+12116,"Extractor de rodamiento de transmision,N°6",1,1,Fijos,3,Extractores / pullers
+10146,"Extractor de rodamientos de interior SKF , n°1",1,1,Fijos,3,Extractores / pullers
+10147,"Extractor de rodamientos de interior SKF , n°2",1,1,Fijos,3,Extractores / pullers
+10252,Extractor de rodamientos hidráulico n°1,1,1,Fijos,3,Extractores / pullers
+10886,Extractor hidraulico,1,1,Fijos,3,Extractores / pullers
+10816,"Extractor hidraulico ,N°1",1,1,Fijos,3,Extractores / pullers
+10817,"Extractor hidraulico ,N°2",1,1,Fijos,3,Extractores / pullers
+10825,Extractor sellos y retenes,1,1,Fijos,3,Extractores / pullers
+10436,Feeeler galgas,50,50,Consumible,3,Metrología - Galgas
+12181,MEDIDOR DE TORQUE ANGULAR RELOJ,1,1,Fijos,3,Llaves de torque
+12182,MEDIDOR DE TORQUE ANGULAR RELOJ,1,1,Fijos,3,Llaves de torque
+10754,"Manifold aire acondicionado , N°1",1,1,Fijos,3,Otros / específico
+10755,"Manifold aire acondicionado , N°2",1,1,Fijos,3,Otros / específico
+10715,"Medidor de fuga para cilindro,N°1",1,1,Fijos,3,Otros / específico
+10716,"Medidor de fuga para cilindro,N°2",1,1,Fijos,3,Otros / específico
+10967,Medidor de presion de combustible,1,1,Fijos,3,Otros / específico
+10848,"Medidor de torque angular ,N°1",1,1,Fijos,3,Llaves de torque
+10849,"Medidor de torque angular ,N°2",1,1,Fijos,3,Llaves de torque
+10850,"Medidor de torque angular ,N°3",1,1,Fijos,3,Llaves de torque
+10851,"Medidor de torque angular ,N°4",1,1,Fijos,3,Llaves de torque
+10852,"Medidor de torque angular ,N°5",1,1,Fijos,3,Llaves de torque
+10864,Reloj comparador + base,15,15,Fijos,3,Metrología - Comparadores/Alexómetros
+12106,TESTER PRESION DE ACEITE OTC,1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+10698,"Tester presion de aceite ,N°1",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+10699,"Tester presion de aceite ,N°2",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+10700,"Tester presion de aceite ,N°3",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+10701,"Tester presion de aceite ,N°4",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+10752,"Vacuometro,N°1",1,1,Fijos,3,Otros / específico
+10753,"Vacuometro,N°2",1,1,Fijos,3,Otros / específico
+12087,"Vacuometro,N°3",1,1,Fijos,3,Otros / específico
+12189,extractor de seguros planos,6,6,Fijos,3,Extractores / pullers
+10486,"feler radio , n°1",16,16,Consumible,3,Metrología - Galgas
+11104,"feler radio , n°16",0,0,Consumibles,3,Metrología - Galgas
+11177,"multitester \""uni-t\"",N°1",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11186,"multitester \""uni-t\"",N°10",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11187,"multitester \""uni-t\"",N°11",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11188,"multitester \""uni-t\"",N°12",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11189,"multitester \""uni-t\"",N°13",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11190,"multitester \""uni-t\"",N°14",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11191,"multitester \""uni-t\"",N°15",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11192,"multitester \""uni-t\"",N°16",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11193,"multitester \""uni-t\"",N°17",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11194,"multitester \""uni-t\"",N°18",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11195,"multitester \""uni-t\"",N°19",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11178,"multitester \""uni-t\"",N°2",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11196,"multitester \""uni-t\"",N°20",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11197,"multitester \""uni-t\"",N°21",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11198,"multitester \""uni-t\"",N°22",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11199,"multitester \""uni-t\"",N°23",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11200,"multitester \""uni-t\"",N°24",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11201,"multitester \""uni-t\"",N°25",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11202,"multitester \""uni-t\"",N°26",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11203,"multitester \""uni-t\"",N°27",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11204,"multitester \""uni-t\"",N°28",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11205,"multitester \""uni-t\"",N°29",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11179,"multitester \""uni-t\"",N°3",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11206,"multitester \""uni-t\"",N°30",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11869,"multitester \""uni-t\"",N°31",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11870,"multitester \""uni-t\"",N°32",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11871,"multitester \""uni-t\"",N°33",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11872,"multitester \""uni-t\"",N°34",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11873,"multitester \""uni-t\"",N°35",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11874,"multitester \""uni-t\"",N°36",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11875,"multitester \""uni-t\"",N°37",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11876,"multitester \""uni-t\"",N°38",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11877,"multitester \""uni-t\"",N°39",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11180,"multitester \""uni-t\"",N°4",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11878,"multitester \""uni-t\"",N°40",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11895,"multitester \""uni-t\"",N°41",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11896,"multitester \""uni-t\"",N°42",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11897,"multitester \""uni-t\"",N°43",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11898,"multitester \""uni-t\"",N°44",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11899,"multitester \""uni-t\"",N°45",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+12183,"multitester \""uni-t\"",N°46",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+12184,"multitester \""uni-t\"",N°47",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11181,"multitester \""uni-t\"",N°5",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11182,"multitester \""uni-t\"",N°6",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11183,"multitester \""uni-t\"",N°7",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11184,"multitester \""uni-t\"",N°8",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+11185,"multitester \""uni-t\"",N°9",1,1,Fijos,3,Diagnóstico eléctrico/electrónico
+10128,Adash 4400,1,1,Fijos,2,Otros / específico
+10129,"Adash 4900,n°1",1,1,Fijos,2,Otros / específico
+10130,"Adash 4900,n°2",1,1,Fijos,2,Otros / específico
+10230,Bomba de pistones Grande,2,2,Consumible,2,Equipos didácticos (bombas/motores)
+10202,Bombas centrífugas,2,2,Consumible,2,Equipos didácticos (bombas/motores)
+10227,Bombas de engranajes Plomas,3,3,Consumible,2,Equipos didácticos (bombas/motores)
+10229,Bombas de engranajes Plomas,3,3,Consumible,2,Equipos didácticos (bombas/motores)
+10224,Bombas de paletas Azul chica,3,3,Consumible,2,Equipos didácticos (bombas/motores)
+12029,CABLES DE GENERADOR DE FUNCIONES N°1,1,1,Fijos,2,Otros / específico
+12030,CABLES DE GENERADOR DE FUNCIONES N°2,1,1,Fijos,2,Otros / específico
+12031,CABLES DE GENERADOR DE FUNCIONES N°3,1,1,Fijos,2,Otros / específico
+12024,CAMARA TERMOGRAFICA INFIRAY N°1,1,1,Fijos,2,Otros / específico
+11969,CAMARA TERMOGRAFICA INFIRAY N°2,1,1,Fijos,2,Otros / específico
+11970,CAMARA TERMOGRAFICA INFIRAY N°3,1,1,Fijos,2,Otros / específico
+10173,Camara termografica doble ingieneria,1,1,Fijos,2,Otros / específico
+10169,Camara termografica fluke,1,1,Fijos,2,Otros / específico
+10172,Camara termografica trotec,1,1,Fijos,2,Otros / específico
+10165,Detector de falla por ultrasonido Sonotec,1,1,Fijos,2,Otros / específico
+10164,Detector de falla por ultrasonido dople,1,1,Fijos,2,Otros / específico
+10977,Escaner Obd,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11087,"Filtro de aceite kendall ,N°1",0,0,Consumibles,2,Otros / específico
+11088,"Filtro de aceite kendall ,N°2",0,0,Consumibles,2,Otros / específico
+11089,"Filtro de aceite kendall ,N°3",0,0,Consumibles,2,Otros / específico
+10956,"Generador de funciones , N1",1,1,Fijos,2,Otros / específico
+10965,"Generador de funciones , N10",1,1,Fijos,2,Otros / específico
+10966,"Generador de funciones , N11",1,1,Fijos,2,Otros / específico
+10957,"Generador de funciones , N2",1,1,Fijos,2,Otros / específico
+10958,"Generador de funciones , N3",1,1,Fijos,2,Otros / específico
+10959,"Generador de funciones , N4",1,1,Fijos,2,Otros / específico
+10960,"Generador de funciones , N5",1,1,Fijos,2,Otros / específico
+10961,"Generador de funciones , N6",1,1,Fijos,2,Otros / específico
+10962,"Generador de funciones , N7",1,1,Fijos,2,Otros / específico
+10963,"Generador de funciones , N8",1,1,Fijos,2,Otros / específico
+10964,"Generador de funciones , N9",1,1,Fijos,2,Otros / específico
+10234,Maletas de tinta penetrante n°1,1,1,Fijos,2,Otros / específico
+10235,Maletas de tinta penetrante n°2,1,1,Fijos,2,Otros / específico
+10236,Maletas de tinta penetrante n°3,11,11,Fijos,2,Otros / específico
+11900,OSCILOSCOPIO ANALOGICO  N°1,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11901,OSCILOSCOPIO ANALOGICO  N°2,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11902,OSCILOSCOPIO ANALOGICO  N°3,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11903,OSCILOSCOPIO ANALOGICO  N°4,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11904,OSCILOSCOPIO ANALOGICO  N°5,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11905,OSCILOSCOPIO ANALOGICO  N°6,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11906,OSCILOSCOPIO ANALOGICO  N°7,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11907,OSCILOSCOPIO ANALOGICO  N°8,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11888,OSCILOSCOPIO DIGITALES GWINSTEK N°1,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11889,OSCILOSCOPIO DIGITALES GWINSTEK N°2,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11890,OSCILOSCOPIO DIGITALES GWINSTEK N°3,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11891,OSCILOSCOPIO DIGITALES GWINSTEK N°4,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11892,OSCILOSCOPIO DIGITALES GWINSTEK N°5,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11893,OSCILOSCOPIO DIGITALES GWINSTEK N°6,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11894,OSCILOSCOPIO DIGITALES GWINSTEK N°7,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11879,OSCILOSCOPIO DIGITALES OWON N°1,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11880,OSCILOSCOPIO DIGITALES OWON N°2,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11881,OSCILOSCOPIO DIGITALES OWON N°3,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11882,OSCILOSCOPIO DIGITALES OWON N°4,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11883,OSCILOSCOPIO DIGITALES OWON N°5,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11884,OSCILOSCOPIO DIGITALES OWON N°6,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11885,OSCILOSCOPIO DIGITALES OWON N°7,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11886,OSCILOSCOPIO DIGITALES OWON N°8,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11887,OSCILOSCOPIO DIGITALES OWON N°9,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+10976,Osciloscopio manual,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+12122,RAMAL DERIVADOR PARA EL CONTROL DEL G.E.P(GRUPO ELECTRO BOMBA),1,1,Fijos,2,Equipos didácticos (bombas/motores)
+10221,Reductores chicos azules,3,3,Consumible,2,Equipos didácticos (bombas/motores)
+10232,Reductores de engranes Grande,2,2,Consumible,2,Equipos didácticos (bombas/motores)
+10971,Scanners Gds,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+10968,Scanners Kts 530,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+10969,Scanners Kts 570,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+10970,Scanners Kts 590,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+10975,Snap on escaner,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+11800,TACOMETRO,1,1,Fijos,2,Otros / específico
+11821,TACOMETRO,1,1,Fijos,2,Otros / específico
+10151,Tacometro digital azul,1,1,Fijos,2,Otros / específico
+10155,Tacometro estrodoscopico,1,1,Fijos,2,Otros / específico
+10152,"Tacometros Amprobe , n°1",1,1,Fijos,2,Otros / específico
+10153,"Tacometros Amprobe , n°2",1,1,Fijos,2,Otros / específico
+10154,"Tacometros Amprobe , n°3",1,1,Fijos,2,Otros / específico
+11699,"VARIADORES DE FRECUENCIA ABB,N°1",1,1,Fijos,2,Otros / específico
+11700,"VARIADORES DE FRECUENCIA ABB,N°2",1,1,Fijos,2,Otros / específico
+11701,"VARIADORES DE FRECUENCIA ABB,N°3",1,1,Fijos,2,Otros / específico
+11702,"VARIADORES DE FRECUENCIA ABB,N°4",1,1,Fijos,2,Otros / específico
+11703,"VARIADORES DE FRECUENCIA ABB,N°5",1,1,Fijos,2,Otros / específico
+11704,"VARIADORES DE FRECUENCIA ABB,N°6",1,1,Fijos,2,Otros / específico
+11705,"VARIADORES DE FRECUENCIA SHNEIDER,N°1",1,1,Fijos,2,Otros / específico
+11706,"VARIADORES DE FRECUENCIA SHNEIDER,N°2",1,1,Fijos,2,Otros / específico
+11707,"VARIADORES DE FRECUENCIA SHNEIDER,N°3",1,1,Fijos,2,Otros / específico
+12320,generador de funciones,1,1,Fijos,2,Otros / específico
+12321,generador de funciones,1,1,Fijos,2,Otros / específico
+12322,osciloscopio digital,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+12323,osciloscopio digital,1,1,Fijos,2,Diagnóstico eléctrico/electrónico
+12381,,0,0,Fijos,1,Otros / específico
+12382,,0,0,Fijos,1,Otros / específico
+11860,AMPERIMETRO ANALOGICO N°1,1,1,Fijos,1,Otros / específico
+11861,AMPERIMETRO ANALOGICO N°2,1,1,Fijos,1,Otros / específico
+11604,"AMPERIMETRO VOLTIMETRO DIGITAL FLUKE 323,N°1",1,1,Fijos,1,Otros / específico
+11605,"AMPERIMETRO VOLTIMETRO DIGITAL FLUKE 323,N°2",1,1,Fijos,1,Otros / específico
+11602,"AMPERIMETRO VOLTIMETRO DIGITAL FLUKE,N°1",1,1,Fijos,1,Otros / específico
+11603,"AMPERIMETRO VOLTIMETRO DIGITAL FLUKE,N°2",1,1,Fijos,1,Otros / específico
+12023,ANALIZADOR  CALIDAD ENERGETICA,1,1,Fijos,1,Otros / específico
+12355,ANALIZADOR DE BATERIAS,3,3,Fijos,1,Otros / específico
+12139,ANALIZADOR DE BUJIA,1,1,Fijos,1,Otros / específico
+12140,ANALIZADOR DE BUJIA,1,1,Fijos,1,Otros / específico
+12111,ANALIZADOR DE BUJIAS N°1,1,1,Fijos,1,Otros / específico
+12112,ANALIZADOR DE BUJIAS N°2,1,1,Fijos,1,Otros / específico
+12067,ANALIZADOR DE CABLE Y ANTENA,1,1,Fijos,1,Otros / específico
+12072,ANALIZADOR DE CALIDAD ENERGETICA,1,1,Fijos,1,Otros / específico
+12125,ANALIZADOR DE GASES AUTOMOTRIZ,1,1,Fijos,1,Otros / específico
+11992,ANALIZADOR DE GASES WOHLER N°1,1,1,Fijos,1,Otros / específico
+11993,ANALIZADOR DE GASES WOHLER N°2,1,1,Fijos,1,Otros / específico
+12002,ANALIZADOR DE REDES ELECTRICAS N°1,1,1,Fijos,1,Otros / específico
+12003,ANALIZADOR DE REDES ELECTRICAS N°2,1,1,Fijos,1,Otros / específico
+11796,ANALIZADORES DE REDES ELECTRICAS METREL,1,1,Fijos,1,Otros / específico
+12380,ANTIPARRAS,0,0,Fijos,1,Otros / específico
+60007,AUTO ESCUELA N° 1 CITROEN DS3 GASOLINA,2,2,llave_auto,1,Otros / específico
+60016,AUTO ESCUELA N° 10 CITROEN BERLINGO ELECTRICO,1,1,llave_auto,1,Otros / específico
+60017,AUTO ESCUELA N° 11 PEGUEOT 2008  GASOLINA,1,1,llave_auto,1,Otros / específico
+60018,AUTO ESCUELA N° 12 OPEL CORSA DIESEL,2,2,llave_auto,1,Otros / específico
+60019,AUTO ESCUELA N° 13 PRIUS,2,2,llave_auto,1,Otros / específico
+60020,AUTO ESCUELA N° 14 IONIQ,1,1,llave_auto,1,Otros / específico
+60021,AUTO ESCUELA N° 15 C4 SEDAN,1,1,llave_auto,1,Otros / específico
+60033,AUTO ESCUELA N° 16 C4 SEDAN  PEGUEOT ELECTRICO,1,1,llave_auto,1,Otros / específico
+60008,AUTO ESCUELA N° 2 CITROEN DS3 DIESEL,1,1,llave_auto,1,Otros / específico
+60009,AUTO ESCUELA N° 3 PEGUEOT 207 GASOLINA,1,1,llave_auto,1,Otros / específico
+60010,AUTO ESCUELA N° 4 CITROEN C3 PICASSO GASOLINA,2,2,llave_auto,1,Otros / específico
+60011,AUTO ESCUELA N° 5  CITROEN C4 SEDAN DIESEL (BURDEO),1,1,llave_auto,1,Otros / específico
+60012,AUTO ESCUELA N° 6 CITROEN C4 SEDAN DIESEL,1,1,llave_auto,1,Otros / específico
+60013,AUTO ESCUELA N° 7  CITROEN C4 SEDAN DIESEL,2,2,llave_auto,1,Otros / específico
+60014,AUTO ESCUELA N° 8 CITROEN C4 GRAN PICCASO GASOLINA,1,1,llave_auto,1,Otros / específico
+60015,AUTO ESCUELA N° 9 CITROEN C4 PICCASO DIESEL,1,1,llave_auto,1,Otros / específico
+12227,Abrazaderas 20mm,101,101,Fijos,1,Otros / específico
+12229,Abrazaderas 25mm,100,100,Fijos,1,Otros / específico
+12228,Abrazaderas 32mm,117,117,Fijos,1,Otros / específico
+12383,Aceite de transmisión,3,3,consumible,1,Otros / específico
+10978,"Aceiteras ,N°1",0,0,Consumibles,1,Otros / específico
+10979,"Aceiteras ,N°2",0,0,Consumibles,1,Otros / específico
+10980,"Aceiteras ,N°3",0,0,Consumibles,1,Otros / específico
+10981,"Aceiteras ,N°4",0,0,Consumibles,1,Otros / específico
+10982,"Aceiteras ,N°5",0,0,Consumibles,1,Otros / específico
+10983,"Aceiteras ,N°6",0,0,Consumibles,1,Otros / específico
+12390,Adhesivo,17,17,consumible,1,Otros / específico
+11122,"Alargadores \""zapatillas\"",N°1",0,0,Fijos,1,Otros / específico
+11131,"Alargadores \""zapatillas\"",N°10",0,0,Fijos,1,Otros / específico
+11132,"Alargadores \""zapatillas\"",N°11",0,0,Fijos,1,Otros / específico
+11133,"Alargadores \""zapatillas\"",N°12",0,0,Fijos,1,Otros / específico
+11134,"Alargadores \""zapatillas\"",N°13",0,0,Fijos,1,Otros / específico
+11135,"Alargadores \""zapatillas\"",N°14",0,0,Fijos,1,Otros / específico
+11136,"Alargadores \""zapatillas\"",N°15",0,0,Fijos,1,Otros / específico
+11137,"Alargadores \""zapatillas\"",N°16",0,0,Fijos,1,Otros / específico
+11138,"Alargadores \""zapatillas\"",N°17",0,0,Fijos,1,Otros / específico
+11139,"Alargadores \""zapatillas\"",N°18",0,0,Fijos,1,Otros / específico
+11140,"Alargadores \""zapatillas\"",N°19",0,0,Fijos,1,Otros / específico
+11123,"Alargadores \""zapatillas\"",N°2",0,0,Fijos,1,Otros / específico
+11141,"Alargadores \""zapatillas\"",N°20",0,0,Fijos,1,Otros / específico
+11142,"Alargadores \""zapatillas\"",N°21",0,0,Fijos,1,Otros / específico
+11143,"Alargadores \""zapatillas\"",N°22",0,0,Fijos,1,Otros / específico
+11144,"Alargadores \""zapatillas\"",N°23",0,0,Fijos,1,Otros / específico
+11124,"Alargadores \""zapatillas\"",N°3",0,0,Fijos,1,Otros / específico
+11125,"Alargadores \""zapatillas\"",N°4",0,0,Fijos,1,Otros / específico
+11126,"Alargadores \""zapatillas\"",N°5",0,0,Fijos,1,Otros / específico
+11127,"Alargadores \""zapatillas\"",N°6",0,0,Fijos,1,Otros / específico
+11128,"Alargadores \""zapatillas\"",N°7",0,0,Fijos,1,Otros / específico
+11129,"Alargadores \""zapatillas\"",N°8",0,0,Fijos,1,Otros / específico
+11130,"Alargadores \""zapatillas\"",N°9",0,0,Fijos,1,Otros / específico
+11028,Alarmas,31,31,Consumibles,1,Otros / específico
+10137,"Alineadir de ejes laser shaftalignment , n°1",1,1,Fijos,1,Otros / específico
+10138,"Alineadir de ejes laser shaftalignment , n°2",1,1,Fijos,1,Otros / específico
+10136,Alineador de ejes laser PSE-TU3,1,1,Fijos,1,Otros / específico
+10135,Alineador de ejes skf,2,2,Fijos,1,Otros / específico
+10148,"Alineador de poleas , n°1",1,1,Fijos,1,Otros / específico
+10149,"Alineador de poleas , n°2",1,1,Fijos,1,Otros / específico
+10150,"Alineador de poleas , n°3",1,1,Fijos,1,Otros / específico
+10937,Alternadores,5,5,Fijos,1,Otros / específico
+10168,Analisador de vibraciones MA-2070-C,1,1,Fijos,1,Otros / específico
+10901,"Anillera , N°1",0,0,Consumibles,1,Otros / específico
+10910,"Anillera , N°10",0,0,Consumibles,1,Otros / específico
+10911,"Anillera , N°11",0,0,Consumibles,1,Otros / específico
+10912,"Anillera , N°12",0,0,Consumibles,1,Otros / específico
+10913,"Anillera , N°13",0,0,Consumibles,1,Otros / específico
+10902,"Anillera , N°2",0,0,Consumibles,1,Otros / específico
+10903,"Anillera , N°3",0,0,Consumibles,1,Otros / específico
+10904,"Anillera , N°4",0,0,Consumibles,1,Otros / específico
+10905,"Anillera , N°5",0,0,Consumibles,1,Otros / específico
+10906,"Anillera , N°6",0,0,Consumibles,1,Otros / específico
+10907,"Anillera , N°7",0,0,Consumibles,1,Otros / específico
+10908,"Anillera , N°8",0,0,Consumibles,1,Otros / específico
+10909,"Anillera , N°9",0,0,Consumibles,1,Otros / específico
+60002,BODEGA 114,1,1,llave,1,Otros / específico
+12364,BROCHAS,0,0,Fijos,1,Otros / específico
+12134,BRUÑIDOR DE CILINDROS,1,1,Fijos,1,Otros / específico
+12135,BRUÑIDOR DE CILINDROS,1,1,Fijos,1,Otros / específico
+12177,BRUÑIDOR DE CILINDROS,1,1,Fijos,1,Otros / específico
+11006,"Balanza digital , N°1",1,1,Fijos,1,Otros / específico
+11007,"Balanza digital , N°2",1,1,Fijos,1,Otros / específico
+10668,Barrotes,25,25,Fijos,1,Otros / específico
+10141,Brida para montaje de rodamientos en frio,1,1,Fijos,1,Otros / específico
+11957,CABALLETE (BANQUILLO),1,1,Fijos,1,Otros / específico
+11958,CABALLETE (BANQUILLO),1,1,Fijos,1,Otros / específico
+11959,CABALLETE (BANQUILLO),1,1,Fijos,1,Otros / específico
+11960,CABALLETE (BANQUILLO),1,1,Fijos,1,Otros / específico
+11961,CABALLETE (BANQUILLO),1,1,Fijos,1,Otros / específico
+11962,CABALLETE (BANQUILLO),1,1,Fijos,1,Otros / específico
+11963,CABALLETE (BANQUILLO),1,1,Fijos,1,Otros / específico
+11964,CABALLETE (BANQUILLO),1,1,Fijos,1,Otros / específico
+12357,CABLES BANANO-BANANO,300,300,Consumible,1,Otros / específico
+12358,CABLES BANANO-CAIMAN,300,300,Consumible,1,Otros / específico
+12359,CABLES CAIMAN-CAIMAN,300,300,Consumible,1,Otros / específico
+12356,CABLES DUPOND VARIOS,500,500,Consumible,1,Otros / específico
+12126,CAJA DE BORNES MANUAL,1,1,Fijos,1,Otros / específico
+12350,CAJA DE PRUEBAS (NEGRA),1,1,Fijos,1,Otros / específico
+12373,CAJA DE SENSORES,0,0,Fijos,1,Otros / específico
+12349,CAJA DERIVADORA TA,1,1,Fijos,1,Otros / específico
+12379,"CARRO DE SOLDADURA (esmeriles, discos de corte y desbaste, escuadras)",0,0,Fijos,1,Otros / específico
+11357,"CAUTIN 40W,N°1",1,1,Fijos,1,Otros / específico
+11366,"CAUTIN 40W,N°10",1,1,Fijos,1,Otros / específico
+11367,"CAUTIN 40W,N°11",1,1,Fijos,1,Otros / específico
+11368,"CAUTIN 40W,N°12",1,1,Fijos,1,Otros / específico
+11369,"CAUTIN 40W,N°13",1,1,Fijos,1,Otros / específico
+11370,"CAUTIN 40W,N°14",1,1,Fijos,1,Otros / específico
+11358,"CAUTIN 40W,N°2",1,1,Fijos,1,Otros / específico
+11359,"CAUTIN 40W,N°3",1,1,Fijos,1,Otros / específico
+11360,"CAUTIN 40W,N°4",1,1,Fijos,1,Otros / específico
+11361,"CAUTIN 40W,N°5",1,1,Fijos,1,Otros / específico
+11362,"CAUTIN 40W,N°6",1,1,Fijos,1,Otros / específico
+11363,"CAUTIN 40W,N°7",1,1,Fijos,1,Otros / específico
+11364,"CAUTIN 40W,N°8",1,1,Fijos,1,Otros / específico
+11365,"CAUTIN 40W,N°9",1,1,Fijos,1,Otros / específico
+11859,CAUTIN 60W N° 10,1,1,Fijos,1,Otros / específico
+11858,CAUTIN 60W N° 9,1,1,Fijos,1,Otros / específico
+11371,"CAUTIN 60W,N°1",1,1,Fijos,1,Otros / específico
+11372,"CAUTIN 60W,N°2",1,1,Fijos,1,Otros / específico
+11373,"CAUTIN 60W,N°3",1,1,Fijos,1,Otros / específico
+11374,"CAUTIN 60W,N°4",1,1,Fijos,1,Otros / específico
+11375,"CAUTIN 60W,N°5",1,1,Fijos,1,Otros / específico
+11376,"CAUTIN 60W,N°6",1,1,Fijos,1,Otros / específico
+11377,"CAUTIN 60W,N°7",1,1,Fijos,1,Otros / específico
+11378,"CAUTIN 60W,N°8",1,1,Fijos,1,Otros / específico
+11818,CAUTINES 40 W N°11,1,1,Fijos,1,Otros / específico
+11819,CAUTINES 40 W N°12,1,1,Fijos,1,Otros / específico
+11820,CAUTINES 40W N°13,1,1,Fijos,1,Otros / específico
+11965,CAUTINES 40W N°14,1,1,Fijos,1,Otros / específico
+11966,CAUTINES 40W N°15,1,1,Fijos,1,Otros / específico
+11967,CAUTINES 40W N°16,1,1,Fijos,1,Otros / específico
+12088,CENTRADPR DE EMBRAGUE N°1,1,1,Fijos,1,Otros / específico
+12089,CENTRADPR DE EMBRAGUE N°2,1,1,Fijos,1,Otros / específico
+12090,CENTRADPR DE EMBRAGUE N°3,1,1,Fijos,1,Otros / específico
+12091,CENTRADPR DE EMBRAGUE N°4,1,1,Fijos,1,Otros / específico
+12092,CENTRADPR DE EMBRAGUE N°5,1,1,Fijos,1,Otros / específico
+12093,CENTRADPR DE EMBRAGUE N°6,1,1,Fijos,1,Otros / específico
+12071,CERTIFICADOR DE LAN,1,1,Fijos,1,Otros / específico
+11356,CHUPADOR DE ESTAÑO  N°11,1,1,Fijos,1,Otros / específico
+11813,CHUPADOR DE ESTAÑO  N°12,1,1,Fijos,1,Otros / específico
+11814,CHUPADOR DE ESTAÑO  N°13,1,1,Fijos,1,Otros / específico
+11815,CHUPADOR DE ESTAÑO  N°14,1,1,Fijos,1,Otros / específico
+11816,CHUPADOR DE ESTAÑO  N°15,1,1,Fijos,1,Otros / específico
+11817,CHUPADOR DE ESTAÑO  N°16,1,1,Fijos,1,Otros / específico
+11346,"CHUPADOR DE ESTAÑO,N°1",1,1,Fijos,1,Otros / específico
+11355,"CHUPADOR DE ESTAÑO,N°10",1,1,Fijos,1,Otros / específico
+11347,"CHUPADOR DE ESTAÑO,N°2",1,1,Fijos,1,Otros / específico
+11348,"CHUPADOR DE ESTAÑO,N°3",1,1,Fijos,1,Otros / específico
+11349,"CHUPADOR DE ESTAÑO,N°4",1,1,Fijos,1,Otros / específico
+11350,"CHUPADOR DE ESTAÑO,N°5",1,1,Fijos,1,Otros / específico
+11351,"CHUPADOR DE ESTAÑO,N°6",1,1,Fijos,1,Otros / específico
+11352,"CHUPADOR DE ESTAÑO,N°7",1,1,Fijos,1,Otros / específico
+11353,"CHUPADOR DE ESTAÑO,N°8",1,1,Fijos,1,Otros / específico
+11354,"CHUPADOR DE ESTAÑO,N°9",1,1,Fijos,1,Otros / específico
+11711,"COMPRESORES FESTO,N°1",1,1,Fijos,1,Otros / específico
+11712,"COMPRESORES FESTO,N°2",1,1,Fijos,1,Otros / específico
+11713,"COMPRESORES FESTO,N°3",1,1,Fijos,1,Otros / específico
+11714,"COMPRESORES FESTO,N°4",1,1,Fijos,1,Otros / específico
+11789,"COMPROBADOR DE INSTALACIONES FLUKE 1664,N°1",1,1,Fijos,1,Otros / específico
+11805,"COMUNICADOR HART,N°1",1,1,Fijos,1,Otros / específico
+11806,"COMUNICADOR HART,N°2",1,1,Fijos,1,Otros / específico
+11518,"CONTACTORES 220V,N°1",38,38,Consumibles,1,Otros / específico
+11550,"CONTACTORES 24V,N°1",37,37,Consumibles,1,Otros / específico
+11558,"CONTACTORES 380V,N°1",34,34,Consumibles,1,Otros / específico
+11479,"CONTROLADOR AUTONICS TCN4S,N°1",12,12,Consumibles,1,Otros / específico
+12032,CONTROLADOR DE CARGA SOLAR,1,1,Fijos,1,Otros / específico
+12066,CONTROLADOR INALAMBRICO CISCO,1,1,Fijos,1,Otros / específico
+11463,"CONTROLADOR MONOLAZO,N°1",15,15,Consumibles,1,Otros / específico
+12058,CONVERITOR RAPIDA DE ETHERNET N°1,1,1,Fijos,1,Otros / específico
+12059,CONVERITOR RAPIDA DE ETHERNET N°2,1,1,Fijos,1,Otros / específico
+12060,CONVERITOR RAPIDA DE ETHERNET N°3,1,1,Fijos,1,Otros / específico
+12061,CONVERITOR RAPIDA DE ETHERNET N°4,1,1,Fijos,1,Otros / específico
+12062,CONVERITOR RAPIDA DE ETHERNET N°5,1,1,Fijos,1,Otros / específico
+12063,CONVERITOR RAPIDA DE ETHERNET N°6,1,1,Fijos,1,Otros / específico
+12064,CONVERITOR RAPIDA DE ETHERNET N°7,1,1,Fijos,1,Otros / específico
+10795,"Caimanes ,N°1",0,0,Consumibles,1,Otros / específico
+10804,"Caimanes ,N°10",0,0,Consumibles,1,Otros / específico
+11105,"Caimanes ,N°11",0,0,Consumibles,1,Otros / específico
+11106,"Caimanes ,N°12",0,0,Consumibles,1,Otros / específico
+11107,"Caimanes ,N°13",0,0,Consumibles,1,Otros / específico
+11108,"Caimanes ,N°14",0,0,Consumibles,1,Otros / específico
+11109,"Caimanes ,N°15",0,0,Consumibles,1,Otros / específico
+11110,"Caimanes ,N°16",0,0,Consumibles,1,Otros / específico
+11111,"Caimanes ,N°17",0,0,Consumibles,1,Otros / específico
+10796,"Caimanes ,N°2",0,0,Consumibles,1,Otros / específico
+10797,"Caimanes ,N°3",0,0,Consumibles,1,Otros / específico
+10798,"Caimanes ,N°4",0,0,Consumibles,1,Otros / específico
+10799,"Caimanes ,N°5",0,0,Consumibles,1,Otros / específico
+10800,"Caimanes ,N°6",0,0,Consumibles,1,Otros / específico
+10801,"Caimanes ,N°7",0,0,Consumibles,1,Otros / específico
+10802,"Caimanes ,N°8",0,0,Consumibles,1,Otros / específico
+10803,"Caimanes ,N°9",0,0,Consumibles,1,Otros / específico
+11112,"Caja De Herramientas,N°1",1,1,Fijos,1,Otros / específico
+11121,"Caja De Herramientas,N°10",1,1,Fijos,1,Otros / específico
+11113,"Caja De Herramientas,N°2",1,1,Fijos,1,Otros / específico
+11114,"Caja De Herramientas,N°3",1,1,Fijos,1,Otros / específico
+11115,"Caja De Herramientas,N°4",1,1,Fijos,1,Otros / específico
+11116,"Caja De Herramientas,N°5",1,1,Fijos,1,Otros / específico
+11117,"Caja De Herramientas,N°6",1,1,Fijos,1,Otros / específico
+11118,"Caja De Herramientas,N°7",1,1,Fijos,1,Otros / específico
+11119,"Caja De Herramientas,N°8",1,1,Fijos,1,Otros / específico
+11120,"Caja De Herramientas,N°9",1,1,Fijos,1,Otros / específico
+10170,"Camara termogrtafica ultravission ,n°1",1,1,Fijos,1,Otros / específico
+10171,"Camara termogrtafica ultravission ,n°2",1,1,Fijos,1,Otros / específico
+11943,Cargas trifasicas inductivas N°1,1,1,Fijos,1,Otros / específico
+11944,Cargas trifasicas inductivas N°2,1,1,Fijos,1,Otros / específico
+11945,Cargas trifasicas inductivas N°3,1,1,Fijos,1,Otros / específico
+11940,Cargas trifasicas resistivas N°1,1,1,Fijos,1,Otros / específico
+11941,Cargas trifasicas resistivas N°2,1,1,Fijos,1,Otros / específico
+11942,Cargas trifasicas resistivas N°3,1,1,Fijos,1,Otros / específico
+11170,"Carro Electricos,N°1",0,0,Fijos,1,Otros / específico
+11171,"Carro Electricos,N°2",0,0,Fijos,1,Otros / específico
+11172,"Carro Electricos,N°3",0,0,Fijos,1,Otros / específico
+11173,"Carro Electricos,N°4",0,0,Fijos,1,Otros / específico
+11174,"Carro Mecanicos Negros,n°1",0,0,Fijos,1,Otros / específico
+11175,"Carro Mecanicos Negros,n°2",0,0,Fijos,1,Otros / específico
+11176,"Carro Mecanicos Negros,n°3",0,0,Fijos,1,Otros / específico
+10658,Chicharra enorme,1,1,Fijos,1,Otros / específico
+11008,Cierre centralizado,56,56,Consumibles,1,Otros / específico
+10824,Clamps,1,1,Fijos,1,Otros / específico
+10805,"Compresor de resorte de valvula, N°1",0,0,Consumibles,1,Otros / específico
+10806,"Compresor de resorte de valvula, N°2",1,1,Fijos,1,Otros / específico
+10807,"Compresor de resorte de valvula, N°3",1,1,Fijos,1,Otros / específico
+10808,"Compresor de resorte de valvula, N°4",1,1,Fijos,1,Otros / específico
+10174,"Correas SKF , n°1",1,1,Fijos,1,Otros / específico
+10175,"Correas SKF , n°2",1,1,Fijos,1,Otros / específico
+10473,Cuenta hilos,39,39,Consumible,1,Otros / específico
+11459,"DETECTOR DE NIVEL RELE GUARD,N°1",4,4,Consumibles,1,Otros / específico
+12127,DINAMOMETRO DE RESORTES,1,1,Fijos,1,Otros / específico
+12128,DINAMOMETRO DE RESORTES,1,1,Fijos,1,Otros / específico
+12129,DINAMOMETRO DE RESORTES,1,1,Fijos,1,Otros / específico
+12130,DINAMOMETRO DE RESORTES,1,1,Fijos,1,Otros / específico
+12363,DIODOS RECTIFICADORES,0,0,Fijos,1,Otros / específico
+10819,Dobladora universal,1,1,Fijos,1,Otros / específico
+11242,"Dremel ,N°1",5,5,Consumibles,1,Otros / específico
+10163,Durometro DMQ,1,1,Fijos,1,Otros / específico
+10162,Durometro acsa,1,1,Fijos,1,Otros / específico
+12073,ENTRENADOR DE MICROCONTROLADORES Y BUSES DE DATOS,1,1,Fijos,1,Otros / específico
+11715,"ENTRENADORES ANALOGO,N°1",1,1,Fijos,1,Otros / específico
+11716,"ENTRENADORES ANALOGO,N°2",1,1,Fijos,1,Otros / específico
+11717,"ENTRENADORES ANALOGO,N°3",1,1,Fijos,1,Otros / específico
+11718,"ENTRENADORES ANALOGO,N°4",1,1,Fijos,1,Otros / específico
+11719,"ENTRENADORES DIGITALES,N°1",1,1,Fijos,1,Otros / específico
+11720,"ENTRENADORES DIGITALES,N°2",1,1,Fijos,1,Otros / específico
+11721,"ENTRENADORES DIGITALES,N°3",1,1,Fijos,1,Otros / específico
+11722,"ENTRENADORES DIGITALES,N°4",1,1,Fijos,1,Otros / específico
+11723,"ENTRENADORES DIGITALES,N°5",1,1,Fijos,1,Otros / específico
+11724,"ENTRENADORES DIGITALES,N°6",1,1,Fijos,1,Otros / específico
+11725,"ENTRENADORES DIGITALES,N°7",1,1,Fijos,1,Otros / específico
+11726,"ENTRENADORES DIGITALES,N°8",1,1,Fijos,1,Otros / específico
+11727,"ENTRENADORES DIGITALES,N°9",1,1,Fijos,1,Otros / específico
+11801,ESTACAS DE MEDIDOR DE RESISTENCIAS PARA PUESTA A TIERRA,1,1,Fijos,1,Otros / específico
+10237,Escobillas de acero,8,8,Consumible,1,Otros / específico
+10887,"Escudras,N°1",0,0,Consumibles,1,Otros / específico
+10896,"Escudras,N°10",0,0,Consumibles,1,Otros / específico
+10897,"Escudras,N°11",0,0,Consumibles,1,Otros / específico
+10898,"Escudras,N°12",0,0,Consumibles,1,Otros / específico
+10899,"Escudras,N°13",0,0,Consumibles,1,Otros / específico
+10900,"Escudras,N°14",0,0,Consumibles,1,Otros / específico
+10888,"Escudras,N°2",0,0,Consumibles,1,Otros / específico
+10889,"Escudras,N°3",0,0,Consumibles,1,Otros / específico
+10890,"Escudras,N°4",0,0,Consumibles,1,Otros / específico
+10891,"Escudras,N°5",0,0,Consumibles,1,Otros / específico
+10892,"Escudras,N°6",0,0,Consumibles,1,Otros / específico
+10893,"Escudras,N°7",0,0,Consumibles,1,Otros / específico
+10894,"Escudras,N°8",0,0,Consumibles,1,Otros / específico
+10895,"Escudras,N°9",0,0,Consumibles,1,Otros / específico
+10179,Esmeril,8,8,Consumible,1,Otros / específico
+11225,Esmeril de 7pulg,1,1,Fijos,1,Otros / específico
+10132,Estractor de rodamientos Simatool,1,1,Fijos,1,Otros / específico
+10140,Estractor de rodamientos Simatool,1,1,Fijos,1,Otros / específico
+12378,FLEXOMETRO,0,0,Fijos,1,Otros / específico
+11728,"FLOTADORES , N°1",8,8,Consumibles,1,Otros / específico
+11807,FRECUENCIOMETRO DIGITAL N°1,1,1,Fijos,1,Otros / específico
+11810,FRECUENCIOMETRO DIGITAL N°2,1,1,Fijos,1,Otros / específico
+11811,FRECUENCIOMETRO N°10,1,1,Fijos,1,Otros / específico
+11808,FRECUENCIOMETRO N°8,1,1,Fijos,1,Otros / específico
+11809,FRECUENCIOMETRO N°9,1,1,Fijos,1,Otros / específico
+11776,"FRECUENCIOMETRO,N°1",7,7,Consumibles,1,Otros / específico
+12152,FUENTE DE ALIMENTACION  N°1,1,1,Fijos,1,Otros / específico
+12161,FUENTE DE ALIMENTACION  N°10,1,1,Fijos,1,Otros / específico
+12162,FUENTE DE ALIMENTACION  N°11,1,1,Fijos,1,Otros / específico
+12163,FUENTE DE ALIMENTACION  N°12,1,1,Fijos,1,Otros / específico
+12164,FUENTE DE ALIMENTACION  N°13,1,1,Fijos,1,Otros / específico
+12165,FUENTE DE ALIMENTACION  N°14,1,1,Fijos,1,Otros / específico
+12166,FUENTE DE ALIMENTACION  N°15,1,1,Fijos,1,Otros / específico
+12167,FUENTE DE ALIMENTACION  N°16,1,1,Fijos,1,Otros / específico
+12168,FUENTE DE ALIMENTACION  N°17,1,1,Fijos,1,Otros / específico
+12169,FUENTE DE ALIMENTACION  N°18,1,1,Fijos,1,Otros / específico
+12170,FUENTE DE ALIMENTACION  N°19,1,1,Fijos,1,Otros / específico
+12153,FUENTE DE ALIMENTACION  N°2,1,1,Fijos,1,Otros / específico
+12171,FUENTE DE ALIMENTACION  N°20,1,1,Fijos,1,Otros / específico
+12172,FUENTE DE ALIMENTACION  N°21,1,1,Fijos,1,Otros / específico
+12173,FUENTE DE ALIMENTACION  N°22,1,1,Fijos,1,Otros / específico
+12174,FUENTE DE ALIMENTACION  N°23,1,1,Fijos,1,Otros / específico
+12175,FUENTE DE ALIMENTACION  N°24,1,1,Fijos,1,Otros / específico
+12176,FUENTE DE ALIMENTACION  N°25,1,1,Fijos,1,Otros / específico
+12154,FUENTE DE ALIMENTACION  N°3,1,1,Fijos,1,Otros / específico
+12155,FUENTE DE ALIMENTACION  N°4,1,1,Fijos,1,Otros / específico
+12156,FUENTE DE ALIMENTACION  N°5,1,1,Fijos,1,Otros / específico
+12157,FUENTE DE ALIMENTACION  N°6,1,1,Fijos,1,Otros / específico
+12158,FUENTE DE ALIMENTACION  N°7,1,1,Fijos,1,Otros / específico
+12159,FUENTE DE ALIMENTACION  N°8,1,1,Fijos,1,Otros / específico
+12160,FUENTE DE ALIMENTACION  N°9,1,1,Fijos,1,Otros / específico
+11338,"FUENTE DE ALIMENTACION 24VDC 3A,N°1",1,1,Fijos,1,Otros / específico
+11339,"FUENTE DE ALIMENTACION 24VDC 3A,N°2",1,1,Fijos,1,Otros / específico
+11340,"FUENTE DE ALIMENTACION 24VDC 3A,N°3",1,1,Fijos,1,Otros / específico
+11341,"FUENTE DE ALIMENTACION 24VDC 3A,N°4",1,1,Fijos,1,Otros / específico
+11342,"FUENTE DE ALIMENTACION 24VDC 3A,N°5",1,1,Fijos,1,Otros / específico
+11343,"FUENTE DE ALIMENTACION 24VDC 3A,N°6",1,1,Fijos,1,Otros / específico
+11344,"FUENTE DE ALIMENTACION 24VDC 3A,N°7",1,1,Fijos,1,Otros / específico
+11345,"FUENTE DE ALIMENTACION 24VDC 3A,N°8",1,1,Fijos,1,Otros / específico
+11264,"FUENTE DE ALIMENTACION OWON , N°1",1,1,Fijos,1,Otros / específico
+11273,"FUENTE DE ALIMENTACION OWON , N°10",1,1,Fijos,1,Otros / específico
+11274,"FUENTE DE ALIMENTACION OWON , N°11",1,1,Fijos,1,Otros / específico
+11275,"FUENTE DE ALIMENTACION OWON , N°12",1,1,Fijos,1,Otros / específico
+11276,"FUENTE DE ALIMENTACION OWON , N°13",1,1,Fijos,1,Otros / específico
+11277,"FUENTE DE ALIMENTACION OWON , N°14",1,1,Fijos,1,Otros / específico
+11278,"FUENTE DE ALIMENTACION OWON , N°15",1,1,Fijos,1,Otros / específico
+11279,"FUENTE DE ALIMENTACION OWON , N°16",1,1,Fijos,1,Otros / específico
+11280,"FUENTE DE ALIMENTACION OWON , N°17",1,1,Fijos,1,Otros / específico
+11281,"FUENTE DE ALIMENTACION OWON , N°18",1,1,Fijos,1,Otros / específico
+11265,"FUENTE DE ALIMENTACION OWON , N°2",1,1,Fijos,1,Otros / específico
+11266,"FUENTE DE ALIMENTACION OWON , N°3",1,1,Fijos,1,Otros / específico
+11267,"FUENTE DE ALIMENTACION OWON , N°4",1,1,Fijos,1,Otros / específico
+11268,"FUENTE DE ALIMENTACION OWON , N°5",1,1,Fijos,1,Otros / específico
+11269,"FUENTE DE ALIMENTACION OWON , N°6",1,1,Fijos,1,Otros / específico
+11270,"FUENTE DE ALIMENTACION OWON , N°7",1,1,Fijos,1,Otros / específico
+11271,"FUENTE DE ALIMENTACION OWON , N°8",1,1,Fijos,1,Otros / específico
+11272,"FUENTE DE ALIMENTACION OWON , N°9",1,1,Fijos,1,Otros / específico
+11070,"Filtro aceite  mahl  ,N°1",0,0,Consumibles,1,Otros / específico
+11071,"Filtro aceite  mahl  ,N°2",0,0,Consumibles,1,Otros / específico
+11072,"Filtro aceite  mahl  ,N°3",0,0,Consumibles,1,Otros / específico
+11047,"Filtro de aceite c4 ,N°1",0,0,Consumibles,1,Otros / específico
+11056,"Filtro de aceite c4 ,N°10",0,0,Consumibles,1,Otros / específico
+11057,"Filtro de aceite c4 ,N°11",0,0,Consumibles,1,Otros / específico
+11058,"Filtro de aceite c4 ,N°12",0,0,Consumibles,1,Otros / específico
+11059,"Filtro de aceite c4 ,N°13",0,0,Consumibles,1,Otros / específico
+11060,"Filtro de aceite c4 ,N°14",0,0,Consumibles,1,Otros / específico
+11061,"Filtro de aceite c4 ,N°15",0,0,Consumibles,1,Otros / específico
+11062,"Filtro de aceite c4 ,N°16",0,0,Consumibles,1,Otros / específico
+11063,"Filtro de aceite c4 ,N°17",0,0,Consumibles,1,Otros / específico
+11064,"Filtro de aceite c4 ,N°18",0,0,Consumibles,1,Otros / específico
+11065,"Filtro de aceite c4 ,N°19",0,0,Consumibles,1,Otros / específico
+11048,"Filtro de aceite c4 ,N°2",0,0,Consumibles,1,Otros / específico
+11049,"Filtro de aceite c4 ,N°3",0,0,Consumibles,1,Otros / específico
+11050,"Filtro de aceite c4 ,N°4",0,0,Consumibles,1,Otros / específico
+11051,"Filtro de aceite c4 ,N°5",10,10,Consumibles,1,Otros / específico
+11052,"Filtro de aceite c4 ,N°6",0,0,Consumibles,1,Otros / específico
+11053,"Filtro de aceite c4 ,N°7",0,0,Consumibles,1,Otros / específico
+11054,"Filtro de aceite c4 ,N°8",0,0,Consumibles,1,Otros / específico
+11055,"Filtro de aceite c4 ,N°9",0,0,Consumibles,1,Otros / específico
+11090,"Filtro de aceite dgp  , N°1",0,0,Consumibles,1,Otros / específico
+11099,"Filtro de aceite dgp  , N°10",0,0,Consumibles,1,Otros / específico
+11091,"Filtro de aceite dgp  , N°2",0,0,Consumibles,1,Otros / específico
+11092,"Filtro de aceite dgp  , N°3",0,0,Consumibles,1,Otros / específico
+11093,"Filtro de aceite dgp  , N°4",0,0,Consumibles,1,Otros / específico
+11094,"Filtro de aceite dgp  , N°5",0,0,Consumibles,1,Otros / específico
+11095,"Filtro de aceite dgp  , N°6",0,0,Consumibles,1,Otros / específico
+11096,"Filtro de aceite dgp  , N°7",0,0,Consumibles,1,Otros / específico
+11097,"Filtro de aceite dgp  , N°8",0,0,Consumibles,1,Otros / específico
+11098,"Filtro de aceite dgp  , N°9",0,0,Consumibles,1,Otros / específico
+11066,"Filtro de aceite ds3 ,N°1",0,0,Consumibles,1,Otros / específico
+11067,"Filtro de aceite ds3 ,N°2",0,0,Consumibles,1,Otros / específico
+11068,"Filtro de aceite ds3 ,N°3",0,0,Consumibles,1,Otros / específico
+11069,"Filtro de aceite ds3 ,N°4",0,0,Consumibles,1,Otros / específico
+11074,"Filtro de aceite tecfil ,N°1",0,0,Consumibles,1,Otros / específico
+11075,"Filtro de aceite tecfil ,N°2",0,0,Consumibles,1,Otros / específico
+11076,"Filtro de aceite tecfil ,N°3",0,0,Consumibles,1,Otros / específico
+11077,"Filtro de aceite tecfil ,N°4",0,0,Consumibles,1,Otros / específico
+11078,Filtro de aceite tecfil max pro,0,0,Consumibles,1,Otros / específico
+11079,"Filtro de aceite troop , N°1",0,0,Consumibles,1,Otros / específico
+11080,"Filtro de aceite troop , N°2",0,0,Consumibles,1,Otros / específico
+11081,"Filtro de aceite troop , N°3",0,0,Consumibles,1,Otros / específico
+11082,"Filtro de aceite troop , N°4",0,0,Consumibles,1,Otros / específico
+11083,"Filtro de aceite troop , N°5",0,0,Consumibles,1,Otros / específico
+11084,"Filtro de aceite troop , N°6",0,0,Consumibles,1,Otros / específico
+11085,"Filtro de aceite troop , N°7",0,0,Consumibles,1,Otros / específico
+11086,"Filtro de aceite troop , N°8",0,0,Consumibles,1,Otros / específico
+10952,"Filtro de aire , N1",1,1,Fijos,1,Otros / específico
+10953,"Filtro de aire ,N2",1,1,Fijos,1,Otros / específico
+10954,"Filtro de aire ,N3",1,1,Fijos,1,Otros / específico
+10955,"Filtro de aire ,N4",1,1,Fijos,1,Otros / específico
+11073,Filtro de aire mann filter,0,0,Consumibles,1,Otros / específico
+10972,Flujometro,1,1,Fijos,1,Otros / específico
+12025,GENERADOR DE SEÑALES N°2,1,1,Fijos,1,Otros / específico
+12026,GENERADOR DE SEÑALES N°3,1,1,Fijos,1,Otros / específico
+11971,GPS GARMIN ETREX 22X N°1,1,1,Fijos,1,Otros / específico
+11972,GPS GARMIN ETREX 22X N°2,1,1,Fijos,1,Otros / específico
+11973,GPS GARMIN ETREX 22X N°3,1,1,Fijos,1,Otros / específico
+11974,GPS GARMIN ETREX 22X N°4,1,1,Fijos,1,Otros / específico
+11975,GPS GARMIN ETREX 22X N°5,1,1,Fijos,1,Otros / específico
+12371,GRASA,0,0,Fijos,1,Otros / específico
+11745,"GUANTES DE GOMAS DIELECTRICOS,N°1",20,20,Consumibles,1,Otros / específico
+11486,"GUARDAMOTOR,N°1",29,29,Consumibles,1,Equipos didácticos (bombas/motores)
+12094,Giniometro N°1,1,1,Fijos,1,Otros / específico
+12095,Giniometro N°2,1,1,Fijos,1,Otros / específico
+12096,Giniometro N°3,1,1,Fijos,1,Otros / específico
+12097,Giniometro N°4,1,1,Fijos,1,Otros / específico
+12098,Giniometro N°5,1,1,Fijos,1,Otros / específico
+12099,Giniometro N°6,1,1,Fijos,1,Otros / específico
+12100,Giniometro N°7,1,1,Fijos,1,Otros / específico
+12008,HERRAMIENTA DE EVALUACION DE SOLAR,1,1,Fijos,1,Otros / específico
+12370,HUAIPE,0,0,Fijos,1,Otros / específico
+10717,Inclinometro digital,1,1,Fijos,1,Otros / específico
+10139,Inductor de rodamientos por calor,1,1,Fijos,1,Otros / específico
+10167,Inspeccion de fugas Amprobe,1,1,Fijos,1,Otros / específico
+10166,Inspeccion de fugas trotec,1,1,Fijos,1,Otros / específico
+12180,JUEGO DE PROTECTORES DE FLECHA,1,1,Fijos,1,Otros / específico
+11379,"KIT DE ARDUINO,N°1",1,1,Fijos,1,Otros / específico
+11388,"KIT DE ARDUINO,N°10",1,1,Fijos,1,Otros / específico
+11389,"KIT DE ARDUINO,N°11",1,1,Fijos,1,Otros / específico
+11390,"KIT DE ARDUINO,N°12",1,1,Fijos,1,Otros / específico
+11391,"KIT DE ARDUINO,N°13",1,1,Fijos,1,Otros / específico
+11392,"KIT DE ARDUINO,N°14",1,1,Fijos,1,Otros / específico
+11393,"KIT DE ARDUINO,N°15",1,1,Fijos,1,Otros / específico
+11394,"KIT DE ARDUINO,N°16",1,1,Fijos,1,Otros / específico
+11395,"KIT DE ARDUINO,N°17",1,1,Fijos,1,Otros / específico
+11396,"KIT DE ARDUINO,N°18",1,1,Fijos,1,Otros / específico
+11397,"KIT DE ARDUINO,N°19",1,1,Fijos,1,Otros / específico
+11380,"KIT DE ARDUINO,N°2",1,1,Fijos,1,Otros / específico
+11381,"KIT DE ARDUINO,N°3",1,1,Fijos,1,Otros / específico
+11382,"KIT DE ARDUINO,N°4",1,1,Fijos,1,Otros / específico
+11383,"KIT DE ARDUINO,N°5",1,1,Fijos,1,Otros / específico
+11384,"KIT DE ARDUINO,N°6",1,1,Fijos,1,Otros / específico
+11385,"KIT DE ARDUINO,N°7",1,1,Fijos,1,Otros / específico
+11386,"KIT DE ARDUINO,N°8",1,1,Fijos,1,Otros / específico
+11387,"KIT DE ARDUINO,N°9",1,1,Fijos,1,Otros / específico
+12055,KIT DE COMPONENTES BASICOS DE ELECTRONICAS N°1,1,1,Fijos,1,Otros / específico
+12056,KIT DE COMPONENTES BASICOS DE ELECTRONICAS N°2,1,1,Fijos,1,Otros / específico
+12057,KIT DE COMPONENTES BASICOS DE ELECTRONICAS N°3,1,1,Fijos,1,Otros / específico
+12121,KIT DE HERRAMIENTA DE DIAGNOSTICO DIGITAL AUTOMOTRIZ,1,1,Fijos,1,Otros / específico
+11996,KIT TELUROMETRO,1,1,Fijos,1,Otros / específico
+10746,"Kit de medicion de retorno,N°1",1,1,Fijos,1,Otros / específico
+10747,"Kit de medicion de retorno,N°2",1,1,Fijos,1,Otros / específico
+10748,"Kit de medicion de retorno,N°3",1,1,Fijos,1,Otros / específico
+10749,"Kit de medicion de retorno,N°4",1,1,Fijos,1,Otros / específico
+10750,"Kit de medicion de retorno,N°5",1,1,Fijos,1,Otros / específico
+10751,"Kit de medicion de retorno,N°6",1,1,Fijos,1,Otros / específico
+60025,LABORATORIO 103,1,1,llave,1,Otros / específico
+60000,LABORATORIO 106,1,1,llave,1,Otros / específico
+60001,LABORATORIO 107,1,1,llave,1,Otros / específico
+60023,LABORATORIO 221,1,1,llave,1,Otros / específico
+60024,LABORATORIO 222,1,1,llave,1,Otros / específico
+60003,LABORATORIO 228A,1,1,llave,1,Otros / específico
+60022,LABORATORIO 324,1,1,llave,1,Otros / específico
+60004,LABORATORIO 337,1,1,llave,1,Otros / específico
+60005,LABORATORIO 338,1,1,llave,1,Otros / específico
+60006,LABORATORIO 339,1,1,llave,1,Otros / específico
+12120,LAMPARA ESTROBOSCOPICA DIESEL,1,1,Fijos,1,Otros / específico
+12119,LAMPARA ESTROBOSCOPICA JONNESWAY,1,1,Fijos,1,Otros / específico
+12113,LAMPARA ESTROBOSCOPICA KEPROAM N°1,1,1,Fijos,1,Otros / específico
+12114,LAMPARA ESTROBOSCOPICA KEPROAM N°2,1,1,Fijos,1,Otros / específico
+12369,LIJA,0,0,Fijos,1,Otros / específico
+11908,LINTERNAS PORTATILES N°1,1,1,Fijos,1,Otros / específico
+11909,LINTERNAS PORTATILES N°2,1,1,Fijos,1,Otros / específico
+11910,LINTERNAS PORTATILES N°3,1,1,Fijos,1,Otros / específico
+11911,LINTERNAS PORTATILES N°4,1,1,Fijos,1,Otros / específico
+11912,LINTERNAS PORTATILES N°5,1,1,Fijos,1,Otros / específico
+12372,LIQUIDO DE FRENO DOT,0,0,Fijos,1,Otros / específico
+11797,"LUXOMETRO,N°1",1,1,Fijos,1,Otros / específico
+10133,Lainas SKF n°1,1,1,Fijos,1,Otros / específico
+10134,Lainas SKF n°2,1,1,Fijos,1,Otros / específico
+11100,Lampara estraboscopica diesel,0,0,Consumibles,1,Otros / específico
+10973,Lampara estreboscopica,1,1,Fijos,1,Otros / específico
+11239,Lapiz de vibraciones,2,2,Consumibles,1,Otros / específico
+12388,Limpiador de manos,10,10,herramienta,1,Otros / específico
+10914,Lupa chica,10,10,Fijos,1,Otros / específico
+12351,MANGUERA NEUMATICA,3,3,Fijos,1,Otros / específico
+12332,MANOMETRO DE PRESION Y FLUJOMETRO GASOLINA - DIESEL,1,1,Fijos,1,Otros / específico
+60032,MAQUETA / BALENO,1,1,llave,1,Otros / específico
+60031,MAQUETA / FORD,1,1,llave,1,Otros / específico
+11659,"MAQUETA DE SERVO MOTOR,N°1",4,4,Consumibles,1,Equipos didácticos (bombas/motores)
+12376,MAQUETAS FESTO VARIEDADES,0,0,Fijos,1,Otros / específico
+11792,"MEDIDOR DE  POTENCIA,N°2",1,1,Fijos,1,Otros / específico
+11793,"MEDIDOR DE  POTENCIA,N°3",1,1,Fijos,1,Otros / específico
+11599,"MEDIDOR DE ASILACION ANALOGICO ,N°1",1,1,Fijos,1,Otros / específico
+11601,"MEDIDOR DE ASILACION ANALOGICO ,N°2",1,1,Fijos,1,Otros / específico
+12069,MEDIDOR DE CAMPO Y ANALIZDOR DE ESPECTRO ULTRA COMPACTO,1,1,Fijos,1,Otros / específico
+12019,MEDIDOR DE CO2 PORTATIL N°1,1,1,Fijos,1,Otros / específico
+12020,MEDIDOR DE CO2 PORTATIL N°2,1,1,Fijos,1,Otros / específico
+12000,MEDIDOR DE FACTOR DE POTENCIA N°1,1,1,Fijos,1,Otros / específico
+12001,MEDIDOR DE FACTOR DE POTENCIA N°2,1,1,Fijos,1,Otros / específico
+11997,MEDIDOR DE IRRADIANCIA MULTIFUNCION N°1,1,1,Fijos,1,Otros / específico
+11998,MEDIDOR DE IRRADIANCIA MULTIFUNCION N°2,1,1,Fijos,1,Otros / específico
+11999,MEDIDOR DE IRRADIANCIA MULTIFUNCION N°3,1,1,Fijos,1,Otros / específico
+11784,"MEDIDOR DE POTENCIA,N°1",1,1,Fijos,1,Otros / específico
+11803,"MEDIDOR DE RESISTENCIA A TIERRA,N°1",1,1,Fijos,1,Otros / específico
+11804,"MEDIDOR DE RESISTENCIA A TIERRA,N°2",1,1,Fijos,1,Otros / específico
+12342,MEDIDOR DE RETORNO DIESEL,1,1,Fijos,1,Otros / específico
+11790,MEGOHMETRO,1,1,Fijos,1,Otros / específico
+11798,"MEGOHMETRO ANALOGICO,N°1",1,1,Fijos,1,Otros / específico
+11799,"MEGOHMETRO ANALOGICO,N°2",1,1,Fijos,1,Otros / específico
+12018,MINI POCKET ENVIRONMENT,1,1,Fijos,1,Otros / específico
+12326,MULTIMETRO DIGITAL BAKU,1,1,Fijos,1,Otros / específico
+12327,MULTIMETRO DIGITAL BAKU,1,1,Fijos,1,Otros / específico
+12328,MULTIMETRO DIGITAL BAKU,1,1,Fijos,1,Otros / específico
+12329,MULTIMETRO DIGITAL MCP,1,1,Fijos,1,Otros / específico
+12330,MULTIMETRO DIGITAL MCP,1,1,Fijos,1,Otros / específico
+12331,MULTIMETRO DIGITAL MCP,1,1,Fijos,1,Otros / específico
+11976,MULTIMETRO DIGITAL UNI-T 1000V N°1,1,1,Fijos,1,Otros / específico
+11985,MULTIMETRO DIGITAL UNI-T 1000V N°10,1,1,Fijos,1,Otros / específico
+11977,MULTIMETRO DIGITAL UNI-T 1000V N°2,1,1,Fijos,1,Otros / específico
+11978,MULTIMETRO DIGITAL UNI-T 1000V N°3,1,1,Fijos,1,Otros / específico
+11979,MULTIMETRO DIGITAL UNI-T 1000V N°4,1,1,Fijos,1,Otros / específico
+11980,MULTIMETRO DIGITAL UNI-T 1000V N°5,1,1,Fijos,1,Otros / específico
+11981,MULTIMETRO DIGITAL UNI-T 1000V N°6,1,1,Fijos,1,Otros / específico
+11982,MULTIMETRO DIGITAL UNI-T 1000V N°7,1,1,Fijos,1,Otros / específico
+11983,MULTIMETRO DIGITAL UNI-T 1000V N°8,1,1,Fijos,1,Otros / específico
+11984,MULTIMETRO DIGITAL UNI-T 1000V N°9,1,1,Fijos,1,Otros / específico
+11663,"MUTITESTER , N°1",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11672,"MUTITESTER , N°10",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11673,"MUTITESTER , N°11",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11674,"MUTITESTER , N°12",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11675,"MUTITESTER , N°13",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11676,"MUTITESTER , N°14",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11677,"MUTITESTER , N°15",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11678,"MUTITESTER , N°16",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11679,"MUTITESTER , N°17",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11680,"MUTITESTER , N°18",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11664,"MUTITESTER , N°2",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11683,"MUTITESTER , N°21",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11685,"MUTITESTER , N°23",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11687,"MUTITESTER , N°25",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11689,"MUTITESTER , N°27",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11690,"MUTITESTER , N°28",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11691,"MUTITESTER , N°29",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11665,"MUTITESTER , N°3",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11692,"MUTITESTER , N°30",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11666,"MUTITESTER , N°4",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11667,"MUTITESTER , N°5",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11668,"MUTITESTER , N°6",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11669,"MUTITESTER , N°7",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11670,"MUTITESTER , N°8",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11671,"MUTITESTER , N°9",1,1,Fijos,1,Diagnóstico eléctrico/electrónico
+11934,Maletin solartrainer EO N°1,1,1,Fijos,1,Otros / específico
+11935,Maletin solartrainer EO N°2,1,1,Fijos,1,Otros / específico
+11936,Maletin solartrainer EO N°3,1,1,Fijos,1,Otros / específico
+11937,Maletin solartrainer EO N°4,1,1,Fijos,1,Otros / específico
+11930,Maletin solartrainer FV N°1,1,1,Fijos,1,Otros / específico
+11931,Maletin solartrainer FV N°2,1,1,Fijos,1,Otros / específico
+11932,Maletin solartrainer FV N°3,1,1,Fijos,1,Otros / específico
+11933,Maletin solartrainer FV N°4,1,1,Fijos,1,Otros / específico
+11938,Maletin solartrainer H2 N°1,1,1,Fijos,1,Otros / específico
+11939,Maletin solartrainer H2 N°2,1,1,Fijos,1,Otros / específico
+10143,"Manguito Montaje de rodamientos en frio SKF,n°1",1,1,Fijos,1,Otros / específico
+10144,"Manguito Montaje de rodamientos en frio SKF,n°2",1,1,Fijos,1,Otros / específico
+10191,Marco de sierra,5,5,Consumible,1,Otros / específico
+10343,"Martillitos,N°1",0,0,Consumible,1,Otros / específico
+10352,"Martillitos,N°10",0,0,Consumible,1,Otros / específico
+10344,"Martillitos,N°2",0,0,Consumible,1,Otros / específico
+10345,"Martillitos,N°3",0,0,Consumible,1,Otros / específico
+10346,"Martillitos,N°4",0,0,Consumible,1,Otros / específico
+10347,"Martillitos,N°5",0,0,Consumible,1,Otros / específico
+10348,"Martillitos,N°6",0,0,Consumible,1,Otros / específico
+10349,"Martillitos,N°7",0,0,Consumible,1,Otros / específico
+10350,"Martillitos,N°8",0,0,Consumible,1,Otros / específico
+10351,"Martillitos,N°9",0,0,Consumible,1,Otros / específico
+10156,Medidor de espesores PSC,1,1,Fijos,1,Otros / específico
+10157,Medidor de espesores doble ingenieria,1,1,Fijos,1,Otros / específico
+10158,Medidor de espesores mitcch,1,1,Fijos,1,Otros / específico
+10159,"Medidor de vibraciones doble ingenieria, n°1",1,1,Fijos,1,Otros / específico
+10160,"Medidor de vibraciones doble ingenieria, n°2",1,1,Fijos,1,Otros / específico
+10161,"Medidor de vibraciones doble ingenieria, n°3",0,0,Fijos,1,Otros / específico
+10131,Montaje de rodamientos en frio SKF,1,1,Fijos,1,Otros / específico
+12314,Motor de 12 volt,4,4,Fijos,1,Equipos didácticos (bombas/motores)
+10204,Motores eléctricos,17,17,Consumible,1,Equipos didácticos (bombas/motores)
+12065,OTDR (PLATAFORMA DE PRUEBAS DE FIBRA OPTICA),1,1,Fijos,1,Otros / específico
+10306,"Oem tools ,N°1",1,1,Fijos,1,Otros / específico
+10307,"Oem tools ,N°2",1,1,Fijos,1,Otros / específico
+10308,"Oem tools ,N°3",1,1,Fijos,1,Otros / específico
+11615,"PANTALLA HMI DELTA ,N°1",1,1,Fijos,1,Otros / específico
+11616,"PANTALLA HMI DELTA ,N°2",1,1,Fijos,1,Otros / específico
+11617,PANTALLA HMI SIEMENS N°1,1,1,Fijos,1,Otros / específico
+11618,PANTALLA HMI SIEMENS N°2,1,1,Fijos,1,Otros / específico
+11868,PANTALLA HMI SIEMENS N°3,1,1,Fijos,1,Otros / específico
+12339,PELA CABLES,19,19,Fijos,1,Otros / específico
+12037,PERTIGA DE SALVAMENTO,1,1,Fijos,1,Otros / específico
+11736,"PISTOLAS DE CALOR ,N°1",1,1,Fijos,1,Otros / específico
+11737,"PISTOLAS DE CALOR ,N°2",1,1,Fijos,1,Otros / específico
+11738,"PISTOLAS DE CALOR ,N°3",1,1,Fijos,1,Otros / específico
+11739,"PISTOLAS DE CALOR ,N°4",1,1,Fijos,1,Otros / específico
+11740,"PISTOLAS DE CALOR ,N°5",1,1,Fijos,1,Otros / específico
+11741,"PISTOLAS DE CALOR ,N°6",1,1,Fijos,1,Otros / específico
+11645,PLC Mitsubishi N°1,1,1,Fijos,1,Otros / específico
+11646,PLC Mitsubishi N°2,1,1,Fijos,1,Otros / específico
+11640,"PLC SIEMENS 1212C AC/DC/RLY,N°1",1,1,Fijos,1,Otros / específico
+11641,"PLC SIEMENS 1212C AC/DC/RLY,N°2",1,1,Fijos,1,Otros / específico
+11864,"PLC SIEMENS 1212C AC/DC/RLY,N°2",1,1,Fijos,1,Otros / específico
+11630,"PLC SIEMENS 1214 AC/DC/RLY,N°1",1,1,Fijos,1,Otros / específico
+11631,"PLC SIEMENS 1214 AC/DC/RLY,N°2",1,1,Fijos,1,Otros / específico
+11632,"PLC SIEMENS 1214 AC/DC/RLY,N°3",1,1,Fijos,1,Otros / específico
+11633,"PLC SIEMENS 1214 AC/DC/RLY,N°4",1,1,Fijos,1,Otros / específico
+11634,"PLC SIEMENS 1214 AC/DC/RLY,N°5",1,1,Fijos,1,Otros / específico
+11635,"PLC SIEMENS 1214 AC/DC/RLY,N°6",1,1,Fijos,1,Otros / específico
+11636,"PLC SIEMENS 1214 AC/DC/RLY,N°7",1,1,Fijos,1,Otros / específico
+11625,"PLC SIEMENS 1215 AC/DC/RLY,N°1",1,1,Fijos,1,Otros / específico
+11626,"PLC SIEMENS 1215 AC/DC/RLY,N°2",1,1,Fijos,1,Otros / específico
+11627,"PLC SIEMENS 1215 AC/DC/RLY,N°3",1,1,Fijos,1,Otros / específico
+11628,"PLC SIEMENS 1215 AC/DC/RLY,N°4",1,1,Fijos,1,Otros / específico
+11629,"PLC SIEMENS 1215 AC/DC/RLY,N°5",1,1,Fijos,1,Otros / específico
+11639,PLC SIEMENS S7-1500,1,1,Fijos,1,Otros / específico
+11638,PLC SIEMENS S7-300,1,1,Fijos,1,Otros / específico
+12070,POWER METER MEDIDOR DE POTENCIA,1,1,Fijos,1,Otros / específico
+11642,"POZO DE HORNO SECO ,N°1",1,1,Fijos,1,Otros / específico
+11643,"POZO DE HORNO SECO ,N°2",1,1,Fijos,1,Otros / específico
+11644,"POZO DE HORNO SECO ,N°3",1,1,Fijos,1,Otros / específico
+11770,"PRENSA EN G,N°1",6,6,Consumibles,1,Otros / específico
+12068,PROBADOR DE CABLE DE RED,1,1,Fijos,1,Otros / específico
+12361,PROTOBAR,0,0,Fijos,1,Otros / específico
+11647,"PT-100,N°1",9,9,Consumibles,1,Otros / específico
+11812,PUENTE DE KELVIN,1,1,Fijos,1,Otros / específico
+12117,PURGADOR DE FRENOS  N°1,1,1,Fijos,1,Otros / específico
+12118,PURGADOR DE FRENOS  N°2,1,1,Fijos,1,Otros / específico
+11947,Panel solar de 0.5w N°1,1,1,Fijos,1,Otros / específico
+11956,Panel solar de 0.5w N°10,1,1,Fijos,1,Otros / específico
+12033,Panel solar de 0.5w N°11,1,1,Fijos,1,Otros / específico
+11948,Panel solar de 0.5w N°2,1,1,Fijos,1,Otros / específico
+11949,Panel solar de 0.5w N°3,1,1,Fijos,1,Otros / específico
+11950,Panel solar de 0.5w N°4,1,1,Fijos,1,Otros / específico
+11951,Panel solar de 0.5w N°5,1,1,Fijos,1,Otros / específico
+11952,Panel solar de 0.5w N°6,1,1,Fijos,1,Otros / específico
+11953,Panel solar de 0.5w N°7,1,1,Fijos,1,Otros / específico
+11954,Panel solar de 0.5w N°8,1,1,Fijos,1,Otros / específico
+11955,Panel solar de 0.5w N°9,1,1,Fijos,1,Otros / específico
+11921,Panel solar de 20w N°10,1,1,Fijos,1,Otros / específico
+11922,Panel solar de 20w N°11,1,1,Fijos,1,Otros / específico
+11923,Panel solar de 20w N°12,1,1,Fijos,1,Otros / específico
+11924,Panel solar de 20w N°13,1,1,Fijos,1,Otros / específico
+11925,Panel solar de 20w N°14,1,1,Fijos,1,Otros / específico
+11926,Panel solar de 20w N°15,1,1,Fijos,1,Otros / específico
+11927,Panel solar de 20w N°16,1,1,Fijos,1,Otros / específico
+11928,Panel solar de 20w N°17,1,1,Fijos,1,Otros / específico
+11929,Panel solar de 20w N°18,1,1,Fijos,1,Otros / específico
+11913,Panel solar de 20w N°2,1,1,Fijos,1,Otros / específico
+11914,Panel solar de 20w N°3,1,1,Fijos,1,Otros / específico
+11915,Panel solar de 20w N°4,1,1,Fijos,1,Otros / específico
+11916,Panel solar de 20w N°5,1,1,Fijos,1,Otros / específico
+11917,Panel solar de 20w N°6,1,1,Fijos,1,Otros / específico
+11918,Panel solar de 20w N°7,1,1,Fijos,1,Otros / específico
+11919,Panel solar de 20w N°8,1,1,Fijos,1,Otros / específico
+11920,Panel solar de 20w N°9,1,1,Fijos,1,Otros / específico
+11946,Panel solar de 3w,1,1,Fijos,1,Otros / específico
+12312,Pantalla LCD,10,10,Fijos,1,Otros / específico
+10768,"Picoloro,N°1",0,0,Consumibles,1,Otros / específico
+10777,"Picoloro,N°10",0,0,Consumibles,1,Otros / específico
+10778,"Picoloro,N°11",0,0,Consumibles,1,Otros / específico
+10779,"Picoloro,N°12",0,0,Consumibles,1,Otros / específico
+10780,"Picoloro,N°13",0,0,Consumibles,1,Otros / específico
+10781,"Picoloro,N°14",0,0,Consumibles,1,Otros / específico
+10782,"Picoloro,N°15",0,0,Consumibles,1,Otros / específico
+10783,"Picoloro,N°16",0,0,Consumibles,1,Otros / específico
+10784,"Picoloro,N°17",0,0,Consumibles,1,Otros / específico
+10785,"Picoloro,N°18",0,0,Consumibles,1,Otros / específico
+10786,"Picoloro,N°19",0,0,Consumibles,1,Otros / específico
+10769,"Picoloro,N°2",0,0,Consumibles,1,Otros / específico
+10787,"Picoloro,N°20",0,0,Consumibles,1,Otros / específico
+10788,"Picoloro,N°21",0,0,Consumibles,1,Otros / específico
+10789,"Picoloro,N°22",0,0,Consumibles,1,Otros / específico
+10790,"Picoloro,N°23",0,0,Consumibles,1,Otros / específico
+10791,"Picoloro,N°24",0,0,Consumibles,1,Otros / específico
+10792,"Picoloro,N°25",0,0,Consumibles,1,Otros / específico
+10793,"Picoloro,N°26",0,0,Consumibles,1,Otros / específico
+10794,"Picoloro,N°27",0,0,Consumibles,1,Otros / específico
+10770,"Picoloro,N°3",0,0,Consumibles,1,Otros / específico
+10771,"Picoloro,N°4",0,0,Consumibles,1,Otros / específico
+10772,"Picoloro,N°5",0,0,Consumibles,1,Otros / específico
+10773,"Picoloro,N°6",0,0,Consumibles,1,Otros / específico
+10774,"Picoloro,N°7",0,0,Consumibles,1,Otros / específico
+10775,"Picoloro,N°8",0,0,Consumibles,1,Otros / específico
+10776,"Picoloro,N°9",0,0,Consumibles,1,Otros / específico
+10988,Pistola electrodoscopio,1,1,Fijos,1,Otros / específico
+10718,"Pistolas de impacto,N°1",0,0,Consumibles,1,Otros / específico
+10719,"Pistolas de impacto,N°2",0,0,Consumibles,1,Otros / específico
+10720,"Pistolas de impacto,N°3",0,0,Consumibles,1,Otros / específico
+10721,"Pistolas de impacto,N°4",0,0,Consumibles,1,Otros / específico
+10722,"Pistolas de impacto,N°5",0,0,Consumibles,1,Otros / específico
+10723,"Pistolas de impacto,N°6",0,0,Consumibles,1,Otros / específico
+10724,"Pistolas de impacto,N°7",0,0,Consumibles,1,Otros / específico
+10725,"Pistolas de impacto,N°8",0,0,Consumibles,1,Otros / específico
+10873,Plasticage (caja),10,10,Consumibles,1,Otros / específico
+10675,"Prisma de cigüeñal,N°1",0,0,Consumible,1,Otros / específico
+10676,"Prisma de cigüeñal,N°2",0,0,Consumible,1,Otros / específico
+10677,"Prisma de cigüeñal,N°3",0,0,Consumible,1,Otros / específico
+10678,"Prisma de cigüeñal,N°4",0,0,Consumible,1,Otros / específico
+10679,"Prisma de cigüeñal,N°5",0,0,Consumible,1,Otros / específico
+10680,"Prisma de cigüeñal,N°6",0,0,Consumible,1,Otros / específico
+10681,"Prisma de cigüeñal,N°7",0,0,Consumible,1,Otros / específico
+10682,"Prisma eje de levas , N°1",0,0,Consumible,1,Otros / específico
+10683,"Prisma eje de levas , N°2",0,0,Consumible,1,Otros / específico
+10726,"Probador de precion de aceite oem tools,N°1",1,1,Fijos,1,Otros / específico
+10735,"Probador de precion de aceite oem tools,N°10",1,1,Fijos,1,Otros / específico
+10727,"Probador de precion de aceite oem tools,N°2",1,1,Fijos,1,Otros / específico
+10728,"Probador de precion de aceite oem tools,N°3",1,1,Fijos,1,Otros / específico
+10729,"Probador de precion de aceite oem tools,N°4",1,1,Fijos,1,Otros / específico
+10730,"Probador de precion de aceite oem tools,N°5",1,1,Fijos,1,Otros / específico
+10731,"Probador de precion de aceite oem tools,N°6",1,1,Fijos,1,Otros / específico
+10732,"Probador de precion de aceite oem tools,N°7",1,1,Fijos,1,Otros / específico
+10733,"Probador de precion de aceite oem tools,N°8",1,1,Fijos,1,Otros / específico
+10734,"Probador de precion de aceite oem tools,N°9",1,1,Fijos,1,Otros / específico
+12348,"Proyector \""data\"" 12",1,1,Fijos,1,Otros / específico
+12346,"Proyector \""data\"" 35",1,1,Fijos,1,Otros / específico
+12345,"Proyector \""data\"" 55",1,1,Fijos,1,Otros / específico
+12344,"Proyector \""data\"" 6",1,1,Fijos,1,Otros / específico
+12347,"Proyector \""data\"" 67",1,1,Fijos,1,Otros / específico
+12343,"Proyector \""data\"" 8",1,1,Fijos,1,Otros / específico
+11513,"RELE DE ESTADO SOLIDO ,N°1",16,16,Consumibles,1,Otros / específico
+11326,"RELES DE 9 PINES \""24VDC\""",22,22,Consumibles,1,Otros / específico
+12360,RESISTENCIAS VARIAS,0,0,Fijos,1,Otros / específico
+10619,Regleta punta estrella,1,1,Fijos,1,Otros / específico
+10199,Regulador flujometro argon n°1,1,1,Fijos,1,Otros / específico
+10200,Regulador flujometro argon n°2,1,1,Fijos,1,Otros / específico
+10201,Regulador flujometro argon n°3,1,1,Fijos,1,Otros / específico
+12375,SENSORES DE TEMPERATURA,0,0,Fijos,1,Otros / específico
+11398,SET DE INTERUPTORES,17,17,Consumibles,1,Otros / específico
+12367,SET DE PERILLEROS,0,0,Fijos,1,Otros / específico
+11742,"SET DE TERRAJAS,N°1",1,1,Fijos,1,Otros / específico
+11743,"SET DE TERRAJAS,N°2",1,1,Fijos,1,Otros / específico
+11744,"SET DE TERRAJAS,N°3",1,1,Fijos,1,Otros / específico
+10692,"Set compresor de valvula ,N°1",1,1,Fijos,1,Otros / específico
+10693,"Set compresor de valvula ,N°2",1,1,Fijos,1,Otros / específico
+10694,"Set compresor de valvula ,N°3",1,1,Fijos,1,Otros / específico
+10695,"Set compresor de valvula ,N°4",1,1,Fijos,1,Otros / específico
+10696,"Set compresor de valvula ,N°5",1,1,Fijos,1,Otros / específico
+10697,"Set compresor de valvula ,N°6",1,1,Fijos,1,Otros / específico
+10989,"Simulador de sensores digitales ,N°1",1,1,Fijos,1,Otros / específico
+10990,"Simulador de sensores digitales ,N°2",1,1,Fijos,1,Otros / específico
+10991,"Simulador de sensores digitales ,N°3",1,1,Fijos,1,Otros / específico
+10992,"Simulador de sensores digitales ,N°4",1,1,Fijos,1,Otros / específico
+10993,"Simulador de sensores digitales ,N°5",1,1,Fijos,1,Otros / específico
+10994,"Simulador de sensores digitales ,N°6",1,1,Fijos,1,Otros / específico
+12107,Simulador de sensores digitales EXXOTEST N°1,1,1,Fijos,1,Otros / específico
+12108,Simulador de sensores digitales EXXOTEST N°2,1,1,Fijos,1,Otros / específico
+12109,Simulador de sensores digitales EXXOTEST N°3,1,1,Fijos,1,Otros / específico
+12110,Simulador de sensores digitales EXXOTEST N°4,1,1,Fijos,1,Otros / específico
+10744,Socabados intercambiables,1,1,Fijos,1,Otros / específico
+10623,"Socket sensor oxigeno universal ,N°1",1,1,Fijos,1,Otros / específico
+10624,"Socket sensor oxigeno universal ,N°2",1,1,Fijos,1,Otros / específico
+10625,"Socket sensor oxigeno universal ,N°3",1,1,Fijos,1,Otros / específico
+10626,"Socket sensor oxigeno universal ,N°4",1,1,Fijos,1,Otros / específico
+11231,Soldadura gasfiteria,6,6,Consumibles,1,Otros / específico
+10176,"Soldadura tig , n°1",1,1,Fijos,1,Otros / específico
+10177,"Soldadura tig , n°2",1,1,Fijos,1,Otros / específico
+10178,"Soldadura tig , n°3",1,1,Fijos,1,Otros / específico
+11994,TELUROMETRO N°1,1,1,Fijos,1,Otros / específico
+11995,TELUROMETRO N°2,1,1,Fijos,1,Otros / específico
+11794,"TELUROMETRO,N°1",1,1,Fijos,1,Otros / específico
+11795,"TELUROMETRO,N°2",1,1,Fijos,1,Otros / específico
+12365,TENSOR DE CORREAS,0,0,Fijos,1,Otros / específico
+11986,TERMOANEMOMETRO N°1,1,1,Fijos,1,Otros / específico
+11987,TERMOANEMOMETRO N°2,1,1,Fijos,1,Otros / específico
+11988,TERMOANEMOMETRO N°3,1,1,Fijos,1,Otros / específico
+11989,TERMOANEMOMETRO N°4,1,1,Fijos,1,Otros / específico
+12123,TERMOMETRO DIGITAL,1,1,Fijos,1,Otros / específico
+12124,TERMOMETRO DIGITAL,1,1,Fijos,1,Otros / específico
+12021,TERMOMETRO DIGITAL ST530 N°1,1,1,Fijos,1,Otros / específico
+12022,TERMOMETRO DIGITAL ST530 N°2,1,1,Fijos,1,Otros / específico
+11593,TESLA METER,1,1,Fijos,1,Otros / específico
+12352,TEST DE FUGAS,1,1,Fijos,1,Otros / específico
+12368,TESTER LIQUIDO DE FRENO,0,0,Fijos,1,Diagnóstico eléctrico/electrónico
+12015,TESTO 925 N°1,1,1,Fijos,1,Otros / específico
+12016,TESTO 925 N°2,1,1,Fijos,1,Otros / específico
+12366,TIZADOR,0,0,Fijos,1,Otros / específico
+11282,TRANS/CAB P100-PT1000,13,13,Consumibles,1,Otros / específico
+12362,TRANSFORMADOR 12V,0,0,Fijos,1,Otros / específico
+11564,"TRANSMISOR DE NIVEL HART,N°1",15,15,Consumibles,1,Otros / específico
+11579,"TRANSMISOR DE PRESION HART,N°1",4,4,Consumibles,1,Otros / específico
+11484,"TRANSMISOR DE VELOCIDAD ,N°1",2,2,Consumibles,1,Otros / específico
+12051,Taladro Inalámbrico N°1 (TOTAL),1,1,Fijos,1,Otros / específico
+12052,Taladro Inalámbrico N°2 (INCO),1,1,Fijos,1,Otros / específico
+12053,Taladro Inalámbrico N°3 (MAKITA),1,1,Fijos,1,Otros / específico
+11226,"Taladros , n°1",1,1,Fijos,1,Otros / específico
+11227,"Taladros , n°2",1,1,Fijos,1,Otros / específico
+11418,Temporizadores,51,51,Consumibles,1,Otros / específico
+11224,Termometro digital,1,1,Fijos,1,Otros / específico
+10948,"Termometros digitales , N1",1,1,Fijos,1,Otros / específico
+10949,"Termometros digitales , N2",1,1,Fijos,1,Otros / específico
+10950,"Termometros digitales , N3",1,1,Fijos,1,Otros / específico
+10951,"Termometros digitales , N4",1,1,Fijos,1,Otros / específico
+11583,"VALVULA DE CONTROL MOTORIZADO ,N°1",2,2,Consumibles,1,Equipos didácticos (bombas/motores)
+11657,VARIAC N°1,1,1,Fijos,1,Otros / específico
+11658,VARIAC N°2,1,1,Fijos,1,Otros / específico
+11865,VARIAC N°3,1,1,Fijos,1,Otros / específico
+11866,VARIAC N°4,1,1,Fijos,1,Otros / específico
+11867,VARIAC N°5,1,1,Fijos,1,Otros / específico
+11990,VERIFICADOR DE SEGURIDAD ELEC N°1,1,1,Fijos,1,Otros / específico
+11991,VERIFICADOR DE SEGURIDAD ELEC N°2,1,1,Fijos,1,Otros / específico
+11862,VOLTIMETRO ANALOGICO N°1,1,1,Fijos,1,Otros / específico
+11863,VOLTIMETRO ANALOGICO N°2,1,1,Fijos,1,Otros / específico
+11786,WATTMETRO TRIFASICO ANALOGICO,1,1,Fijos,1,Otros / específico
+11822,WATTMETRO TRIFASICO ANALOGICO,1,1,Fijos,1,Otros / específico
+11823,WATTMETRO TRIFASICO ANALOGICO,1,1,Fijos,1,Otros / específico
+12208,WD-40,9,9,Fijos,1,Otros / específico
+12242,abrazadera autolock ppr 20 mm,19,19,Fijos,1,Otros / específico
+12243,abrazadera autolock ppr 25 mm,3,3,Fijos,1,Otros / específico
+12198,acople diferencial,1,1,Fijos,1,Otros / específico
+12267,acople ppr 20x1/2,15,15,Fijos,1,Otros / específico
+12230,acoples o uniones,115,115,Fijos,1,Otros / específico
+12296,adaptador anillo 1/2,15,15,Fijos,1,Otros / específico
+12391,adhesivo flux,21,21,consumible,1,Otros / específico
+12220,ampolletas,35,35,Fijos,1,Otros / específico
+12310,arnes de seguridad dielectrico,2,2,Fijos,1,Otros / específico
+12309,arnes de vida,20,20,Fijos,1,Otros / específico
+12211,base magentica,15,15,Fijos,1,Otros / específico
+12218,baterias 12v,4,4,Fijos,1,Otros / específico
+12217,bobina 3A 22V con nucleo,3,3,Fijos,1,Otros / específico
+12191,bocinas,23,23,Fijos,1,Otros / específico
+12202,bolsas de paños americano,18,18,Fijos,1,Otros / específico
+12203,bolsas huaipe,43,43,Fijos,1,Otros / específico
+12301,boquilla 25x20,25,25,Fijos,1,Otros / específico
+12188,botadores,30,30,Fijos,1,Otros / específico
+12284,botonera emergencia,6,6,Fijos,1,Otros / específico
+12311,buzzer piezoeléctrico,11,11,Fijos,1,Otros / específico
+12389,cable de bujia,3,3,herramienta,1,Otros / específico
+12193,cables 12v,8,8,Fijos,1,Otros / específico
+12210,cajas de guantes vinilo,5,5,Fijos,1,Otros / específico
+12209,cinta aislante,48,48,Fijos,1,Otros / específico
+12265,codo 20 mm,9,9,Fijos,1,Otros / específico
+12246,codo ppr 20 mm,8,8,Fijos,1,Otros / específico
+12279,codo ppr 20 mm,20,20,Fijos,1,Otros / específico
+12274,codo ppr 20 mm 1/2,8,8,Fijos,1,Otros / específico
+12239,codo ppr 20x1/2 metalica,8,8,Fijos,1,Otros / específico
+12278,codo ppr 25 mm,20,20,Fijos,1,Otros / específico
+12287,codo ppr 25 mm,25,25,Fijos,1,Otros / específico
+12273,codo ppr 25 mm 1/2,25,25,Fijos,1,Otros / específico
+12275,codo ppr 25mm,10,10,Fijos,1,Otros / específico
+12264,codo ppr 25mm x 3/4,10,10,Fijos,1,Otros / específico
+12259,codo ppr koalition 20 mm,51,51,Fijos,1,Otros / específico
+12277,codo terminal hi 20x1/2,10,10,Fijos,1,Otros / específico
+12276,codo terminal hi 25x1/2,10,10,Fijos,1,Otros / específico
+12186,compresor piston de caliper,2,2,Fijos,1,Otros / específico
+12231,conector curvo,39,39,Fijos,1,Otros / específico
+12221,conector luz piloto,24,24,Fijos,1,Otros / específico
+12232,conector recto,40,40,Fijos,1,Otros / específico
+12254,conectores de chapa,128,128,Fijos,1,Otros / específico
+12319,contactos auxiliares,72,72,Fijos,1,Otros / específico
+12374,controladores de tempreratura honeywell 5200,0,0,Fijos,1,Otros / específico
+12250,copla ppr 25 mm,3,3,Fijos,1,Otros / específico
+12257,copla ppr koalition 20 mm,50,50,Fijos,1,Otros / específico
+12258,copla ppr koalition 25 mm,15,15,Fijos,1,Otros / específico
+12266,copla pvc presion,5,5,Fijos,1,Otros / específico
+12247,copla reduccion ppr 25x20 mm,2,2,Fijos,1,Otros / específico
+12297,copla simple 20 1/2,13,13,Fijos,1,Otros / específico
+12195,correas,20,20,Fijos,1,Otros / específico
+12270,curva sobrepaso 20 mm,20,20,Fijos,1,Otros / específico
+12207,diluyente sintetico,20,20,Fijos,1,Otros / específico
+12302,disyunto bipolar,143,143,Fijos,1,Otros / específico
+12305,disyuntor trifasicas,29,29,Fijos,1,Otros / específico
+12223,enchufes varios,32,32,Fijos,1,Otros / específico
+12199,escuadra,29,29,Fijos,1,Otros / específico
+12200,escuadra angular,1,1,Fijos,1,Otros / específico
+11215,extencion electricas,7,7,Consumibles,1,Otros / específico
+12194,extenciones electricas,7,7,Fijos,1,Otros / específico
+12325,generador de espectro,1,1,Fijos,1,Otros / específico
+12324,generador de señales,1,1,Fijos,1,Otros / específico
+12190,graseras,6,6,Fijos,1,Otros / específico
+12222,interruptor 9/32,30,30,Fijos,1,Otros / específico
+12304,interruptor diferencial,8,8,Fijos,1,Otros / específico
+12224,interruptores 9/12,25,25,Fijos,1,Otros / específico
+12226,interruptores 9/15,20,20,Fijos,1,Otros / específico
+12225,interruptores 9/24,26,26,Fijos,1,Otros / específico
+12205,jabon mecanico,8,8,Fijos,1,Otros / específico
+12206,limpia contacto w-max,30,30,Fijos,1,Otros / específico
+12317,luces de 220 volt,500,500,Fijos,1,Otros / específico
+12316,luces de 24 volt,120,120,Fijos,1,Otros / específico
+12049,medidor de COSҩ N°1,1,1,Fijos,1,Otros / específico
+12050,medidor de coseno ҩ N°1,1,1,Fijos,1,Otros / específico
+12283,medidores 220v soherte monofasico,16,16,Fijos,1,Otros / específico
+12315,motor de 6 volt,5,5,Fijos,1,Equipos didácticos (bombas/motores)
+12192,parlantes,10,10,Fijos,1,Otros / específico
+12216,pasta para soldar,5,5,Fijos,1,Otros / específico
+12196,pastillas de freno,4,4,Fijos,1,Otros / específico
+11241,pesa digital,1,1,Fijos,1,Otros / específico
+12215,porta electrodo,9,9,Fijos,1,Otros / específico
+12234,prensa estopa,158,158,Fijos,1,Otros / específico
+12185,punto de marcas,18,18,Fijos,1,Otros / específico
+12201,reglas,17,17,Fijos,1,Otros / específico
+12313,regletas,10,10,Fijos,1,Otros / específico
+12255,rele de disparo,5,5,Fijos,1,Otros / específico
+12303,rele de disparo,8,8,Fijos,1,Otros / específico
+12318,rele termico,15,15,Fijos,1,Otros / específico
+12212,reloj de caratula,5,5,Fijos,1,Otros / específico
+12219,repartidores electricos,33,33,Fijos,1,Otros / específico
+12233,salida terminal,299,299,Fijos,1,Otros / específico
+10501,set de Botadores cilindro (force),7,7,Consumible,1,Otros / específico
+12204,shampo automotriz,4,4,Fijos,1,Otros / específico
+12281,tablero 12 posiciones,5,5,Fijos,1,Otros / específico
+12280,tablero 24 posiciones,31,31,Fijos,1,Otros / específico
+12282,tablero 8 posiciones,4,4,Fijos,1,Otros / específico
+12253,tapa tornillo ppr he 3/4,3,3,Fijos,1,Otros / específico
+12241,te ppr 20mm,3,3,Fijos,1,Otros / específico
+12240,te ppr 25mm,2,2,Fijos,1,Otros / específico
+12298,tee he 20x 1/2,8,8,Fijos,1,Otros / específico
+12261,tee red ppr koalition 20 mm,25,25,Fijos,1,Otros / específico
+12260,tee red ppr koalition 25 mm,24,24,Fijos,1,Otros / específico
+12237,terminal ppr 1/2 metalico plomo,12,12,Fijos,1,Otros / específico
+12238,terminal ppr 1/2 metalico verde,11,11,Fijos,1,Otros / específico
+12268,terminal ppr 20x1/2,25,25,Fijos,1,Otros / específico
+12235,terminal ppr 20x1/2 metalico,13,13,Fijos,1,Otros / específico
+12269,terminal ppr 20x3/4,10,10,Fijos,1,Otros / específico
+12251,terminal ppr 25 x 3/4 hi metalico,1,1,Fijos,1,Otros / específico
+12236,terminal ppr 25/3/4 metalico,3,3,Fijos,1,Otros / específico
+12299,terminal ppr 25x 3/4,28,28,Fijos,1,Otros / específico
+12262,union americana 20 mm,25,25,Fijos,1,Otros / específico
+12263,union americana 25 mm,20,20,Fijos,1,Otros / específico
+12288,union americana doble 25 mm,10,10,Fijos,1,Otros / específico
+12252,union americana metalica 1/2,3,3,Fijos,1,Otros / específico
+12245,union americana ppr 25 mm,2,2,Fijos,1,Otros / específico
+12271,union universal ppr 20mm,18,18,Fijos,1,Otros / específico
+12272,union universal ppr 25mm,15,15,Fijos,1,Otros / específico
+12248,valvula bola laton 1/2,1,1,Fijos,1,Otros / específico
+12294,valvula de bola ppr mini 20x1/2,20,20,Fijos,1,Otros / específico
+12295,valvula de bola ppr sin adaptador  20x1/2,10,10,Fijos,1,Otros / específico
+12292,valvula esfera ppr 20 mm,10,10,Fijos,1,Otros / específico
+12293,valvula esfera ppr 25 mm,10,10,Fijos,1,Otros / específico
+12300,valvula retencion 25x 3/4,15,15,Fijos,1,Otros / específico
+12290,valvula union americana 20 mm,8,8,Fijos,1,Otros / específico
+12289,valvula union americana 25 mm,10,10,Fijos,1,Otros / específico
+12256,vinilit grampa ppr,100,100,Fijos,1,Otros / específico
+12308,zoquete ceramica,26,26,Fijos,1,Otros / específico
+12306,zoquete plastica,16,16,Fijos,1,Otros / específico
+12307,zoquete porcelana,12,12,Fijos,1,Otros / específico
+12377,ÑESTER AMARILLO,0,0,Fijos,1,Otros / específico
+11207,"Ñester \""unit-t\"",N°1",1,1,Fijos,1,Otros / específico
+11208,"Ñester \""unit-t\"",N°2",1,1,Fijos,1,Otros / específico
+11209,"Ñester \""unit-t\"",N°3",1,1,Fijos,1,Otros / específico
+11210,"Ñester \""unit-t\"",N°4",1,1,Fijos,1,Otros / específico
+11211,"Ñester \""unit-t\"",N°5",1,1,Fijos,1,Otros / específico
+11212,"Ñester \""unit-t\"",N°6",1,1,Fijos,1,Otros / específico
+11213,"Ñester \""unit-t\"",N°7",1,1,Fijos,1,Otros / específico

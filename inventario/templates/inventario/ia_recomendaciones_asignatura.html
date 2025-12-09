@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Recomendaciones IA – {{ asignatura.nombre }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Recomendaciones de herramientas para: {{ asignatura.nombre }}</h2>
+  <p class="text-muted">
+    Basado en historial de préstamos / preparaciones + pesos definidos.
+  </p>
+
+  {% if recomendaciones %}
+    <table class="table table-striped table-sm mt-3">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Código herramienta</th>
+          <th>Nombre</th>
+          <th>Puntaje (score IA)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in recomendaciones %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ r.herramienta_id }}</td>
+            <td>{{ r.nombre }}</td>
+            <td>{{ r.score|floatformat:1 }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-info mt-3">
+      No hay recomendaciones para esta asignatura.
+    </div>
+  {% endif %}
+
+  <a href="{% url 'lista_herramientas' %}" class="btn btn-secondary mt-3">
+    Volver a inventario
+  </a>
+</div>
+{% endblock %}

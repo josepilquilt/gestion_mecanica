@@ -145,7 +145,6 @@ LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'  # o 'logout_msg' si quieres
 
 
-ALLOWED_HOSTS = ["10.234.209.139", "localhost", "127.0.0.1"]
 
 # --- PARÁMETROS DE NEGOCIO (puedes dejarlos en settings.py si prefieres) ---
 ANTELACION_DIAS_PREPARACION = 3      # en producción: 2 o 3

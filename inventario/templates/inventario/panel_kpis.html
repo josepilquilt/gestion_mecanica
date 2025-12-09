@@ -45,6 +45,8 @@
             border: none;
             cursor: pointer;
             font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .btn-secundario {
@@ -294,21 +296,16 @@
 
     <div class="barra-superior">
         <div>
-            <form method="get" action="{% url 'exportar_panel_kpis' %}" style="display:inline-block;">
-                <input type="hidden" name="semestre" value="{{ semestre_sel }}">
-                <input type="hidden" name="carrera" value="{{ carrera_sel }}">
-                <input type="hidden" name="asignatura" value="{{ asignatura_sel }}">
-                <!-- NUEVO: pasar rango de fechas a la exportación -->
-                <input type="hidden" name="fecha_desde" value="{{ fecha_desde }}">
-                <input type="hidden" name="fecha_hasta" value="{{ fecha_hasta }}">
+            <!-- Botones de exportación -->
+            <a href="{% url 'exportar_panel_kpis' %}?formato=excel&{{ request.GET.urlencode }}"
+               class="btn btn-secundario btn-exportar">
+                Descargar Excel
+            </a>
 
-                <button class="btn btn-secundario btn-exportar" type="submit" name="formato" value="excel">
-                    Descargar Excel
-                </button>
-                <button class="btn btn-secundario btn-exportar" type="submit" name="formato" value="pdf">
-                    Descargar PDF
-                </button>
-            </form>
+            <a href="{% url 'exportar_panel_kpis' %}?formato=pdf&{{ request.GET.urlencode }}"
+               class="btn btn-secundario btn-exportar">
+                Descargar PDF
+            </a>
         </div>
 
         <div>
@@ -357,7 +354,7 @@
             </select>
         </div>
 
-        <!-- NUEVOS: filtros por rango de fechas -->
+        <!-- Filtros por rango de fechas -->
         <div>
             <label for="id_fecha_desde">Fecha desde:</label><br>
             <input type="date"
@@ -435,9 +432,10 @@
                     <option value="docentes">Docentes (cantidad de préstamos)</option>
                     <option value="carreras">Carreras (préstamos a estudiantes)</option>
                     <option value="herramientas">Herramientas (cantidad entregada)</option>
+                    <option value="herramientas_fijas">Herramientas fijas (cantidad entregada)</option>
+                    <option value="herramientas_consumibles">Herramientas consumibles (cantidad entregada)</option>
                     <option value="asignaturas">Asignaturas / Laboratorio</option>
                     <option value="autos">Llaves de auto / vehículos</option>
-                    <!-- ranking de pañoleros -->
                     <option value="panoleros">Pañoleros (préstamos registrados)</option>
                 </select>
             </div>
@@ -553,7 +551,7 @@
         {% endfor %}
     ];
 
-    // Top herramientas
+    // Top herramientas (general)
     const labelsHerramientas = [
         {% for h in top_herramientas %}
             "{{ h.herramienta__nombre|escapejs }}"{% if not forloop.last %},{% endif %}
@@ -561,6 +559,30 @@
     ];
     const dataHerramientas = [
         {% for h in top_herramientas %}
+            {{ h.total_cant }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+
+    // Top herramientas FIJAS
+    const labelsHerramientasFijas = [
+        {% for h in top_herramientas_fijas %}
+            "{{ h.herramienta__nombre|escapejs }}"{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    const dataHerramientasFijas = [
+        {% for h in top_herramientas_fijas %}
+            {{ h.total_cant }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+
+    // Top herramientas CONSUMIBLES
+    const labelsHerramientasConsumibles = [
+        {% for h in top_herramientas_consumibles %}
+            "{{ h.herramienta__nombre|escapejs }}"{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    const dataHerramientasConsumibles = [
+        {% for h in top_herramientas_consumibles %}
             {{ h.total_cant }}{% if not forloop.last %},{% endif %}
         {% endfor %}
     ];
@@ -657,6 +679,18 @@
                 labels: labelsHerramientas,
                 data: dataHerramientas,
                 label: 'Cantidad entregada por herramienta'
+            };
+        } else if (tipo === 'herramientas_fijas') {
+            return {
+                labels: labelsHerramientasFijas,
+                data: dataHerramientasFijas,
+                label: 'Cantidad entregada por herramienta fija'
+            };
+        } else if (tipo === 'herramientas_consumibles') {
+            return {
+                labels: labelsHerramientasConsumibles,
+                data: dataHerramientasConsumibles,
+                label: 'Cantidad entregada por herramienta consumible'
             };
         } else if (tipo === 'asignaturas') {
             return {

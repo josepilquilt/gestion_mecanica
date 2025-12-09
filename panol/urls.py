@@ -108,4 +108,8 @@ urlpatterns = [
     # Exportar KPIs (Excel / PDF)
     path('informes/panel/exportar/', inventario_views.exportar_panel_kpis,
          name='exportar_panel_kpis'),
+
+     path("ia/recomendaciones/<int:asig_id>/", inventario_views.asignatura_recomendaciones, name="asignatura_recomendaciones",),
+
+  
 ]
