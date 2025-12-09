@@ -149,3 +149,9 @@ LOGOUT_REDIRECT_URL = 'login'  # o 'logout_msg' si quieres
 # --- PARÁMETROS DE NEGOCIO (puedes dejarlos en settings.py si prefieres) ---
 ANTELACION_DIAS_PREPARACION = 3      # en producción: 2 o 3
 VENTANA_MINUTOS_RESERVA = 15         # en producción: 15 min
+
+# Para desarrollo: los mails se muestran en la consola
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+DEFAULT_FROM_EMAIL = "no-reply@inacap-panol.cl"
+
