@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -194,11 +195,16 @@
 </head>
 
 <body>
-    
+    <!-- Notificacion -->
+    <audio id="notif-sound"
+        src="{% static 'sonidos/preparacion_alerta.mp3' %}"
+        preload="auto">
+    </audio>
+
     <div class="container">
-        {% include "partials/notificaciones_panolero.html" %}
-        <!-- aquí sigue tu header y el resto del menú -->
+        {% include "partials/notificaciones_panolero.html" %} 
     <div class="container">
+        <!-- menú -->
         <div class="header">
             <img src="https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png"
                  alt="Logo INACAP" class="logo">
@@ -311,12 +317,54 @@
         </nav>
     </div>
 
-    <script>
-        function confirmarLogout() {
-            if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
-                window.location.href = "{% url 'logout' %}?next={% url 'logout_msg' %}";
-            }
+<script>
+    function cerrarNotificacion() {
+        const bar = document.getElementById('notif-bar');
+        if (bar) {
+            bar.style.display = 'none';
         }
-    </script>
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const notifBar = document.getElementById('notif-bar');
+        const audioEl  = document.getElementById('notif-sound');
+
+        if (!audioEl) {
+            return;
+        }
+
+        // Botón de prueba opcional
+        window.probarSonido = function () {
+            audioEl.play().catch(() => {});
+        };
+
+        if (!notifBar) {
+            return;
+        }
+
+        // Intento de autoplay
+        const tryPlay = () => {
+            audioEl.play().catch((err) => {
+                console.log('Autoplay bloqueado:', err);
+            });
+        };
+        setTimeout(tryPlay, 300);
+
+        // Segundo intento: primer click del usuario
+        const onFirstClick = () => {
+            audioEl.play().catch(() => {});
+            document.removeEventListener('click', onFirstClick);
+        };
+        document.addEventListener('click', onFirstClick);
+    });
+
+    // Si usas esto para el logout:
+    function confirmarLogout() {
+        if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+            window.location.href = "{% url 'logout' %}?next={% url 'logout_msg' %}";
+        }
+    }
+</script>
+
 </body>
 </html>

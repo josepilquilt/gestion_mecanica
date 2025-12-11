@@ -2,117 +2,322 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle de preparación {{ preparacion.codigo_preparacion }}</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { margin-bottom: 5px; }
-        .bloque { margin-bottom: 15px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 10px; }
-        th, td { border: 1px solid #ccc; padding: 6px 8px; font-size: 14px; }
-        th { background: #f0f0f0; }
-        .label { font-weight: bold; }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f7;
+            color: #333;
+        }
+
+        /* Contenedor principal */
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Encabezado */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+        .page-title {
+            margin: 0;
+            font-size: 1.9rem;
+            color: #2c3e50;
+        }
+        .page-subtitle {
+            margin: 4px 0 0;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+
+        .btn-volver {
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            background: #ecf0f1;
+            color: #e74c3c;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid #e0e0e0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+        }
+        .btn-volver::before {
+            content: "←";
+            font-size: 1rem;
+        }
+        .btn-volver:hover {
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            transform: translateY(-1px);
+        }
+
+        /* Tarjeta de información */
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+
+        .card-header {
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #34495e;
+        }
+
+        /* Layout de datos generales */
+        .datos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px 40px;
+            font-size: 0.95rem;
+        }
+        .dato {
+            margin: 0;
+        }
+        .label {
+            font-weight: 600;
+            color: #555;
+        }
+        .dato span.valor {
+            color: #2c3e50;
+        }
+
+        /* Estado */
         .estado-badge {
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
         .estado-pendiente { background:#fff3cd; color:#856404; }
-        .estado-usado { background:#d4edda; color:#155724; }
-        .estado-anulado { background:#f8d7da; color:#721c24; }
-        .btn-link { text-decoration:none; color:#007bff; }
+        .estado-usado     { background:#d4edda; color:#155724; }
+        .estado-anulado   { background:#f8d7da; color:#721c24; }
+
+        /* Observaciones */
+        .observaciones-box {
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 10px 12px;
+            border: 1px solid #e1e4e8;
+            font-size: 0.95rem;
+            color: #555;
+            min-height: 48px;
+        }
+        .observaciones-empty {
+            font-style: italic;
+            color: #999;
+        }
+
+        /* Tabla herramientas */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 8px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+            font-size: 0.9rem;
+        }
+        thead {
+            background: #f3f4f6;
+        }
+        th, td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+        th {
+            font-weight: 600;
+            color: #4b5563;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+        tbody tr:hover {
+            background: #f1f5f9;
+        }
+        .tabla-empty {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .datos-grid {
+                grid-template-columns: 1fr;
+            }
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
     </style>
 </head>
 <body>
+<div class="page-wrapper">
 
-<h1>Detalle de preparación {{ preparacion.codigo_preparacion }}</h1>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Detalle de preparación {{ preparacion.codigo_preparacion }}</h1>
+            <p class="page-subtitle">
+                Información general de la preparación y herramientas asociadas.
+            </p>
+        </div>
 
-<div class="bloque">
-    <a href="{% url 'lista_preparaciones' %}" class="btn-link">← Volver al listado</a>
+        <a href="{% url 'lista_preparaciones' %}" class="btn-volver">
+            Volver al listado
+        </a>
+    </div>
+
+    <!-- Card datos generales -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Datos de la preparación</h2>
+            <div>
+                {% if preparacion.estado == 'pendiente' %}
+                    <span class="estado-badge estado-pendiente">
+                        {{ preparacion.get_estado_display }}
+                    </span>
+                {% elif preparacion.estado == 'usado' %}
+                    <span class="estado-badge estado-usado">
+                        {{ preparacion.get_estado_display }}
+                    </span>
+                {% elif preparacion.estado == 'anulado' %}
+                    <span class="estado-badge estado-anulado">
+                        {{ preparacion.get_estado_display }}
+                    </span>
+                {% else %}
+                    <span class="estado-badge">
+                        {{ preparacion.get_estado_display }}
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="datos-grid">
+            <p class="dato">
+                <span class="label">Código preparación: </span>
+                <span class="valor">{{ preparacion.codigo_preparacion }}</span>
+            </p>
+            <p class="dato">
+                <span class="label">Fecha: </span>
+                <span class="valor">{{ preparacion.fecha }}</span>
+            </p>
+            <p class="dato">
+                <span class="label">Hora inicio: </span>
+                <span class="valor">{{ preparacion.hora_inicio }}</span>
+            </p>
+            <p class="dato">
+                <span class="label">Hora fin: </span>
+                <span class="valor">{{ preparacion.hora_fin }}</span>
+            </p>
+            <p class="dato">
+                <span class="label">Docente: </span>
+                <span class="valor">
+                    {% if preparacion.docente %}
+                        {{ preparacion.docente.nombre }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </p>
+            <p class="dato">
+                <span class="label">Asignatura: </span>
+                <span class="valor">
+                    {% if preparacion.asignatura %}
+                        {{ preparacion.asignatura.nombre }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </p>
+            <p class="dato">
+                <span class="label">Pañolero: </span>
+                <span class="valor">
+                    {% if preparacion.panolero %}
+                        {{ preparacion.panolero.nombre }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Card observaciones -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Observaciones</h2>
+        </div>
+        <div class="observaciones-box">
+            {% if preparacion.observaciones %}
+                {{ preparacion.observaciones|linebreaksbr }}
+            {% else %}
+                <span class="observaciones-empty">(Sin observaciones)</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Card herramientas -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Herramientas preparadas</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Código herramienta</th>
+                    <th>Nombre</th>
+                    <th style="width: 160px;">Cantidad preparada</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for det in preparacion.detalles.all %}
+                <tr>
+                    <td>{{ det.herramienta.codigo }}</td>
+                    <td>{{ det.herramienta.nombre }}</td>
+                    <td>{{ det.cantidad_solicitada }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="tabla-empty">
+                        No hay herramientas asociadas.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 </div>
-
-<div class="bloque">
-    <p><span class="label">Código preparación:</span> {{ preparacion.codigo_preparacion }}</p>
-    <p><span class="label">Fecha:</span> {{ preparacion.fecha }}</p>
-    <p>
-        <span class="label">Hora inicio:</span> {{ preparacion.hora_inicio }}
-        &nbsp;|&nbsp;
-        <span class="label">Hora fin:</span> {{ preparacion.hora_fin }}
-    </p>
-    <p>
-        <span class="label">Docente:</span>
-        {% if preparacion.docente %}
-            {{ preparacion.docente.nombre }}
-        {% else %}
-            -
-        {% endif %}
-    </p>
-    <p>
-        <span class="label">Asignatura:</span>
-        {% if preparacion.asignatura %}
-            {{ preparacion.asignatura.nombre }}
-        {% else %}
-            -
-        {% endif %}
-    </p>
-    <p>
-        <span class="label">Pañolero:</span>
-        {% if preparacion.panolero %}
-            {{ preparacion.panolero.nombre }}
-        {% else %}
-            -
-        {% endif %}
-    </p>
-    <p>
-        <span class="label">Estado:</span>
-        {% if preparacion.estado == 'pendiente' %}
-            <span class="estado-badge estado-pendiente">{{ preparacion.get_estado_display }}</span>
-        {% elif preparacion.estado == 'usado' %}
-            <span class="estado-badge estado-usado">{{ preparacion.get_estado_display }}</span>
-        {% elif preparacion.estado == 'anulado' %}
-            <span class="estado-badge estado-anulado">{{ preparacion.get_estado_display }}</span>
-        {% else %}
-            {{ preparacion.get_estado_display }}
-        {% endif %}
-    </p>
-</div>
-
-<div class="bloque">
-    <p class="label">Observaciones:</p>
-    <p>
-        {% if preparacion.observaciones %}
-            {{ preparacion.observaciones|linebreaksbr }}
-        {% else %}
-            (Sin observaciones)
-        {% endif %}
-    </p>
-</div>
-
-<div class="bloque">
-    <h3>Herramientas preparadas</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Código herramienta</th>
-                <th>Nombre</th>
-                <th>Cantidad preparada</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for det in preparacion.detalles.all %}
-            <tr>
-                <td>{{ det.herramienta.codigo }}</td>
-                <td>{{ det.herramienta.nombre }}</td>
-                <td>{{ det.cantidad_solicitada }}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="3">No hay herramientas asociadas.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
 </body>
 </html>

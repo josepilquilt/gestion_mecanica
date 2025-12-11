@@ -1,40 +1,131 @@
 {% if notif_30min_preps or notif_5min_preps %}
 <style>
     .notif-bar {
-        background: #fff3cd;
+        position: relative;
+        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
         border: 1px solid #ffeeba;
         color: #856404;
-        padding: 10px 15px;
-        margin-bottom: 15px;
-        border-radius: 6px;
-        font-size: 0.9rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 15px 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        animation: slideIn 0.5s ease-out;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        role: alert;
+        aria-live: assertive;
     }
+    
+    .notif-bar.hidden {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    
     .notif-item {
-        margin-bottom: 5px;
+        margin-bottom: 10px;
+        line-height: 1.4;
     }
+    
     .notif-item-5 {
         font-weight: bold;
         color: #721c24;
+        background: rgba(248, 215, 218, 0.2);
+        padding: 8px;
+        border-radius: 6px;
+        border-left: 4px solid #dc3545;
     }
+    
     .notif-badge {
-        display: inline-block;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-size: 0.75rem;
-        margin-right: 6px;
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-right: 8px;
+        text-transform: uppercase;
     }
+    
     .notif-badge-30 {
         background: #cce5ff;
         color: #004085;
     }
+    
+    .notif-badge-30::before {
+        content: "⏰";
+        margin-right: 4px;
+    }
+    
     .notif-badge-5 {
         background: #f8d7da;
         color: #721c24;
     }
+    
+    .notif-badge-5::before {
+        content: "⚠️";
+        margin-right: 4px;
+    }
+    
+    /* Botón cerrar (X) */
+    .notif-close {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        border: none;
+        background: transparent;
+        font-size: 1.2rem;
+        line-height: 1;
+        cursor: pointer;
+        color: #856404;
+        transition: color 0.2s ease, transform 0.2s ease;
+        padding: 4px;
+        border-radius: 4px;
+    }
+    
+    .notif-close:hover {
+        color: #000;
+        transform: scale(1.1);
+    }
+    
+    .notif-close:focus {
+        outline: 2px solid #856404;
+        outline-offset: 2px;
+    }
+    
+    /* Animación de entrada */
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Responsividad */
+    @media (max-width: 768px) {
+        .notif-bar {
+            padding: 12px 15px;
+            font-size: 0.9rem;
+        }
+        .notif-item {
+            margin-bottom: 8px;
+        }
+        .notif-badge {
+            font-size: 0.75rem;
+            padding: 3px 6px;
+        }
+    }
 </style>
 
-<div class="notif-bar">
+<div id="notif-bar" class="notif-bar">
+    <button type="button" class="notif-close" onclick="cerrarNotificacion()" aria-label="Cerrar notificación">
+        ×
+    </button>
+
     {% for prep in notif_30min_preps %}
         <div class="notif-item">
             <span class="notif-badge notif-badge-30">30 min</span>
@@ -54,4 +145,14 @@
         </div>
     {% endfor %}
 </div>
+
+<script>
+    function cerrarNotificacion() {
+        const bar = document.getElementById('notif-bar');
+        bar.classList.add('hidden');
+        setTimeout(() => {
+            bar.style.display = 'none';
+        }, 300); // Espera a que termine la transición
+    }
+</script>
 {% endif %}

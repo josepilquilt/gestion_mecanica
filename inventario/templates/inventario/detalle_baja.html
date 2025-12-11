@@ -3,118 +3,323 @@
 <head>
     <meta charset="UTF-8">
     <title>Detalle de baja #{{ baja.id }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { margin-bottom: 10px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
-        th, td { border: 1px solid #ccc; padding: 6px 8px; font-size: 14px; }
-        th { background: #f0f0f0; }
-        .campo-label { font-weight: bold; width: 180px; }
-        .bloque { margin-top: 15px; }
-        a { color: #003399; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        textarea { width: 100%; max-width: 100%; }
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f3f4f6; /* gris claro */
+            color: #333;
+        }
+
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Título + subtítulo */
+        .page-header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .page-header .sub-id {
+            margin-top: 4px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* Link volver */
+        .nav-top {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .nav-top a {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid #f1aeb5;
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: #d00000;
+            font-weight: 600;
+            transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .nav-top a:hover {
+            background: #d00000;
+            color: #fff;
+            box-shadow: 0 2px 6px rgba(208, 0, 0, 0.25);
+        }
+
+        /* Tarjetas generales */
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 8px rgba(15, 23, 42, 0.08);
+        }
+
+        .card-header {
+            border-bottom: 2px solid #f28b82;   /* línea roja suave */
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #222;
+        }
+
+        /* Tabla de info general */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .info-table td {
+            padding: 6px 4px;
+            vertical-align: top;
+        }
+
+        .campo-label {
+            width: 190px;
+            font-weight: 600;
+            color: #555;
+            padding-right: 12px;
+        }
+
+        /* Observaciones */
+        .observaciones-textarea {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid #f28b82;
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            resize: vertical;
+            background: #fff7f7;
+            color: #555;
+        }
+
+        .observaciones-textarea:read-only {
+            background: #fff7f7;
+        }
+
+        /* Tabla de herramientas */
+        table.tools-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 4px;
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 0.9rem;
+        }
+
+        table.tools-table th,
+        table.tools-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e9ecef;
+            text-align: left;
+        }
+
+        table.tools-table th {
+            background: #d00000;
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            font-size: 0.78rem;
+        }
+
+        table.tools-table tbody tr:nth-child(even) {
+            background: #fdf2f2;
+        }
+
+        table.tools-table tbody tr:nth-child(odd) {
+            background: #ffffff;
+        }
+
+        table.tools-table tbody tr:hover {
+            background: #ffe5e5;
+        }
+
+        .empty-row {
+            text-align: center;
+            font-style: italic;
+            color: #888;
+        }
+
+        /* Link de abajo */
+        .nav-bottom {
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        .nav-bottom a {
+            color: #d00000;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .nav-bottom a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 14px;
+            }
+
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .info-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .campo-label {
+                padding-top: 6px;
+            }
+        }
     </style>
 </head>
 <body>
+<div class="page-wrapper">
 
-<h1>Detalle de baja #{{ baja.id }}</h1>
+    <div class="page-header">
+        <h1>Detalle de baja</h1>
+        <div class="sub-id">ID #{{ baja.id }}</div>
+    </div>
 
-<a href="{% url 'lista_bajas' %}">Volver al listado de bajas</a>
-<br><br>
+    <div class="nav-top">
+        <a href="{% url 'lista_bajas' %}">← Volver al listado de bajas</a>
+    </div>
 
-<div class="bloque">
-    <table>
-        <tr>
-            <td class="campo-label">Fecha registro:</td>
-            <td>{{ baja.fecha_registro }}{% if baja.hora_registro %} {{ baja.hora_registro }}{% endif %}</td>
-        </tr>
-        <tr>
-            <td class="campo-label">Pañolero:</td>
-            <td>{{ baja.panolero.nombre }}</td>
-        </tr>
-        <tr>
-            <td class="campo-label">Docente:</td>
-            <td>
-                {% if baja.docente %}
-                    {{ baja.docente.nombre }}
-                {% else %}
-                    -
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td class="campo-label">Asignatura:</td>
-            <td>
-                {% if baja.asignatura %}
-                    {{ baja.asignatura.nombre }}
-                {% else %}
-                    -
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td class="campo-label">Fecha actividad:</td>
-            <td>
-                {% if baja.fecha_clase %}
-                    {{ baja.fecha_clase }}
-                {% else %}
-                    -
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td class="campo-label">Hora inicio actividad:</td>
-            <td>
-                {% if baja.hora_inicio_clase %}
-                    {{ baja.hora_inicio_clase }}
-                {% else %}
-                    -
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td class="campo-label">Motivo general:</td>
-            <td>{{ baja.motivo_general }}</td>
-        </tr>
-    </table>
-</div>
-
-<div class="bloque">
-    <h3>Observaciones / contexto (incluye info de estudiante si aplica)</h3>
-    <textarea rows="4" readonly>{{ baja.observaciones }}</textarea>
-</div>
-
-<div class="bloque">
-    <h3>Herramientas dadas de baja</h3>
-    <table>
-        <thead>
+    <!-- Información general -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Información general</h3>
+        </div>
+        <table class="info-table">
             <tr>
-                <th>Código</th>
-                <th>Herramienta</th>
-                <th>Cantidad baja</th>
-                <th>Motivo (detalle)</th>
+                <td class="campo-label">Fecha registro:</td>
+                <td>{{ baja.fecha_registro }}{% if baja.hora_registro %} {{ baja.hora_registro }}{% endif %}</td>
             </tr>
-        </thead>
-        <tbody>
-            {% for det in detalles %}
             <tr>
-                <td>{{ det.herramienta.codigo }}</td>
-                <td>{{ det.herramienta.nombre }}</td>
-                <td>{{ det.cantidad_baja }}</td>
-                <td>{{ det.motivo }}</td>
+                <td class="campo-label">Pañolero:</td>
+                <td>{{ baja.panolero.nombre }}</td>
             </tr>
-            {% empty %}
             <tr>
-                <td colspan="4">Esta baja no tiene herramientas asociadas.</td>
+                <td class="campo-label">Docente:</td>
+                <td>
+                    {% if baja.docente %}
+                        {{ baja.docente.nombre }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
             </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            <tr>
+                <td class="campo-label">Asignatura:</td>
+                <td>
+                    {% if baja.asignatura %}
+                        {{ baja.asignatura.nombre }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td class="campo-label">Fecha actividad:</td>
+                <td>
+                    {% if baja.fecha_clase %}
+                        {{ baja.fecha_clase }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td class="campo-label">Hora inicio actividad:</td>
+                <td>
+                    {% if baja.hora_inicio_clase %}
+                        {{ baja.hora_inicio_clase }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td class="campo-label">Motivo general:</td>
+                <td>{{ baja.motivo_general }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Observaciones -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Observaciones / contexto</h3>
+        </div>
+        <textarea class="observaciones-textarea" rows="4" readonly>{{ baja.observaciones }}</textarea>
+    </div>
+
+    <!-- Herramientas dadas de baja -->
+    <div class="card">
+        <div class="card-header">
+            <h3>Herramientas dadas de baja</h3>
+        </div>
+        <table class="tools-table">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Herramienta</th>
+                    <th>Cantidad baja</th>
+                    <th>Motivo (detalle)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for det in detalles %}
+                <tr>
+                    <td>{{ det.herramienta.codigo }}</td>
+                    <td>{{ det.herramienta.nombre }}</td>
+                    <td>{{ det.cantidad_baja }}</td>
+                    <td>{{ det.motivo }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="empty-row">Esta baja no tiene herramientas asociadas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="nav-bottom">
+        <a href="{% url 'lista_bajas' %}">← Volver al listado de bajas</a>
+    </div>
+
 </div>
-
-<br>
-<a href="{% url 'lista_bajas' %}">Volver al listado de bajas</a>
-
 </body>
 </html>

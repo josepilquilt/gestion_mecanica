@@ -3,116 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <title>Informe de Préstamos - Pañol</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 24px;
+            background-color: #f3f4f6; /* gris claro */
+            color: #333;
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-mini {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: #d00000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.85rem;
         }
 
         h1 {
-            margin-bottom: 5px;
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #b00000;
         }
 
         .subtitulo {
-            color: #555;
-            margin-bottom: 20px;
+            margin-top: 4px;
+            color: #cc6666;
             font-size: 0.9rem;
         }
 
-        .barra-superior {
+        .acciones-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .barra-superior .acciones {
-            display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         .btn {
-            padding: 6px 12px;
-            border-radius: 4px;
+            padding: 7px 14px;
+            border-radius: 999px;
             border: none;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 600;
             text-decoration: none;
-            display: inline-block;
-            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
         .btn-primario {
-            background-color: #007bff;
+            background-color: #d00000;
             color: #fff;
+            box-shadow: 0 2px 6px rgba(208, 0, 0, 0.3);
         }
 
         .btn-secundario {
-            background-color: #6c757d;
-            color: #fff;
+            background-color: #ffe5e5;
+            color: #b00000;
+            border: 1px solid #f5b5b5;
         }
 
         .btn:hover {
-            opacity: 0.9;
+            transform: translateY(-1px);
+            filter: brightness(0.97);
         }
 
-        /* Filtros */
+        /* CONTENEDORES PRINCIPALES */
+        .layout-superior {
+            margin-top: 16px;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
+        }
+
+        .card-header {
+            border-bottom: 2px solid #f28b82;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+
+        .card-header h2,
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #b00000;
+        }
+
+        /* FILTROS */
         form.filtros {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 14px;
             align-items: flex-end;
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            margin-bottom: 15px;
+            background-color: #fff7f7;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #f5b5b5;
         }
 
         form.filtros .campo {
             display: flex;
             flex-direction: column;
             font-size: 0.8rem;
+            min-width: 180px;
+        }
+
+        form.filtros label {
+            margin-bottom: 4px;
+            color: #b34b4b;
+            font-weight: 600;
         }
 
         form.filtros input[type="date"],
         form.filtros input[type="text"],
         form.filtros select {
-            padding: 4px 6px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            min-width: 150px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #f5b5b5;
             font-size: 0.85rem;
+            background-color: #ffffff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* Panel de resumen y TOPs */
+        form.filtros input:focus,
+        form.filtros select:focus {
+            outline: none;
+            border-color: #d00000;
+            box-shadow: 0 0 0 2px rgba(208, 0, 0, 0.1);
+        }
+
+        /* RESUMEN EN LÍNEA */
+        .resumen-linea {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #cc6666;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 18px;
+        }
+
+        .resumen-linea span strong {
+            color: #b00000;
+        }
+
+        /* PANEL TOPs */
         .panel-informes {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
+            gap: 14px;
+            margin-top: 12px;
         }
 
         .tarjeta {
-            background-color: #fff;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-            padding: 10px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            border: 1px solid #f5b5b5;
+            padding: 10px 12px;
             font-size: 0.85rem;
+            box-shadow: 0 2px 6px rgba(248, 113, 113, 0.12);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(248, 113, 113, 0.25);
         }
 
         .tarjeta h3 {
-            margin: 0 0 8px 0;
+            margin: 0 0 6px 0;
             font-size: 0.95rem;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #f28b82;
             padding-bottom: 4px;
+            color: #b00000;
         }
 
         .tarjeta ul {
             list-style: none;
-            padding-left: 0;
+            padding: 0;
             margin: 0;
         }
 
@@ -127,17 +232,20 @@
         }
 
         .tarjeta .kpi span.valor {
-            font-weight: bold;
+            font-weight: 700;
+            color: #d00000;
         }
 
-        /* Tabla principal */
+        /* TABLA PRINCIPAL */
         .contenedor-tabla {
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            background-color: #fff;
+            margin-top: 16px;
+            border-radius: 12px;
+            border: 1px solid #f5b5b5;
+            background-color: #ffffff;
             max-height: 520px;
             overflow-y: auto;
             overflow-x: auto;
+            box-shadow: 0 3px 10px rgba(15, 23, 42, 0.08);
         }
 
         table {
@@ -149,62 +257,102 @@
         thead {
             position: sticky;
             top: 0;
-            background-color: #f0f0f0;
+            background: #d00000;
+            color: #ffffff;
             z-index: 1;
         }
 
         th, td {
-            padding: 6px 8px;
-            border: 1px solid #ddd;
+            padding: 7px 9px;
+            border-bottom: 1px solid #f1d0d0;
             text-align: left;
         }
 
         th {
-            font-weight: bold;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
             white-space: nowrap;
+            font-size: 0.78rem;
         }
 
-        tr:nth-child(even) {
-            background-color: #fdfdfd;
+        tbody tr:nth-child(even) {
+            background-color: #fff5f5;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        tbody tr:hover {
+            background-color: #ffe5e5;
         }
 
         .estado-badge {
-            padding: 2px 6px;
-            border-radius: 4px;
+            padding: 3px 8px;
+            border-radius: 999px;
             font-size: 0.75rem;
-            font-weight: bold;
+            font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
 
         .estado-pendiente {
-            background-color: #fff3cd;
-            color: #856404;
+            background-color: #f97373;
+            color: #fff;
         }
 
         .estado-devuelto {
-            background-color: #d4edda;
-            color: #155724;
+            background-color: #c8e6c9;
+            color: #256029;
         }
 
         .estado-parcial {
-            background-color: #cce5ff;
-            color: #004085;
-        }
-
-        .resumen-linea {
-            margin-top: 5px;
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .resumen-linea span {
-            margin-right: 15px;
+            background-color: #ffe082;
+            color: #7b4f00;
         }
 
         .sin-resultados {
             padding: 10px;
-            color: #666;
+            color: #b34b4b;
             font-style: italic;
+        }
+
+        /* HERRAMIENTAS SIN STOCK */
+        .seccion-herr-sin-stock {
+            margin-top: 18px;
+        }
+
+        .seccion-herr-sin-stock h2 {
+            margin: 0 0 4px 0;
+            font-size: 1.1rem;
+            color: #b00000;
+        }
+
+        .seccion-herr-sin-stock .descripcion {
+            font-size: 0.85rem;
+            color: #cc6666;
+            margin-bottom: 6px;
+        }
+
+        .contenedor-tabla-herr {
+            margin-top: 6px;
+            border-radius: 10px;
+            border: 1px solid #f5b5b5;
+            background-color: #ffffff;
+            max-height: 320px;
+            overflow-y: auto;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+
+        .badge-stock-critico {
+            background-color: #d00000;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
         }
 
         @media (max-width: 1100px) {
@@ -214,86 +362,107 @@
         }
 
         @media (max-width: 800px) {
+            body {
+                padding: 16px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
             .panel-informes {
                 grid-template-columns: 1fr;
+            }
+
+            form.filtros {
+                flex-direction: column;
+                align-items: stretch;
             }
         }
     </style>
 </head>
 <body>
+<div class="page-wrapper">
 
-    <h1>Informe de Préstamos</h1>
-    <div class="subtitulo">
-        Panel de información del sistema de préstamos del pañol. Permite filtrar por fecha y estado,
-        y muestra los principales indicadores: totales, herramientas más usadas, llaves, autos,
-        docentes, asignaturas y pañoleros.
-    </div>
-
-    <div class="barra-superior">
-        <div></div>
-        <div class="acciones">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <div class="logo-mini">PA</div>
+            <div>
+                <h1>Informe de Préstamos</h1>
+                <div class="subtitulo">
+                    Panel de información del sistema de préstamos del pañol. Permite filtrar por fecha y estado, y ver
+                    indicadores clave: herramientas, llaves, autos, docentes, asignaturas y pañoleros.
+                </div>
+            </div>
+        </div>
+        <div class="acciones-header">
             <a href="/" class="btn btn-secundario">Volver al menú</a>
         </div>
     </div>
 
-    <!-- Filtros -->
-    <form method="get" class="filtros">
-        <div class="campo">
-            <label for="id_fecha_desde">Fecha desde:</label>
-            <input type="date" id="id_fecha_desde" name="fecha_desde" value="{{ request.GET.fecha_desde }}">
+    <!-- FILTROS -->
+    <div class="card layout-superior">
+        <div class="card-header">
+            <h2>Filtros</h2>
         </div>
-        <div class="campo">
-            <label for="id_fecha_hasta">Fecha hasta:</label>
-            <input type="date" id="id_fecha_hasta" name="fecha_hasta" value="{{ request.GET.fecha_hasta }}">
-        </div>
+        <form method="get" class="filtros">
+            <div class="campo">
+                <label for="id_fecha_desde">Fecha desde:</label>
+                <input type="date" id="id_fecha_desde" name="fecha_desde" value="{{ request.GET.fecha_desde }}">
+            </div>
+            <div class="campo">
+                <label for="id_fecha_hasta">Fecha hasta:</label>
+                <input type="date" id="id_fecha_hasta" name="fecha_hasta" value="{{ request.GET.fecha_hasta }}">
+            </div>
 
-        <div class="campo">
-            <label for="id_estado">Estado:</label>
-            <select id="id_estado" name="estado">
-                <option value="">(Todos)</option>
-                <option value="pendiente" {% if request.GET.estado == "pendiente" %}selected{% endif %}>Pendiente</option>
-                <option value="devuelto" {% if request.GET.estado == "devuelto" %}selected{% endif %}>Devuelto</option>
-                <option value="devuelto_parcial" {% if request.GET.estado == "devuelto_parcial" %}selected{% endif %}>Devuelto parcial</option>
-                
-            </select>
-        </div>
+            <div class="campo">
+                <label for="id_estado">Estado:</label>
+                <select id="id_estado" name="estado">
+                    <option value="">(Todos)</option>
+                    <option value="pendiente" {% if request.GET.estado == "pendiente" %}selected{% endif %}>Pendiente</option>
+                    <option value="devuelto" {% if request.GET.estado == "devuelto" %}selected{% endif %}>Devuelto</option>
+                    <option value="devuelto_parcial" {% if request.GET.estado == "devuelto_parcial" %}selected{% endif %}>Devuelto parcial</option>
+                </select>
+            </div>
 
-        <div class="campo">
-            <label for="id_texto">Docente / Estudiante / Asignatura:</label>
-            <input
-                type="text"
-                id="id_texto"
-                name="q"
-                value="{{ request.GET.q }}"
-                placeholder="Nombre docente, alumno, asignatura..."
-            >
-        </div>
+            <div class="campo" style="flex: 1;">
+                <label for="id_texto">Docente / Estudiante / Asignatura:</label>
+                <input
+                    type="text"
+                    id="id_texto"
+                    name="q"
+                    value="{{ request.GET.q }}"
+                    placeholder="Nombre docente, alumno, asignatura..."
+                >
+            </div>
 
-        <div class="campo">
-            <label>&nbsp;</label>
-            <button type="submit" class="btn btn-primario">Aplicar filtros</button>
-        </div>
+            <div class="campo">
+                <label>&nbsp;</label>
+                <button type="submit" class="btn btn-primario">Aplicar filtros</button>
+            </div>
 
-        {% if request.GET %}
-        <div class="campo">
-            <label>&nbsp;</label>
-            <a href="{% url 'informe_prestamos' %}" class="btn btn-secundario">Limpiar</a>
-        </div>
-        {% endif %}
-    </form>
+            {% if request.GET %}
+            <div class="campo">
+                <label>&nbsp;</label>
+                <a href="{% url 'informe_prestamos' %}" class="btn btn-secundario">Limpiar</a>
+            </div>
+            {% endif %}
+        </form>
 
-    <!-- Resumen general -->
-    <div class="resumen-linea">
-        <span><strong>Total de préstamos:</strong> {{ resumen.total_prestamos }}</span>
-        <span><strong>Docentes distintos:</strong> {{ resumen.total_docentes }}</span>
-        <span><strong>Estudiantes distintos:</strong> {{ resumen.total_estudiantes }}</span>
-        <span><strong>Asignaturas:</strong> {{ resumen.total_asignaturas }}</span>
-        <span><strong>Pañoleros:</strong> {{ resumen.total_panoleros }}</span>
+        <!-- Resumen general -->
+        <div class="resumen-linea">
+            <span><strong>Total de préstamos:</strong> {{ resumen.total_prestamos }}</span>
+            <span><strong>Docentes distintos:</strong> {{ resumen.total_docentes }}</span>
+            <span><strong>Estudiantes distintos:</strong> {{ resumen.total_estudiantes }}</span>
+            <span><strong>Asignaturas:</strong> {{ resumen.total_asignaturas }}</span>
+            <span><strong>Pañoleros:</strong> {{ resumen.total_panoleros }}</span>
+        </div>
     </div>
 
     <!-- Panel de tarjetas con Top 5 -->
     <div class="panel-informes">
-
         <!-- Tarjeta resumen / KPIs -->
         <div class="tarjeta">
             <h3>Resumen rápido</h3>
@@ -336,7 +505,7 @@
             </ul>
         </div>
 
-        <!-- Tarjeta Top llaves (incluye autos) -->
+        <!-- Tarjeta Top llaves -->
         <div class="tarjeta">
             <h3>Top 5 llaves (incluye llaves de auto)</h3>
             <ul>
@@ -353,7 +522,7 @@
             </ul>
         </div>
 
-        <!-- Tarjeta Top autos (llave_auto) -->
+        <!-- Tarjeta Top autos -->
         <div class="tarjeta">
             <h3>Top 5 autos (según llaves de auto)</h3>
             <ul>
@@ -371,7 +540,7 @@
 
         <!-- Tarjeta Top docentes -->
         <div class="tarjeta">
-            <h3>Top 5 docentes (cantidad de préstamos)</h3>
+            <h3>Top 5 docentes</h3>
             <ul>
                 {% for d in top_docentes %}
                     <li>
@@ -402,7 +571,7 @@
 
         <!-- Tarjeta Top pañoleros -->
         <div class="tarjeta">
-            <h3>Top 5 pañoleros (préstamos gestionados)</h3>
+            <h3>Top 5 pañoleros</h3>
             <ul>
                 {% for p in top_panoleros %}
                     <li>
@@ -417,74 +586,126 @@
     </div>
 
     <!-- Tabla principal de préstamos -->
-    <div class="contenedor-tabla">
-        <table>
-            <thead>
-                <tr>
-                    <th>Código préstamo</th>
-                    <th>Fecha</th>
-                    <th>Solicitante</th>
-                    <th>Asignatura</th>
-                    <th>Pañolero</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for p in prestamos %}
+    <div class="card" style="margin-top: 18px;">
+        <div class="card-header">
+            <h3>Listado de préstamos</h3>
+        </div>
+        <div class="contenedor-tabla">
+            <table>
+                <thead>
                     <tr>
-                        <td>{{ p.codigo_prestamo }}</td>
-                        <td>{{ p.fecha }}</td>
-                        <td>
-                            {% if p.docente %}
-                                {{ p.docente.nombre }}
-                            {% elif p.estudiante %}
-                                {{ p.estudiante.nombre }}{% if p.estudiante.carrera %} ({{ p.estudiante.carrera }}){% endif %}
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if p.asignatura %}
-                                {{ p.asignatura.nombre }}
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if p.panolero %}
-                                {{ p.panolero.nombre }}
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
-                        <td>
-                            <span class="estado-badge
-                                {% if p.estado == 'pendiente' %}
-                                    estado-pendiente
-                                {% elif p.estado == 'devuelto' %}
-                                    estado-devuelto
-                                {% elif p.estado == 'devuelto_parcial' %}
-                                    estado-parcial
-                                {% elif p.estado == 'anulado' %}
-                                    estado-parcial
+                        <th>Código préstamo</th>
+                        <th>Fecha</th>
+                        <th>Solicitante</th>
+                        <th>Asignatura</th>
+                        <th>Pañolero</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in prestamos %}
+                        <tr>
+                            <td>{{ p.codigo_prestamo }}</td>
+                            <td>{{ p.fecha }}</td>
+                            <td>
+                                {% if p.docente %}
+                                    {{ p.docente.nombre }}
+                                {% elif p.estudiante %}
+                                    {{ p.estudiante.nombre }}{% if p.estudiante.carrera %} ({{ p.estudiante.carrera }}){% endif %}
                                 {% else %}
-                                    estado-parcial
+                                    -
                                 {% endif %}
-                            ">
-                                {{ p.estado }}
-                            </span>
-                        </td>
-                    </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="6" class="sin-resultados">
-                            No se encontraron préstamos para los filtros seleccionados.
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                            </td>
+                            <td>
+                                {% if p.asignatura %}
+                                    {{ p.asignatura.nombre }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if p.panolero %}
+                                    {{ p.panolero.nombre }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="estado-badge
+                                    {% if p.estado == 'pendiente' %}
+                                        estado-pendiente
+                                    {% elif p.estado == 'devuelto' %}
+                                        estado-devuelto
+                                    {% elif p.estado == 'devuelto_parcial' %}
+                                        estado-parcial
+                                    {% elif p.estado == 'anulado' %}
+                                        estado-parcial
+                                    {% else %}
+                                        estado-parcial
+                                    {% endif %}
+                                ">
+                                    {{ p.estado }}
+                                </span>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="sin-resultados">
+                                No se encontraron préstamos para los filtros seleccionados.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 
+    <!-- Herramientas sin stock -->
+    <div class="card seccion-herr-sin-stock">
+        <div class="card-header">
+            <h3>Herramientas sin stock disponible</h3>
+        </div>
+        <div class="descripcion">
+            Listado de herramientas cuyo <strong>stock disponible</strong> es menor o igual a cero.
+            Útil para planificar compras, reposiciones o revisar posibles errores de registro.
+        </div>
+
+        <div class="contenedor-tabla-herr">
+            {% if herramientas_sin_stock %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Stock total</th>
+                            <th>Stock disponible</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for h in herramientas_sin_stock %}
+                            <tr>
+                                <td>{{ h.codigo }}</td>
+                                <td>{{ h.nombre }}</td>
+                                <td>{{ h.tipo }}</td>
+                                <td>{{ h.stock }}</td>
+                                <td>
+                                    <span class="badge-stock-critico">
+                                        {{ h.stock_disponible }}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="sin-resultados">
+                    Actualmente no hay herramientas con stock disponible igual o menor a 0.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
 </body>
 </html>

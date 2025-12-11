@@ -3,299 +3,416 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de bajas de herramientas</title>
+    <title>Listado de Bajas de Herramientas</title>
     <style>
+        /* Reset básico para consistencia */
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f8f9fa;
+            background-color: #fff5f5; /* Fondo rojizo suave */
             color: #333;
             line-height: 1.6;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1);
+            overflow: hidden;
         }
+
+        header {
+            text-align: center;
+            background-color: #fff;
+            color: #cc0000;
+            padding: 20px;
+            border-bottom: 2px solid #f0b3b3;
+        }
+
+        .logo {
+            max-height: 60px;
+            margin-bottom: 10px;
+        }
+
         h1 {
-            margin-bottom: 20px;
-            color: #495057;
-            text-align: center;
-            font-size: 2.5em;
-            font-weight: 300;
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
         }
+
+        main {
+            padding: 20px;
+        }
+
         .nav-links {
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
         }
-        .nav-links a {
-            color: #007bff;
+
+        .btn-link {
+            color: #cc0000;
             text-decoration: none;
-            font-weight: 500;
-            margin: 0 10px;
+            font-weight: bold;
             padding: 8px 16px;
-            border: 1px solid #007bff;
-            border-radius: 5px;
+            border: 2px solid #cc0000;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-link:hover {
+            background-color: #cc0000;
+            color: white;
+            text-decoration: none;
+        }
+
+        .add-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 20px;
+            padding: 10px 18px;
+            background-color: #cc0000;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
             transition: all 0.3s ease;
         }
-        .nav-links a:hover {
-            background-color: #007bff;
-            color: #fff;
+
+        .add-link:hover {
+            background-color: #a00000;
+            box-shadow: 0 2px 5px rgba(204, 0, 0, 0.2);
         }
+
         .message {
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            font-weight: 500;
-        }
-        .ok {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .filtros {
-            background-color: #e9ecef;
-            padding: 20px;
+            padding: 10px 12px;
+            margin-bottom: 16px;
             border-radius: 8px;
-            margin-bottom: 25px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
         }
+
+        .ok {
+            background-color: #c8e6c9;
+            color: #388e3c;
+            border-color: #c3e6cb;
+        }
+
+        .error {
+            background-color: #ffcdd2;
+            color: #d32f2f;
+            border-color: #f5c6cb;
+        }
+
+        .filtros {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin: 20px 0;
+            gap: 15px;
+            flex-wrap: wrap;
+            background-color: #fff0f0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(204, 0, 0, 0.1);
+        }
+
         .filtros label {
             display: flex;
             flex-direction: column;
-            font-weight: 500;
-            color: #495057;
+            font-weight: 600;
+            color: #cc0000;
+            font-size: 0.9rem;
         }
+
         .filtros input[type="date"],
         .filtros input[type="text"] {
             padding: 8px 12px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            font-size: 14px;
+            border: 1px solid #f0b3b3;
+            border-radius: 6px;
+            font-size: 0.9rem;
             margin-top: 5px;
-            transition: border-color 0.3s ease;
+            background-color: #fff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            min-width: 190px;
         }
+
         .filtros input[type="date"]:focus,
         .filtros input[type="text"]:focus {
             outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+            border-color: #cc0000;
+            box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.2);
         }
+
         .filtros button {
-            padding: 10px 20px;
-            background-color: #28a745;
+            padding: 9px 18px;
+            background: #cc0000;
             color: #fff;
             border: none;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: 500;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.1s;
         }
+
         .filtros button:hover {
-            background-color: #218838;
+            background: #a00000;
+            box-shadow: 0 2px 6px rgba(204, 0, 0, 0.2);
+            transform: translateY(-1px);
         }
+
         .filtros a {
-            color: #6c757d;
+            color: #cc0000;
             text-decoration: none;
-            font-weight: 500;
-            padding: 10px 20px;
-            border: 1px solid #6c757d;
-            border-radius: 5px;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            padding: 9px 18px;
+            border-radius: 6px;
+            border: 1px solid #f0b3b3;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
         }
+
         .filtros a:hover {
-            background-color: #6c757d;
-            color: #fff;
+            background-color: #ffe5e5;
+            color: #a00000;
         }
-        .add-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
-        }
-        .add-link:hover {
-            background-color: #0056b3;
-        }
+
         table {
             border-collapse: collapse;
             width: 100%;
             margin-top: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: white;
             border-radius: 8px;
             overflow: hidden;
+            box-shadow: 0 2px 8px rgba(204, 0, 0, 0.1);
+            font-size: 0.9rem;
         }
+
         th, td {
-            border: 1px solid #dee2e6;
-            padding: 12px 15px;
+            border: 1px solid #f0b3b3;
+            padding: 12px;
             text-align: left;
-            font-size: 14px;
         }
+
         th {
-            background-color: #343a40;
-            color: #fff;
+            background-color: #cc0000;
+            color: white;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 0.8rem;
         }
-        tbody tr:nth-child(even) {
-            background-color: #f8f9fa;
+
+        tr:nth-child(even) {
+            background-color: #fff0f0;
         }
-        tbody tr:hover {
-            background-color: #e9ecef;
-            cursor: pointer;
+
+        tr:hover {
+            background-color: #ffe5e5;
+            transition: background-color 0.2s ease;
         }
+
         a {
-            color: #007bff;
+            color: #cc0000;
             text-decoration: none;
             font-weight: 500;
         }
+
         a:hover {
             text-decoration: underline;
         }
+
         .empty-row {
             text-align: center;
             font-style: italic;
-            color: #6c757d;
+            color: #999;
         }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .container {
-                padding: 20px;
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
             }
-            h1 {
-                font-size: 2em;
-            }
+
             .filtros {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 10px;
             }
+
             .filtros label {
-                margin-bottom: 10px;
+                width: 100%;
             }
+
+            .filtros input[type="date"],
+            .filtros input[type="text"] {
+                width: 100%;
+                min-width: auto;
+            }
+
             table {
-                font-size: 12px;
+                font-size: 0.8rem;
             }
+
             th, td {
-                padding: 8px 10px;
+                padding: 8px;
+            }
+
+            /* Ocultar columnas menos importantes en móviles */
+            th:nth-child(4), td:nth-child(4), /* Docente */
+            th:nth-child(5), td:nth-child(5), /* Estudiante / contexto */
+            th:nth-child(6), td:nth-child(6)  /* Asignatura */ {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            header {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .btn-link {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+
+            .add-link {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .filtros {
+                padding: 10px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Listado de bajas de herramientas</h1>
+        <header>
+            <img src="https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png" alt="Logo de AFEVA" class="logo">
+            <h1>Listado de Bajas de Herramientas</h1>
+        </header>
 
-        <div class="nav-links">
-            <a href="{% url 'menu_principal' %}">Volver al menú</a>
-        </div>
+        <main>
+            <div class="nav-links">
+                <a href="{% url 'menu_principal' %}" class="btn-link">Volver al Menú</a>
+            </div>
 
-        {% if mensaje %}
-        <div class="message ok">{{ mensaje }}</div>
-        {% endif %}
+            {% if mensaje %}
+            <div class="message ok">{{ mensaje }}</div>
+            {% endif %}
 
-        {% if error %}
-        <div class="message error">{{ error }}</div>
-        {% endif %}
+            {% if error %}
+            <div class="message error">{{ error }}</div>
+            {% endif %}
 
-        <form method="get" class="filtros">
-            <label>
-                Fecha desde:
-                <input type="date" name="fecha_desde" value="{{ fecha_desde }}">
-            </label>
+            <form method="get" class="filtros">
+                <label>
+                    Fecha desde:
+                    <input type="date" name="fecha_desde" value="{{ fecha_desde }}">
+                </label>
 
-            <label>
-                Fecha hasta:
-                <input type="date" name="fecha_hasta" value="{{ fecha_hasta }}">
-            </label>
+                <label>
+                    Fecha hasta:
+                    <input type="date" name="fecha_hasta" value="{{ fecha_hasta }}">
+                </label>
 
-            <label>
-                Buscar:
-                <input type="text"
-                       name="q"
-                       placeholder="Motivo, observación, pañolero, docente, asignatura..."
-                       value="{{ query }}">
-            </label>
+                <label style="flex:1;">
+                    Buscar:
+                    <input type="text"
+                           name="q"
+                           placeholder="Motivo, observación, pañolero, docente, asignatura..."
+                           value="{{ query }}">
+                </label>
 
-            <button type="submit">Filtrar</button>
-            <a href="{% url 'lista_bajas' %}">Limpiar</a>
-        </form>
+                <button type="submit">Filtrar</button>
+                <a href="{% url 'lista_bajas' %}">Limpiar</a>
+            </form>
 
-        <a href="{% url 'registrar_baja' %}" class="add-link">➕ Registrar nueva baja</a>
+            <a href="{% url 'registrar_baja' %}" class="add-link">
+                <span>➕</span> <span>Registrar Nueva Baja</span>
+            </a>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Fecha registro</th>
-                    <th>Pañolero</th>
-                    <th>Docente</th>
-                    <th>Estudiante / contexto</th>
-                    <th>Asignatura</th>
-                    <th>Motivo general</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for b in bajas %}
-                <tr>
-                    <td>{{ b.id }}</td>
-                    <td>{{ b.fecha_registro }}</td>
-                    <td>{{ b.panolero.nombre }}</td>
-                    <td>
-                        {% if b.docente %}
-                            {{ b.docente.nombre }}
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if b.observaciones %}
-                            {{ b.observaciones }}
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if b.asignatura %}
-                            {{ b.asignatura.nombre }}
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                    <td>{{ b.motivo_general }}</td>
-                    <td>
-                        <a href="{% url 'detalle_baja' b.id %}">Ver detalle</a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="8" class="empty-row">No hay bajas registradas.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha Registro</th>
+                        <th>Pañolero</th>
+                        <th>Docente</th>
+                        <th>Estudiante / Contexto</th>
+                        <th>Asignatura</th>
+                        <th>Motivo General</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for b in bajas %}
+                    <tr>
+                        <td>{{ b.id }}</td>
+                        <td>{{ b.fecha_registro }}</td>
+                        <td>{{ b.panolero.nombre }}</td>
+                        <td>
+                            {% if b.docente %}
+                                {{ b.docente.nombre }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if b.observaciones %}
+                                {{ b.observaciones }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if b.asignatura %}
+                                {{ b.asignatura.nombre }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>{{ b.motivo_general }}</td>
+                        <td>
+                            <a href="{% url 'detalle_baja' b.id %}">Ver Detalle</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="empty-row">No hay bajas registradas.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-        <br>
-        <div class="nav-links">
-            <a href="{% url 'menu_principal' %}">Volver al menú</a>
-        </div>
+            <div class="nav-links" style="margin-top: 20px;">
+                <a href="{% url 'menu_principal' %}" class="btn-link">Volver al Menú</a>
+            </div>
+        </main>
     </div>
 </body>
 </html>

@@ -171,7 +171,7 @@
             animation: fadeIn 0.5s ease-in-out;
         }
 
-        /* Texto de Ayuda */
+        /* Texto de Ayuda Mejorado (Enfocado en "Olvidar Contraseña") */
         .help {
             margin-top: 25px;
             font-size: 0.85em;
@@ -179,6 +179,25 @@
             color: var(--color-texto-secundario);
             border-top: 1px dashed #e9ecef;
             padding-top: 20px;
+        }
+
+        .help a {
+            color: var(--color-acento);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transicion-rapida);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .help a:hover {
+            text-decoration: underline;
+            color: var(--color-principal);
+        }
+
+        .help a i {
+            margin-right: 5px;
+            font-size: 0.9em;
         }
 
         /* Animación sutil */
@@ -222,6 +241,7 @@
             Tu cuenta no tiene acceso a esta página.
         </p>
     {% endif %}
+    
 
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
@@ -246,9 +266,10 @@
         <button type="submit" class="btn"><i class="fas fa-sign-in-alt"></i> Ingresar</button>
     </form>
 
-    <p class="help">
-        Usa las credenciales creadas en el panel de administración.
-    </p>
+    <!-- Mejora específica en "Olvidar Contraseña": Añadido icono, mejor estilo y hover -->
+    <div class="help">
+        <a href="{% url 'password_reset' %}"><i class="fas fa-key"></i> ¿Olvidaste tu contraseña?</a>
+    </div>
 
 </div>
 </body>

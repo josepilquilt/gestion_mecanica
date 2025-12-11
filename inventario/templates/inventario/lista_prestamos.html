@@ -2,201 +2,313 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Préstamos</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 20px; 
-            background-color: #f4f4f4; 
+        /* Reset básico para consistencia */
+        * {
+            box-sizing: border-box;
         }
-        .header {
-            text-align: center;
-            background-color: #003366; /* Azul INACAP */
-            color: white;
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
             padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            background-color: #fff5f5; /* Fondo rojizo suave */
+            color: #333;
+            line-height: 1.6;
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(204, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            text-align: center;
+            background-color: #fff;
+            color: #cc0000;
+            padding: 20px;
+            border-bottom: 2px solid #f0b3b3;
+        }
+
         .logo {
             max-height: 60px;
             margin-bottom: 10px;
         }
-        table { 
-            border-collapse: collapse; 
-            width: 100%; 
-            margin-top: 15px; 
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-link {
+            color: #cc0000;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border: 2px solid #cc0000;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-link:hover {
+            background-color: #cc0000;
+            color: white;
+            text-decoration: none;
+        }
+
+        .search-form {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 10px;
+        }
+
+        .search-form input {
+            padding: 10px;
+            border: 1px solid #f0b3b3;
+            border-radius: 6px;
+            width: 250px;
+            font-size: 1rem;
+        }
+
+        .search-form button {
+            padding: 10px 20px;
+            background-color: #cc0000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-form button:hover {
+            background-color: #a00000;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
             background-color: white;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(204, 0, 0, 0.1);
         }
-        table, th, td { 
-            border: 1px solid #ddd; 
-            padding: 10px; 
+
+        th, td {
+            border: 1px solid #f0b3b3;
+            padding: 12px;
+            text-align: left;
         }
+
         th {
-            background-color: #003366;
+            background-color: #cc0000;
             color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
         }
+
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #fff0f0;
         }
+
         tr:hover {
-            background-color: #e9ecef;
+            background-color: #ffe5e5;
+            transition: background-color 0.2s ease;
         }
 
         .badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
             text-transform: capitalize;
             display: inline-block;
+            font-weight: 500;
         }
 
         /* Estados de préstamo */
-        .pendiente       { background: #ffecb3; color: #f57c00; }
-        .devuelto        { background: #c8e6c9; color: #388e3c; }
-        .devuelto_parcial{ background: #ffe0b2; color: #f57c00; }
-        .anulado         { background: #ffcdd2; color: #d32f2f; }
-        .entregado       { background: #bbdefb; color: #1976d2; }
+        .pendiente { background: #ffecb3; color: #f57c00; }
+        .devuelto { background: #c8e6c9; color: #388e3c; }
+        .devuelto_parcial { background: #ffe0b2; color: #f57c00; }
+        .anulado { background: #ffcdd2; color: #d32f2f; }
+        .entregado { background: #bbdefb; color: #1976d2; }
 
-        /* Roles (docente / estudiante) */
+        /* Roles */
         .role-pill {
             display: inline-block;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
             white-space: nowrap;
+            font-weight: 500;
         }
+
         .docente-pill {
-            background: #e3f2fd;   /* azul clarito */
-            color: #0d47a1;
+            background: #ffe5e5;
+            color: #b71c1c;
         }
+
         .estudiante-pill {
-            background: #fce4ec;   /* rosado clarito */
-            color: #880e4f;
+            background: #ffebee;
+            color: #c2185b;
         }
+
         .role-empty {
             color: #999;
             font-style: italic;
         }
-        .btn-link {
-            color: #003366;
-            text-decoration: none;
-            font-weight: bold;
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .search-form {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search-form input {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+
+            /* Ocultar columnas menos importantes en móviles */
+            th:nth-child(5), td:nth-child(5), /* Asignatura */
+            th:nth-child(6), td:nth-child(6)  /* Pañolero */ {
+                display: none;
+            }
         }
-        .btn-link:hover {
-            text-decoration: underline;
-        }
-        .search-form {
-            margin: 20px 0;
-            text-align: center;
-        }
-        .search-form input, .search-form button {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .search-form button {
-            background-color: #003366;
-            color: white;
-            cursor: pointer;
-        }
-        .search-form button:hover {
-            background-color: #0056b3;
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            header {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .btn-link {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Notificacion -->
+    <div class="container">
+        {% include "partials/notificaciones_panolero.html" %} 
+    <div class="container">
+    <div class="container">
+        <header>
+            <img src="https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png" alt="Logo de AFEVA" class="logo">
+            <h1>Préstamos Registrados</h1>
+        </header>
 
-<div class="header">
-    <h1>Préstamos registrados</h1>
-</div>
+        <main>
+            <div class="nav-links">
+                <a href="{% url 'menu_principal' %}" class="btn-link">← Volver al Menú</a>
+                <a href="{% url 'crear_prestamo' %}" class="btn-link">➕ Registrar Nuevo Préstamo</a>
+            </div>
 
-<a href="{% url 'menu_principal' %}" class="btn-link">←Volver al menú</a>
-<br><br>
+            <form method="GET" class="search-form">
+                <input type="text" name="q" placeholder="Buscar préstamo..." value="{{ query }}">
+                <button type="submit">Buscar</button>
+            </form>
 
-<form method="GET" class="search-form">
-    <input type="text" name="q" placeholder="Buscar préstamo..." value="{{ query }}">
-    <button type="submit">Buscar</button>
-</form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Fecha</th>
+                        <th>Docente</th>
+                        <th>Estudiante</th>
+                        <th>Asignatura</th>
+                        <th>Pañolero</th>
+                        <th>Estado</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in prestamos %}
+                    <tr>
+                        <td>{{ p.codigo_prestamo }}</td>
+                        <td>{{ p.fecha }}</td>
+                        <td>
+                            {% if p.docente %}
+                                <span class="role-pill docente-pill">{{ p.docente.nombre }}</span>
+                            {% else %}
+                                <span class="role-empty">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if p.estudiante %}
+                                <span class="role-pill estudiante-pill">{{ p.estudiante.nombre }} ({{ p.estudiante.rut }})</span>
+                            {% else %}
+                                <span class="role-empty">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if p.asignatura %}
+                                {{ p.asignatura.nombre }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>{{ p.panolero.nombre }}</td>
+                        <td>
+                            <span class="badge {{ p.estado }}">{{ p.estado }}</span>
+                        </td>
+                        <td>
+                            <a href="{% url 'registrar_devolucion' p.id %}" class="btn-link">Registrar Devolución</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-<br>
-
-<a href="{% url 'crear_prestamo' %}" class="btn-link">➕ Registrar nuevo préstamo</a>
-
-<table>
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Fecha</th>
-            <th>Docente</th>
-            <th>Estudiante</th>
-            <th>Asignatura</th>
-            <th>Pañolero</th>
-            <th>Estado</th>
-            <th>Acción</th>
-        </tr>
-    </thead>
-
-    <tbody>
-        {% for p in prestamos %}
-        <tr>
-            <td>{{ p.codigo_prestamo }}</td>
-            <td>{{ p.fecha }}</td>
-
-            <!-- DOCENTE -->
-            <td>
-                {% if p.docente %}
-                    <span class="role-pill docente-pill">
-                        {{ p.docente.nombre }}
-                    </span>
-                {% else %}
-                    <span class="role-empty">-</span>
-                {% endif %}
-            </td>
-
-            <!-- ESTUDIANTE -->
-            <td>
-                {% if p.estudiante %}
-                    <span class="role-pill estudiante-pill">
-                        {{ p.estudiante.nombre }} ({{ p.estudiante.rut }})
-                    </span>
-                {% else %}
-                    <span class="role-empty">-</span>
-                {% endif %}
-            </td>
-
-            <!-- ASIGNATURA -->
-            <td>
-                {% if p.asignatura %}
-                    {{ p.asignatura.nombre }}
-                {% else %}
-                    -
-                {% endif %}
-            </td>
-
-            <!-- PAÑOLERO -->
-            <td>{{ p.panolero.nombre }}</td>
-
-            <!-- ESTADO -->
-            <td>
-                <span class="badge {{ p.estado }}">
-                    {{ p.estado }}
-                    {# O si prefieres etiqueta bonita: {{ p.get_estado_display }} #}
-                </span>
-            </td>
-
-            <td>
-                <a href="{% url 'registrar_devolucion' p.id %}" class="btn-link">Registrar devolución</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<br>
-<a href="{% url 'menu_principal' %}" class="btn-link">Volver al menú</a>
-
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="{% url 'menu_principal' %}" class="btn-link">Volver al Menú</a>
+            </div>
+        </main>
+    </div>
 </body>
 </html>

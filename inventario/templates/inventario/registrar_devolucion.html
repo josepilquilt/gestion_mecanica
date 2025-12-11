@@ -3,138 +3,444 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrar devolución</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { margin-bottom: 10px; }
-        .ok { background: #d4edda; border: 1px solid #c3e6cb; padding: 10px; margin-bottom: 10px; }
-        .error { background: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; margin-bottom: 10px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
-        th, td { border: 1px solid #ccc; padding: 6px 8px; font-size: 14px; }
-        th { background: #f0f0f0; }
-        input[type="number"] { width: 80px; }
-        textarea { width: 100%; max-width: 100%; }
-        .btn { padding: 6px 12px; cursor: pointer; }
-        .btn-primary { background: #007bff; color: white; border: 1px solid #007bff; }
-        .btn-secondary { background: #6c757d; color: white; border: 1px solid #6c757d; text-decoration: none; }
-        .quantity-controls { display: flex; align-items: center; gap: 5px; }
-        .quantity-controls button { padding: 2px 8px; font-size: 12px; }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f7;
+            color: #333;
+        }
+
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* Encabezado */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .page-title {
+            margin: 0;
+            font-size: 1.9rem;
+            color: #2c3e50;
+        }
+        .page-subtitle {
+            margin: 4px 0 0;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            background: #ecf0f1;
+            color: #e74c3c;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid #e0e0e0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+        }
+        .btn-back::before {
+            content: "←";
+            font-size: 1rem;
+        }
+        .btn-back:hover {
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            transform: translateY(-1px);
+        }
+
+        /* Mensajes */
+        .ok, .error {
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .ok {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        /* Tarjetas */
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+        .card-header {
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.15rem;
+            color: #34495e;
+        }
+
+        /* Datos del préstamo */
+        .datos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px 40px;
+            font-size: 0.95rem;
+        }
+        .dato {
+            margin: 0;
+        }
+        .dato-label {
+            font-weight: 600;
+            color: #555;
+        }
+        .dato-valor {
+            color: #2c3e50;
+        }
+
+        /* Tabla */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 8px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+            font-size: 0.9rem;
+        }
+        thead {
+            background: #f3f4f6;
+        }
+        th, td {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 8px 10px;
+            text-align: left;
+        }
+        th {
+            font-weight: 600;
+            color: #4b5563;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        tbody tr:nth-child(even) {
+            background: #fafafa;
+        }
+        tbody tr:hover {
+            background: #f1f5f9;
+        }
+        .tabla-empty {
+            text-align: center;
+            color: #888;
+            font-style: italic;
+        }
+
+        /* Controles cantidad */
+        .quantity-controls {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .quantity-controls button {
+            padding: 2px 7px;
+            font-size: 0.75rem;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+            background: #fafafa;
+            cursor: pointer;
+            transition: background 0.15s, box-shadow 0.15s;
+        }
+        .quantity-controls button:hover {
+            background: #f0f0f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+        input[type="number"] {
+            width: 80px;
+            padding: 4px 6px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 0.9rem;
+        }
+
+        /* Textarea bitácora */
+        textarea {
+            width: 100%;
+            max-width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 0.95rem;
+            resize: vertical;
+        }
+
+        /* Botones principales */
+        .btn {
+            padding: 9px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            text-decoration: none;
+            margin-right: 8px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: #fff;
+            border: 1px solid #c0392b;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #555;
+            border: 1px solid #d0d4d8;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+        }
+        .btn-secondary:hover {
+            background: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
+
+        .nota {
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .datos-grid {
+                grid-template-columns: 1fr;
+            }
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
 <body>
+<div class="page-wrapper">
 
-<h1>Registrar devolución</h1>
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">Registrar devolución</h1>
+            <p class="page-subtitle">
+                Revisa el detalle del préstamo y registra la cantidad devuelta de cada herramienta.
+            </p>
+        </div>
 
-<p>
-    <strong>Código de préstamo:</strong> {{ prestamo.codigo_prestamo }}<br>
-    <strong>Fecha préstamo:</strong> {{ prestamo.fecha }}<br>
+        <a href="{% url 'lista_prestamos' %}" class="btn-back">
+            Volver a préstamos
+        </a>
+    </div>
 
-    {# Docente o estudiante + carrera #}
-    {% if prestamo.docente %}
-        <strong>Docente:</strong> {{ prestamo.docente.nombre }}<br>
-    {% elif prestamo.estudiante %}
-        <strong>Estudiante:</strong> {{ prestamo.estudiante.nombre }} ({{ prestamo.estudiante.rut }})<br>
-        {% if prestamo.estudiante.carrera %}
-            <strong>Carrera:</strong> {{ prestamo.estudiante.carrera }}<br>
-        {% endif %}
-    {% else %}
-        <strong>Solicitante:</strong> -<br>
+    <!-- Datos generales del préstamo -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Datos del préstamo</h2>
+            <span class="dato-valor" style="font-size:0.9rem;">
+                Estado actual: <strong>{{ prestamo.get_estado_display }}</strong>
+            </span>
+        </div>
+
+        <div class="datos-grid">
+            <p class="dato">
+                <span class="dato-label">Código de préstamo: </span>
+                <span class="dato-valor">{{ prestamo.codigo_prestamo }}</span>
+            </p>
+            <p class="dato">
+                <span class="dato-label">Fecha préstamo: </span>
+                <span class="dato-valor">{{ prestamo.fecha }}</span>
+            </p>
+
+            {% if prestamo.docente %}
+            <p class="dato">
+                <span class="dato-label">Docente: </span>
+                <span class="dato-valor">{{ prestamo.docente.nombre }}</span>
+            </p>
+            <p class="dato">
+                <span class="dato-label">Asignatura: </span>
+                <span class="dato-valor">
+                    {% if prestamo.asignatura %}
+                        {{ prestamo.asignatura.nombre }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </p>
+            {% elif prestamo.estudiante %}
+            <p class="dato">
+                <span class="dato-label">Estudiante: </span>
+                <span class="dato-valor">{{ prestamo.estudiante.nombre }} ({{ prestamo.estudiante.rut }})</span>
+            </p>
+            <p class="dato">
+                <span class="dato-label">Carrera: </span>
+                <span class="dato-valor">
+                    {% if prestamo.estudiante.carrera %}
+                        {{ prestamo.estudiante.carrera }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </p>
+            <p class="dato">
+                <span class="dato-label">Asignatura: </span>
+                <span class="dato-valor">
+                    {% if prestamo.asignatura %}
+                        {{ prestamo.asignatura.nombre }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </p>
+            {% else %}
+            <p class="dato">
+                <span class="dato-label">Solicitante: </span>
+                <span class="dato-valor">-</span>
+            </p>
+            <p class="dato">
+                <span class="dato-label">Asignatura: </span>
+                <span class="dato-valor">
+                    {% if prestamo.asignatura %}
+                        {{ prestamo.asignatura.nombre }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </span>
+            </p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if mensaje %}
+        <div class="ok">{{ mensaje }}</div>
     {% endif %}
 
-    <strong>Asignatura:</strong>
-    {% if prestamo.asignatura %}
-        {{ prestamo.asignatura.nombre }}
-    {% else %}
-        -
-    {% endif %}
-    <br>
-
-    <strong>Estado actual:</strong> {{ prestamo.get_estado_display }}
-</p>
-
-{% if mensaje %}
-<div class="ok">{{ mensaje }}</div>
-{% endif %}
-
-{% if error %}
-<div class="error">{{ error }}</div>
-{% endif %}
-
-<form method="POST">
-    {% csrf_token %}
-
-    <h3>Detalle del préstamo</h3>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Herramienta</th>
-                <th>Cant. prestada</th>
-                <th>Cant. devuelta</th>
-
-                {% if not solo_lectura %}
-                <th>Devolver ahora</th>
-                {% endif %}
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for det in prestamo.detalles.all %}
-            <tr>
-                <td>{{ det.herramienta.codigo }}</td>
-                <td>{{ det.herramienta.nombre }}</td>
-                <td>{{ det.cantidad_entregada }}</td>
-                <td>{{ det.cantidad_devuelta }}</td>
-
-                {% if not solo_lectura %}
-                <td class="quantity-controls">
-                    <button type="button" onclick="adjustQuantity('detalle_{{ det.id }}_devuelta', -1)">-</button>
-                    <input 
-                        type="number"
-                        id="detalle_{{ det.id }}_devuelta"
-                        name="detalle_{{ det.id }}_devuelta"
-                        min="0"
-                        max="{{ det.cantidad_entregada }}"
-                        value="{{ det.cantidad_devuelta }}"
-                    >
-                    <button type="button" onclick="adjustQuantity('detalle_{{ det.id }}_devuelta', 1)">+</button>
-                </td>
-                {% endif %}
-            </tr>
-
-            {% empty %}
-            <tr>
-                <td colspan="{% if solo_lectura %}4{% else %}5{% endif %}">
-                    Este préstamo no tiene herramientas asociadas.
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <h3>Bitácora de devolución</h3>
-    <p style="font-size: 13px; color: #555;">
-        Anota aquí comentarios sobre la devolución (faltantes, daños, retrasos u observaciones).
-    </p>
-
-    <textarea name="bitacora_devolucion"
-              rows="4"
-              {% if solo_lectura %}readonly{% endif %}
-    >{{ prestamo.bitacora_devolucion }}</textarea>
-
-    <br><br>
-
-    {% if not solo_lectura %}
-        <button type="submit" class="btn btn-primary">Guardar devolución</button>
-    {% else %}
-        <p style="font-size: 13px; color:#555;">
-            Este préstamo ya está completamente devuelto. Información en solo lectura.
-        </p>
+    {% if error %}
+        <div class="error">{{ error }}</div>
     {% endif %}
 
-    <a href="{% url 'lista_prestamos' %}" class="btn btn-secondary">Volver a préstamos</a>
+    <form method="POST">
+        {% csrf_token %}
 
-</form>
+        <!-- Detalle del préstamo -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Detalle de herramientas</h2>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Herramienta</th>
+                        <th>Cant. prestada</th>
+                        <th>Cant. devuelta</th>
+                        {% if not solo_lectura %}
+                            <th>Devolver ahora</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for det in prestamo.detalles.all %}
+                    <tr>
+                        <td>{{ det.herramienta.codigo }}</td>
+                        <td>{{ det.herramienta.nombre }}</td>
+                        <td>{{ det.cantidad_entregada }}</td>
+                        <td>{{ det.cantidad_devuelta }}</td>
+
+                        {% if not solo_lectura %}
+                        <td>
+                            <div class="quantity-controls">
+                                <button type="button" onclick="adjustQuantity('detalle_{{ det.id }}_devuelta', -1)">-</button>
+                                <input
+                                    type="number"
+                                    id="detalle_{{ det.id }}_devuelta"
+                                    name="detalle_{{ det.id }}_devuelta"
+                                    min="0"
+                                    max="{{ det.cantidad_entregada }}"
+                                    value="{{ det.cantidad_devuelta }}"
+                                >
+                                <button type="button" onclick="adjustQuantity('detalle_{{ det.id }}_devuelta', 1)">+</button>
+                            </div>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="{% if solo_lectura %}4{% else %}5{% endif %}" class="tabla-empty">
+                            Este préstamo no tiene herramientas asociadas.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Bitácora -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Bitácora de devolución</h2>
+            </div>
+
+            <p class="nota">
+                Anota aquí comentarios sobre la devolución (faltantes, daños, retrasos u observaciones).
+            </p>
+
+            <textarea name="bitacora_devolucion"
+                      rows="4"
+                      {% if solo_lectura %}readonly{% endif %}
+            >{{ prestamo.bitacora_devolucion }}</textarea>
+
+            <br><br>
+
+            {% if not solo_lectura %}
+                <button type="submit" class="btn btn-primary">Guardar devolución</button>
+                <a href="{% url 'lista_prestamos' %}" class="btn btn-secondary">Volver a préstamos</a>
+            {% else %}
+                <p class="nota">
+                    Este préstamo ya está completamente devuelto. Información en solo lectura.
+                </p>
+                <a href="{% url 'lista_prestamos' %}" class="btn btn-secondary">Volver a préstamos</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
 
 <script>
     function adjustQuantity(inputId, delta) {

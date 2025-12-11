@@ -2,78 +2,336 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Preparación (Listado de clase)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 12px;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.5;
+            font-size: 15px; /* un poco más grande */
+        }
 
-        .ok    { background: #d4edda; padding: 10px; margin-bottom: 10px; }
-        .error { background: #f8d7da; padding: 10px; margin-bottom: 10px; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
 
-        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
-        th, td { border: 1px solid #ccc; padding: 4px; }
-        th { background: #f0f0f0; }
-        input[type="number"] { width: 70px; }
-        input[readonly] { background: #eee; }
-        .btn { padding: 6px 12px; cursor: pointer; }
+        .ok, .error {
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .ok {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
 
-        /* Layout dos columnas */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .logo-container img {
+            width: 150px;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 18px;
+            margin-top: 0;
+            font-size: 1.8em; /* antes 1.6 */
+            font-weight: 700;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 5px;
+            position: relative;
+        }
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 35px;
+            height: 2px;
+            background: #e74c3c;
+        }
+
+        a {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+        a:hover {
+            color: #c0392b;
+        }
+        a::before {
+            content: '\f060';
+            font-family: 'Font Awesome 6 Free';
+            margin-right: 6px;
+            font-size: 0.8rem;
+        }
+
         .contenedor-principal {
             display: flex;
-            gap: 30px;
+            gap: 20px;
             align-items: flex-start;
+            max-width: 1150px;
+            margin: 0 auto;
         }
         .columna-izquierda {
-            flex: 2;
-            min-width: 0;
+            flex: 1.2;
+            background: #fff;
+            padding: 18px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
         }
         .columna-derecha {
-            flex: 1;
-            min-width: 280px;
+            flex: 1.4;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        /* Card de recomendaciones */
-        .card-recomendaciones {
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 15px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-            background-color: #fafafa;
+        form {
+            margin-bottom: 10px;
         }
-        .card-recomendaciones h3 {
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px 10px;           /* más grande */
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            background: #fafafa;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 4px rgba(231,76,60,0.4);
+            background: #fff;
+        }
+        input[type="number"] {
+            width: 90px;
+        }
+        input[readonly] {
+            background: #f3f3f3;
+            cursor: not-allowed;
+            border-color: #ccc;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+            background: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            font-size: 0.9rem;            /* antes 0.85 */
+        }
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 8px 10px;            /* antes 6x8 */
+            text-align: left;
+        }
+        th {
+            background: #f3f3f3;
+            font-weight: 700;
+            color: #444;
+        }
+        tbody tr {
+            transition: background 0.2s;
+        }
+        tbody tr:hover {
+            background: #f7f7f7;
+        }
+
+        .btn {
+            padding: 9px 14px;            /* más grande */
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+        .btn::before {
+            content: '\f067';
+            font-family: 'Font Awesome 6 Free';
+            margin-right: 6px;
+            font-size: 0.85rem;
+        }
+        .btn[type="submit"]::before {
+            content: '\f00c';
+        }
+
+        .acciones-finales {
+            max-width: 1150px;
+            margin: 12px auto 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .link-simple {
+            text-decoration: none;
+            color: #e74c3c;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .link-simple::before {
+            content: '\f060';
+            font-family: 'Font Awesome 6 Free';
+            margin-right: 6px;
+        }
+
+        .card-recomendaciones,
+        .card-herramientas {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            background: #fff;
+        }
+        .card-recomendaciones h3,
+        .card-herramientas h3 {
             margin-top: 0;
-            font-size: 18px;
+            font-size: 1.1em;
+        }
+        .card-recomendaciones h3::before,
+        .card-herramientas h3::before {
+            bottom: -2px;
+        }
+        .card-recomendaciones h3 span.icono {
+            margin-right: 8px;
+            color: #e74c3c;
         }
         .card-recomendaciones p {
-            font-size: 13px;
-            color: #555;
+            font-size: 0.9rem;
+            color: #6c757d;
             margin-bottom: 8px;
         }
         #lista-recomendaciones {
             list-style: none;
             padding-left: 0;
-            margin-top: 8px;
-            max-height: 420px;
+            margin-top: 10px;
+            max-height: 230px;
             overflow-y: auto;
-            font-size: 13px;
+            font-size: 0.9rem;
         }
         #lista-recomendaciones li {
-            margin-bottom: 6px;
-            border-bottom: 1px dashed #ddd;
-            padding-bottom: 4px;
+            margin-bottom: 8px;
+            border-bottom: 1px dashed #e9ecef;
+            padding-bottom: 6px;
+            padding-left: 12px;
+            position: relative;
+        }
+        #lista-recomendaciones li:before {
+            content: "•";
+            color: #e74c3c;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1rem;
         }
         #lista-recomendaciones li span.codigo {
-            color: #777;
-            font-size: 12px;
+            color: #6c757d;
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
+        @media (max-width: 900px) {
+            .contenedor-principal {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .columna-izquierda, .columna-derecha {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+            }
+            table {
+                font-size: 0.85rem;
+            }
+            th, td {
+                padding: 6px 8px;
+            }
+            .btn {
+                width: 100%;
+            }
+            .acciones-finales {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
-<body>
-
-    <!-- Logo de INACAP -->
-    <div style="text-align: center; margin-bottom: 20px;">
+<body class="fade-in">
+    <div class="logo-container">
         <img src="https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png"
-             alt="Logo INACAP"
-             style="width: 150px; height: auto;">
+             alt="Logo INACAP">
     </div>
 
     <h1>Crear preparación de clase</h1>
@@ -89,29 +347,23 @@
         <div class="error">{{ error }}</div>
     {% endif %}
 
-    <div class="contenedor-principal">
-        <!-- COLUMNA IZQUIERDA: FORMULARIO -->
-        <div class="columna-izquierda">
-            <form method="POST" id="form-preparacion">
-                {% csrf_token %}
+    <form method="POST" id="form-preparacion">
+        {% csrf_token %}
 
+        <div class="contenedor-principal">
+            <div class="columna-izquierda">
                 <h3>Datos del solicitante</h3>
 
-                <label>Tipo solicitante:</label>
-                <select name="tipo_solicitante">
+                <label for="tipo_solicitante">Tipo solicitante:</label>
+                <select name="tipo_solicitante" id="tipo_solicitante">
                     <option value="docente">Docente</option>
                 </select>
 
-                <br><br>
-
-                <label>Docente</label>
-
+                <label for="docente_codigo">Docente</label>
                 {% if es_docente and docente_actual %}
-                    {# Docente logueado: fijo #}
                     <p><strong>{{ docente_actual.codigo }} - {{ docente_actual.nombre }}</strong></p>
                     <input type="hidden" name="docente_codigo" value="{{ docente_actual.codigo }}">
                 {% else %}
-                    {# Vista normal (pañolero u otros) #}
                     <select name="docente_codigo" id="docente_codigo">
                         <option value="">--- Seleccione docente ---</option>
                         {% for d in docentes %}
@@ -120,9 +372,7 @@
                     </select>
                 {% endif %}
 
-                <br><br>
-
-                <label>Asignatura:</label>
+                <label for="asignatura_nombre">Asignatura:</label>
                 <input type="text"
                        name="asignatura_nombre"
                        id="asignatura_nombre"
@@ -130,98 +380,94 @@
 
                 <h3>Datos de la preparación</h3>
 
-                <label>Fecha de la clase:</label>
-                <input type="date" name="fecha" required>
+                <label for="fecha">Fecha de la clase:</label>
+                <input type="date" name="fecha" id="fecha" required>
 
-                <label>Hora de inicio:</label>
-                <input type="time" name="hora_inicio" required>
+                <label for="hora_inicio">Hora de inicio:</label>
+                <input type="time" name="hora_inicio" id="hora_inicio" required>
 
-                <label>Hora de término:</label>
-                <input type="time" name="hora_fin" required>
+                <label for="hora_fin">Hora de término:</label>
+                <input type="time" name="hora_fin" id="hora_fin" required>
 
-                <br><br>
+                <label for="observaciones">Observaciones (opcional):</label>
+                <textarea name="observaciones" id="observaciones" rows="3"></textarea>
+            </div>
 
-                <label>Observaciones (opcional):</label><br>
-                <textarea name="observaciones" rows="3" cols="60"></textarea>
+            <div class="columna-derecha">
+                <div class="card-recomendaciones">
+                    <h3><span class="icono"><i class="fa-solid fa-lightbulb"></i></span>Recomendaciones de herramientas</h3>
+                    <p id="texto-estado-recs">
+                        Escribe el nombre de la asignatura (tal como está en el sistema)
+                        para ver las herramientas típicamente usadas.
+                    </p>
+                    <ul id="lista-recomendaciones"></ul>
+                </div>
 
-                <h3>Herramientas preparadas</h3>
-                <p style="font-size: 13px; color:#555;">
-                    Escanea el código de cada herramienta en la columna "Código".
-                    Si la cantidad queda en 0, puedes cambiarla manualmente.
-                </p>
+                <div class="card-herramientas">
+                    <h3>Herramientas preparadas</h3>
+                    <p style="font-size: 0.9rem; color: #6c757d; margin-top: 0;">
+                        Escanea el código de cada herramienta en la columna "Código".
+                        Si la cantidad queda en 0, puedes cambiarla manualmente.
+                    </p>
 
-                <button type="submit" class="btn">Registrar préstamo</button>
-                <button type="button" class="btn" id="btn-agregar-fila-prep">+ Agregar herramienta</button>
+                    <div style="margin-bottom: 6px;">
+                        <button type="submit" class="btn">Registrar préstamo</button>
+                        <button type="button" class="btn" id="btn-agregar-fila-prep">Agregar herramienta</button>
+                    </div>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Herramienta</th>
-                            <th>Stock disp. (informativo)</th>
-                            <th>Cantidad</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody-herr-prep">
-                        {% for i in "01234567890123456789" %}
-                        <tr>
-                            <td>
-                                <input type="text"
-                                       name="codigo_herramienta"
-                                       class="codigo-input"
-                                       data-row="{{ forloop.counter0 }}">
-                            </td>
-                            <td>
-                                <input type="text"
-                                       class="nombre-input"
-                                       data-row="{{ forloop.counter0 }}"
-                                       readonly>
-                            </td>
-                            <td>
-                                <input type="text"
-                                       class="stock-input"
-                                       data-row="{{ forloop.counter0 }}"
-                                       readonly>
-                            </td>
-                            <td>
-                                <input type="number"
-                                       name="cantidad"
-                                       class="cantidad-input"
-                                       data-row="{{ forloop.counter0 }}"
-                                       value="0"
-                                       min="0">
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-
-                <br>
-                <button type="submit" class="btn">Guardar preparación</button>
-            </form>
-
-            <br>
-            <a href="{% url 'lista_preparaciones' %}">Volver a listado de preparaciones</a>
-        </div>
-
-        <!-- COLUMNA DERECHA: CARD DE RECOMENDACIONES IA -->
-        <div class="columna-derecha">
-            <div class="card-recomendaciones">
-                <h3>Recomendaciones de herramientas</h3>
-                <p id="texto-estado-recs">
-                    Escribe el nombre de la asignatura (tal como está en el sistema)
-                    para ver las herramientas típicamente usadas.
-                </p>
-                <ul id="lista-recomendaciones"></ul>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Herramienta</th>
+                                <th>Stock disp. (informativo)</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-herr-prep">
+                            {% for i in "01234567890123456789" %}
+                            <tr>
+                                <td>
+                                    <input type="text"
+                                           name="codigo_herramienta"
+                                           class="codigo-input"
+                                           data-row="{{ forloop.counter0 }}">
+                                </td>
+                                <td>
+                                    <input type="text"
+                                           class="nombre-input"
+                                           data-row="{{ forloop.counter0 }}"
+                                           readonly>
+                                </td>
+                                <td>
+                                    <input type="text"
+                                           class="stock-input"
+                                           data-row="{{ forloop.counter0 }}"
+                                           readonly>
+                                </td>
+                                <td>
+                                    <input type="number"
+                                           name="cantidad"
+                                           class="cantidad-input"
+                                           data-row="{{ forloop.counter0 }}"
+                                           value="0"
+                                           min="0">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="acciones-finales">
+            <button type="submit" class="btn">Guardar preparación</button>
+            <a href="{% url 'lista_preparaciones' %}" class="link-simple">Volver a listado de preparaciones</a>
+        </div>
+    </form>
 
 <script>
-// =======================
-// Utilidades generales
-// =======================
-
 // Evitar que ENTER envíe el formulario completo
 document.getElementById("form-preparacion").addEventListener("keydown", function(e) {
     if (e.key === "Enter" && e.target.tagName.toLowerCase() !== "textarea") {
@@ -229,7 +475,6 @@ document.getElementById("form-preparacion").addEventListener("keydown", function
     }
 });
 
-// Mover foco a la siguiente fila de código
 function moverFocoSiguienteCodigo(inputActual) {
     const codigos = Array.from(document.querySelectorAll(".codigo-input"));
     const idx = codigos.indexOf(inputActual);
@@ -240,7 +485,6 @@ function moverFocoSiguienteCodigo(inputActual) {
     }
 }
 
-// Buscar herramienta por código (API existente)
 function buscarHerramientaPorCodigo(inputCodigo, moverFoco) {
     const codigo = inputCodigo.value.trim();
     const row = inputCodigo.dataset.row;
@@ -295,12 +539,10 @@ function attachEventosCodigo(input) {
     });
 }
 
-// Eventos para las 20 filas iniciales
 document.querySelectorAll(".codigo-input").forEach((input) => {
     attachEventosCodigo(input);
 });
 
-// Agregar filas extra
 const tbodyHerrPrep = document.getElementById("tbody-herr-prep");
 const btnAgregarFilaPrep = document.getElementById("btn-agregar-fila-prep");
 
@@ -332,11 +574,7 @@ btnAgregarFilaPrep.addEventListener("click", function() {
     nuevoCodigoInput.focus();
 });
 
-// =======================
 // BLOQUE IA RECOMENDACIONES
-// =======================
-
-// Asignaturas disponibles (debe venir en el contexto)
 const ASIGNATURAS = [
     {% for a in asignaturas %}
         {"id": {{ a.id }}, "nombre": "{{ a.nombre|escapejs }}"},
@@ -346,8 +584,6 @@ const ASIGNATURAS = [
 function encontrarAsignaturaPorNombre(nombre) {
     nombre = nombre.trim().toLowerCase();
     if (!nombre) return null;
-
-    // coincidencia exacta (puedes mejorar a "startsWith" o "includes" si quieres)
     for (const a of ASIGNATURAS) {
         if (a.nombre.toLowerCase() === nombre) {
             return a;
@@ -403,7 +639,6 @@ function cargarRecomendacionesParaAsignatura() {
         });
 }
 
-// Disparar búsqueda al salir del input o cambiar el valor
 inputAsig.addEventListener("blur", cargarRecomendacionesParaAsignatura);
 inputAsig.addEventListener("change", cargarRecomendacionesParaAsignatura);
 </script>

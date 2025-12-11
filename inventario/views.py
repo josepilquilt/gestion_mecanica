@@ -14,7 +14,7 @@ from django.http import JsonResponse
 from .recomendador import recomendar_herramientas
 from . import recomendador as rec
 from datetime import datetime
-
+from django.core.paginator import Paginator
 #
 from django.http import HttpResponse
 import io
@@ -940,14 +940,14 @@ def crear_preparacion(request):
                 error = "Debes indicar la fecha de la clase."
 
         # 🔹 Regla: mínimo 2 días de anticipación para la preparación
-        if fecha and not error:
-            hoy = timezone.localdate()
-            min_fecha = hoy + timedelta(days=2)
-            if fecha < min_fecha:
-                error = (
-                    f"Las preparaciones deben crearse con al menos 2 días de anticipación. "
-                    f"Fecha mínima permitida: {min_fecha.strftime('%Y-%m-%d')}."
-                )
+        #if fecha and not error:
+         #   hoy = timezone.localdate()
+          #  min_fecha = hoy + timedelta(days=2)
+           # if fecha < min_fecha:
+            #    error = (
+             #       f"Las preparaciones deben crearse con al menos 2 días de anticipación. "
+              #      f"Fecha mínima permitida: {min_fecha.strftime('%Y-%m-%d')}."
+               # )
 
         # ---------------- HORAS ----------------
         try:
@@ -1534,7 +1534,7 @@ def api_prestamo_por_codigo(request):
         "asignatura_nombre": p.asignatura.nombre if p.asignatura else "",
         "panolero_nombre": p.panolero.nombre if p.panolero else "",
 
-        # 👇 NUEVO: herramientas del préstamo
+        # 👇  herramientas del préstamo
         "detalles": detalles,
     }
 
@@ -1607,8 +1607,7 @@ def informe_prestamos(request):
         except ValueError:
             pass
 
-    # --------- Filtro por estado (AQUÍ ESTABA EL PROBLEMA) ---------
-    # Usamos iexact para evitar problemas de mayúsculas/minúsculas
+    # --------- Filtro por estado ---------
     if estado:
         prestamos = prestamos.filter(estado__iexact=estado)
 
@@ -1712,6 +1711,20 @@ def informe_prestamos(request):
         .order_by("-num_prestamos")[:5]
     )
 
+    # 🔹 HERRAMIENTAS SIN STOCK DISPONIBLE
+    # Versión básica: todas las herramientas del pañol con stock_disponible <= 0
+    herramientas_sin_stock = (
+        Herramienta.objects
+        .filter(stock_disponible__lte=0)
+        .order_by("nombre")
+    )
+    # Si quieres mostrar solo las que hayan participado en los préstamos filtrados:
+    # ids_usadas = detalles.values_list("herramienta_id", flat=True).distinct()
+    # herramientas_sin_stock = Herramienta.objects.filter(
+    #     id__in=ids_usadas,
+    #     stock_disponible__lte=0
+    # ).order_by("nombre")
+
     context = {
         "prestamos": prestamos,
 
@@ -1729,6 +1742,9 @@ def informe_prestamos(request):
         "top_docentes": top_docentes,
         "top_asignaturas": top_asignaturas,
         "top_panoleros": top_panoleros,
+
+        # 👇 NUEVO: lista de herramientas sin stock
+        "herramientas_sin_stock": herramientas_sin_stock,
 
         # para que el template pueda marcar el estado seleccionado en el <select>
         "estado_sel": estado,
@@ -1748,10 +1764,18 @@ def panel_kpis(request):
     carrera_filtro = request.GET.get("carrera", "")         # carrera de estudiante
     asignatura_filtro = request.GET.get("asignatura", "")   # nombre asignatura
 
-    # 🔹 NUEVO: rango de fechas (YYYY-MM-DD)
+    # Rango de fechas (YYYY-MM-DD) desde el formulario
     fecha_desde_str = request.GET.get("fecha_desde", "").strip()
     fecha_hasta_str = request.GET.get("fecha_hasta", "").strip()
 
+    # 1) Si NO hay ningún filtro, aplicamos por defecto "últimos 90 días"
+    if not semestre and not carrera_filtro and not asignatura_filtro and not fecha_desde_str and not fecha_hasta_str:
+        hoy = timezone.localdate()
+        fecha_desde_default = hoy - timedelta(days=90)
+        fecha_desde_str = fecha_desde_default.strftime("%Y-%m-%d")
+        fecha_hasta_str = hoy.strftime("%Y-%m-%d")
+
+    # Base de préstamos (con relaciones)
     prestamos = Prestamo.objects.select_related(
         "docente", "estudiante", "asignatura", "panolero"
     )
@@ -1772,10 +1796,9 @@ def panel_kpis(request):
                     fecha__month__in=[8, 9, 10, 11, 12],
                 )
         except ValueError:
-            # si viene mal formateado, no se filtra por semestre
             pass
 
-    # --- 🔹 FILTRO POR RANGO DE FECHAS ---
+    # --- FILTRO POR RANGO DE FECHAS ---
     if fecha_desde_str:
         try:
             fecha_desde = timezone.datetime.strptime(
@@ -1783,7 +1806,9 @@ def panel_kpis(request):
             ).date()
             prestamos = prestamos.filter(fecha__gte=fecha_desde)
         except ValueError:
-            pass
+            fecha_desde = None
+    else:
+        fecha_desde = None
 
     if fecha_hasta_str:
         try:
@@ -1792,7 +1817,9 @@ def panel_kpis(request):
             ).date()
             prestamos = prestamos.filter(fecha__lte=fecha_hasta)
         except ValueError:
-            pass
+            fecha_hasta = None
+    else:
+        fecha_hasta = None
 
     # --- FILTRO POR CARRERA (solo préstamos de estudiantes) ---
     if carrera_filtro:
@@ -1802,22 +1829,28 @@ def panel_kpis(request):
     if asignatura_filtro:
         prestamos = prestamos.filter(asignatura__nombre=asignatura_filtro)
 
+    # ========== IMPORTANTE ==========
+    # Usaremos `prestamos_qs` para KPIs y rankings (TODOS los registros filtrados)
+    # y luego paginaremos SOLO para la tabla.
+    # =================================
+    prestamos_qs = prestamos
+
     # ---------------- KPIs GENERALES ----------------
-    total_prestamos = prestamos.count()
+    total_prestamos = prestamos_qs.count()
 
     total_herramientas = (
         PrestamoDetalle.objects
-        .filter(prestamo__in=prestamos)
+        .filter(prestamo__in=prestamos_qs)
         .aggregate(total=Sum("cantidad_entregada"))["total"] or 0
     )
 
-    total_prest_docente = prestamos.filter(docente__isnull=False).count()
-    total_prest_estudiante = prestamos.filter(estudiante__isnull=False).count()
+    total_prest_docente = prestamos_qs.filter(docente__isnull=False).count()
+    total_prest_estudiante = prestamos_qs.filter(estudiante__isnull=False).count()
     total_prest_otros = total_prestamos - total_prest_docente - total_prest_estudiante
 
     # 🔹 cuántos pañoleros distintos han intervenido en estos préstamos
     total_panoleros = (
-        prestamos.exclude(panolero__isnull=True)
+        prestamos_qs.exclude(panolero__isnull=True)
         .values("panolero")
         .distinct()
         .count()
@@ -1827,7 +1860,7 @@ def panel_kpis(request):
 
     # Top 5 docentes por cantidad de préstamos
     top_docentes = (
-        prestamos.filter(docente__isnull=False)
+        prestamos_qs.filter(docente__isnull=False)
         .values("docente__nombre", "docente__codigo")
         .annotate(total_prestamos=Count("id"))
         .order_by("-total_prestamos")[:5]
@@ -1835,14 +1868,14 @@ def panel_kpis(request):
 
     # Top 5 carreras (préstamos de estudiantes)
     top_carreras = (
-        prestamos.filter(estudiante__isnull=False, estudiante__carrera__isnull=False)
+        prestamos_qs.filter(estudiante__isnull=False, estudiante__carrera__isnull=False)
         .values("estudiante__carrera")
         .annotate(total_prestamos=Count("id"))
         .order_by("-total_prestamos")[:5]
     )
 
     # Detalles filtrados (para herramientas / autos)
-    detalles_filtrados = PrestamoDetalle.objects.filter(prestamo__in=prestamos)
+    detalles_filtrados = PrestamoDetalle.objects.filter(prestamo__in=prestamos_qs)
 
     # Top 5 herramientas más despachadas (general)
     top_herramientas = (
@@ -1853,7 +1886,6 @@ def panel_kpis(request):
     )
 
     # 🔹 Top 5 herramientas FIJAS
-    # ajusta el filtro según cómo esté el campo `tipo` en tu modelo (Fijo / FIJO / Herramienta fija, etc.)
     top_herramientas_fijas = (
         detalles_filtrados
         .filter(herramienta__tipo__icontains="fijo")
@@ -1882,7 +1914,7 @@ def panel_kpis(request):
 
     # Top 5 asignaturas
     top_asignaturas = (
-        prestamos.filter(asignatura__isnull=False)
+        prestamos_qs.filter(asignatura__isnull=False)
         .values("asignatura__nombre")
         .annotate(total_prestamos=Count("id"))
         .order_by("-total_prestamos")[:5]
@@ -1890,11 +1922,25 @@ def panel_kpis(request):
 
     # Top 5 pañoleros por cantidad de préstamos registrados
     top_panoleros = (
-        prestamos.filter(panolero__isnull=False)
+        prestamos_qs.filter(panolero__isnull=False)
         .values("panolero__nombre")
         .annotate(total_prestamos=Count("id"))
         .order_by("-total_prestamos")[:5]
     )
+
+    # ---------------- PAGINACIÓN PARA LA TABLA ----------------
+    # Ordenamos y paginamos SOLO para la tabla de "Listado de préstamos"
+    prestamos_qs = prestamos_qs.order_by("-fecha", "-id")
+
+    paginator = Paginator(prestamos_qs, 100)  # 100 préstamos por página (ajusta a gusto)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    # Para construir los links de paginación sin duplicar el parámetro "page"
+    query_params = request.GET.copy()
+    if "page" in query_params:
+        query_params.pop("page")
+    querystring = query_params.urlencode()
 
     # ---------------- LISTAS PARA LOS SELECT ----------------
     lista_semestres = ["2024-1", "2024-2", "2025-1", "2025-2"]
@@ -1916,7 +1962,11 @@ def panel_kpis(request):
     )
 
     context = {
-        "prestamos": prestamos,
+        # PRESTAMOS PAGINADOS (para la tabla)
+        "page_obj": page_obj,
+        "querystring": querystring,
+
+        # KPIs
         "total_prestamos": total_prestamos,
         "total_herramientas": total_herramientas,
         "total_prest_docente": total_prest_docente,
@@ -1926,14 +1976,16 @@ def panel_kpis(request):
         "total_panoleros": total_panoleros,
         "top_panoleros": top_panoleros,
 
+        # TOPs
         "top_docentes": top_docentes,
         "top_carreras": top_carreras,
         "top_herramientas": top_herramientas,
-        "top_herramientas_fijas": top_herramientas_fijas,             # 👈 NUEVO
-        "top_herramientas_consumibles": top_herramientas_consumibles, # 👈 NUEVO
+        "top_herramientas_fijas": top_herramientas_fijas,
+        "top_herramientas_consumibles": top_herramientas_consumibles,
         "top_autos": top_autos,
         "top_asignaturas": top_asignaturas,
 
+        # Filtros para los select
         "lista_semestres": lista_semestres,
         "lista_carreras": lista_carreras,
         "lista_asignaturas": lista_asignaturas,
@@ -1941,7 +1993,7 @@ def panel_kpis(request):
         "carrera_sel": carrera_filtro,
         "asignatura_sel": asignatura_filtro,
 
-        # 🔹 para mantener el rango de fechas en los inputs y en exportación
+        # Para mantener el rango de fechas en los inputs y en exportación
         "fecha_desde": fecha_desde_str,
         "fecha_hasta": fecha_hasta_str,
     }

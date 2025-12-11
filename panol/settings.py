@@ -150,8 +150,28 @@ LOGOUT_REDIRECT_URL = 'login'  # o 'logout_msg' si quieres
 ANTELACION_DIAS_PREPARACION = 3      # en producción: 2 o 3
 VENTANA_MINUTOS_RESERVA = 15         # en producción: 15 min
 
+
 # Para desarrollo: los mails se muestran en la consola
+#EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-DEFAULT_FROM_EMAIL = "no-reply@inacap-panol.cl"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
+EMAIL_HOST_USER = "tu_correo@gmail.com"   # el Gmail desde el que quieres enviar
+EMAIL_HOST_PASSWORD = "AQUI_CONTRASEÑA_APP"  # OJO: contraseña de aplicación, NO la normal
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+STATIC_URL = "static/"
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+
+
+ALLOWED_HOSTS = ["10.234.209.139", "localhost", "127.0.0.1"]

@@ -258,6 +258,25 @@
             color: #6b7280;
         }
 
+        /* Paginación */
+        .paginacion {
+            margin: 8px 10px 10px 10px;
+            text-align: right;
+            font-size: 0.8rem;
+        }
+        .paginacion a {
+            margin: 0 4px;
+            text-decoration: none;
+            color: #2563eb;
+        }
+        .paginacion a:hover {
+            text-decoration: underline;
+        }
+        .paginacion span {
+            margin: 0 4px;
+            color: #4b5563;
+        }
+
         @media (max-width: 900px) {
             .grid-graficos {
                 grid-template-columns: 1fr;
@@ -451,7 +470,7 @@
             Resumen de todos los préstamos que cumplen los filtros seleccionados.
         </div>
         <div class="tabla-contenedor">
-            {% if prestamos %}
+            {% if total_prestamos > 0 %}
             <table>
                 <thead>
                     <tr>
@@ -466,7 +485,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for p in prestamos %}
+                    {# usamos page_obj para paginar #}
+                    {% for p in page_obj %}
                     <tr>
                         <td>{{ p.codigo_prestamo }}</td>
                         <td>{{ p.fecha }}</td>
@@ -508,6 +528,21 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <!-- Paginación -->
+            <div class="paginacion">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}">« Anterior</a>
+                {% endif %}
+
+                <span>
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}">Siguiente »</a>
+                {% endif %}
+            </div>
             {% else %}
             <div class="sin-datos">
                 No hay préstamos registrados con los filtros actuales.

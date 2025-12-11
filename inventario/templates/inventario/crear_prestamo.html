@@ -2,193 +2,485 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Préstamo</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .ok    { background: #d4edda; padding: 10px; margin-bottom: 10px; }
-        .error { background: #f8d7da; padding: 10px; margin-bottom: 10px; }
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-        table { border-collapse: collapse; width: 100%; margin-top: 15px; }
-        th, td { border: 1px solid #ccc; padding: 4px; }
-        th { background: #f0f0f0; }
-        input[type="number"] { width: 70px; }
-        input[readonly] { background: #eee; }
-        .btn { padding: 6px 12px; cursor: pointer; }
-        .info-prep { font-size: 13px; color:#555; margin-top:5px; }
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 12px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .ok, .error {
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .ok {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .logo-container img {
+            width: 150px;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin: 0 0 18px 0;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        h3 {
+            color: #34495e;
+            margin-top: 18px;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            border-bottom: 2px solid #e74c3c;
+            padding-bottom: 5px;
+            position: relative;
+        }
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 35px;
+            height: 2px;
+            background: #e74c3c;
+        }
+
+        a {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+        a:hover {
+            color: #c0392b;
+        }
+        a::before {
+            content: '\f060';
+            font-family: 'Font Awesome 6 Free';
+            margin-right: 6px;
+            font-size: 0.8rem;
+        }
+
+        /* Layout principal de dos columnas */
+        .contenedor-principal {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            max-width: 1150px;
+            margin: 0 auto;
+        }
+        .columna-izquierda {
+            flex: 1.2;
+            background: #fff;
+            padding: 18px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .columna-derecha {
+            flex: 1.4;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Formulario: campos */
+        form {
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            background: #fafafa;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 4px rgba(231,76,60,0.4);
+            background: #fff;
+        }
+        input[type="number"] {
+            width: 90px;
+        }
+        input[readonly] {
+            background: #f3f3f3;
+            cursor: not-allowed;
+            border-color: #ccc;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        /* Bloques dentro de la columna izquierda */
+        #bloque_preparacion,
+        #bloque_docente,
+        #bloque_estudiante {
+            margin-bottom: 14px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        #bloque_docente,
+        #bloque_estudiante {
+            padding-top: 8px;
+        }
+        .info-prep {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-top: 8px;
+            padding: 8px;
+            background: #fff;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        /* Card de herramientas (columna derecha) */
+        .card-herramientas {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            background: #fff;
+        }
+        .card-herramientas h3 {
+            margin-top: 0;
+            font-size: 1.1em;
+        }
+
+        /* Tabla de herramientas */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+            background: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 8px 10px;
+            text-align: left;
+        }
+        th {
+            background: #f3f3f3;
+            font-weight: 700;
+            color: #444;
+        }
+        tbody tr {
+            transition: background 0.2s;
+        }
+        tbody tr:hover {
+            background: #f7f7f7;
+        }
+
+        /* Botones */
+        .btn {
+            padding: 9px 14px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+        .btn::before {
+            content: '\f067'; /* plus */
+            font-family: 'Font Awesome 6 Free';
+            margin-right: 6px;
+            font-size: 0.85rem;
+        }
+        .btn[type="submit"]::before {
+            content: '\f00c'; /* check */
+        }
+
+        .acciones-finales {
+            max-width: 1150px;
+            margin: 12px auto 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .link-simple {
+            text-decoration: none;
+            color: #e74c3c;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .link-simple::before {
+            content: '\f060';
+            font-family: 'Font Awesome 6 Free';
+            margin-right: 6px;
+        }
+
+        @media (max-width: 900px) {
+            .contenedor-principal {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .columna-izquierda, .columna-derecha {
+                width: 100%;
+            }
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+            }
+            table {
+                font-size: 0.85rem;
+            }
+            th, td {
+                padding: 6px 8px;
+            }
+            .btn {
+                width: 100%;
+            }
+            .acciones-finales {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
-<body>
-
-    <!-- Logo de INACAP agregado -->
-    <div style="text-align: center; margin-bottom: 20px;">
-        <img src="https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png" alt="Logo INACAP" style="width: 150px; height: auto;">
+<body class="fade-in">
+    <!-- Logo de INACAP -->
+    <div class="logo-container">
+        <img src="https://afeva.cl/wp-content/uploads/bfi_thumb/logo-02-3de0hedts90kzsj5so5p6cawzz6fhdkja52f67wjd5s94pl8w.png"
+             alt="Logo INACAP">
     </div>
 
     <h1>Registrar Préstamo</h1>
 
     <a href="{% url 'menu_principal' %}">Volver al menú</a>
-    <br></br>
+    <br><br>
 
     {% if mensaje %}
-    <div class="ok">{{ mensaje }}</div>
+        <div class="ok">{{ mensaje }}</div>
     {% endif %}
 
     {% if error %}
-    <div class="error">{{ error }}</div>
+        <div class="error">{{ error }}</div>
     {% endif %}
 
     <form method="POST" id="form-prestamo">
         {% csrf_token %}
 
-        <!-- BLOQUE: TOMAR DESDE PREPARACIÓN -->
-        <div id="bloque_preparacion">
-            <h3>Cargar desde preparación de clase (opcional, solo docentes)</h3>
+        <div class="contenedor-principal">
+            <!-- COLUMNA IZQUIERDA -->
+            <div class="columna-izquierda">
+                <!-- BLOQUE: TOMAR DESDE PREPARACIÓN -->
+                <div id="bloque_preparacion">
+                    <h3>Cargar desde preparación de clase (opcional, solo docentes)</h3>
 
-            <label>Código de preparación:</label>
-            <input type="text" id="codigo_preparacion_input">
-            <button type="button" class="btn" id="btn-cargar-preparacion">Cargar preparación</button>
+                    <label for="codigo_preparacion_input">Código de preparación:</label>
+                    <input type="text" id="codigo_preparacion_input">
+                    <button type="button" class="btn" id="btn-cargar-preparacion">Cargar preparación</button>
 
-            <!-- hidden para guardar el código de preparación que originó el préstamo -->
-            <input type="hidden" name="codigo_preparacion_origen" id="codigo_preparacion_origen">
+                    <!-- hidden para guardar el código de preparación que originó el préstamo -->
+                    <input type="hidden" name="codigo_preparacion_origen" id="codigo_preparacion_origen">
 
-            <div id="info_preparacion" class="info-prep"></div>
+                    <div id="info_preparacion" class="info-prep"></div>
+                </div>
+
+                <h3>Datos del solicitante</h3>
+
+                <label for="tipo_solicitante">Tipo solicitante:</label>
+                <select name="tipo_solicitante" id="tipo_solicitante">
+                    <option value="docente">Docente</option>
+                    <option value="estudiante">Estudiante</option>
+                </select>
+
+                <!-- DOCENTE -->
+                <div id="bloque_docente">
+                    <label for="docente_select">Docente:</label>
+                    <select name="docente_codigo" id="docente_select">
+                        <option value="">-- Seleccione --</option>
+                        {% for d in docentes %}
+                            <option value="{{ d.codigo }}">{{ d.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- ESTUDIANTE -->
+                <div id="bloque_estudiante" style="display:none;">
+                    <label for="estudiante_rut">RUT estudiante:</label>
+                    <input type="text" name="estudiante_rut" id="estudiante_rut">
+
+                    <label for="estudiante_nombre">Nombre estudiante:</label>
+                    <input type="text" name="estudiante_nombre" id="estudiante_nombre">
+
+                    <label for="estudiante_carrera">Carrera (opcional):</label>
+                    <input type="text" name="estudiante_carrera" id="estudiante_carrera">
+                </div>
+
+                <label for="asignatura_nombre">Asignatura:</label>
+                <input type="text"
+                       name="asignatura_nombre"
+                       id="asignatura_nombre"
+                       placeholder="Escribir nombre de la asignatura">
+
+                <h3>Datos del préstamo</h3>
+
+                <label for="fecha_input">Fecha:</label>
+                <input type="date" name="fecha" id="fecha_input">
+
+                <label for="hora_inicio_input">Inicio:</label>
+                <input type="time" name="hora_inicio" id="hora_inicio_input">
+
+                <label for="hora_fin_input">Término:</label>
+                <input type="time" name="hora_fin" id="hora_fin_input">
+
+                <label for="observaciones">Observaciones:</label>
+                <textarea name="observaciones" id="observaciones" rows="3"></textarea>
+            </div>
+
+            <!-- COLUMNA DERECHA -->
+            <div class="columna-derecha">
+                <div class="card-herramientas">
+                    <h3>Herramientas solicitadas</h3>
+                    <p style="font-size: 0.9rem; color: #6c757d; margin-top: 0;">
+                        Puedes escanear el código de cada herramienta en la columna "Código",
+                        o cargar una preparación ya pickeada y luego ajustar cantidades si es necesario.
+                    </p>
+
+                    <div style="margin-bottom: 6px;">
+                        <button type="submit" class="btn">Registrar préstamo</button>
+                        <button type="button" class="btn" id="btn-agregar-fila">Agregar herramienta</button>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Herramienta</th>
+                                <th>Stock disp.</th>
+                                <th>Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-herramientas">
+                            {% for i in "01234567890123456789" %}
+                            <tr>
+                                <td>
+                                    <input type="text"
+                                           name="codigo_herramienta"
+                                           class="codigo-input"
+                                           data-row="{{ forloop.counter0 }}">
+                                </td>
+                                <td>
+                                    <input type="text"
+                                           class="nombre-input"
+                                           data-row="{{ forloop.counter0 }}"
+                                           readonly>
+                                </td>
+                                <td>
+                                    <input type="text"
+                                           class="stock-input"
+                                           data-row="{{ forloop.counter0 }}"
+                                           readonly>
+                                </td>
+                                <td>
+                                    <input type="number"
+                                           name="cantidad"
+                                           class="cantidad-input"
+                                           data-row="{{ forloop.counter0 }}"
+                                           value="0"
+                                           min="0">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <hr>
-
-        <h3>Datos del solicitante</h3>
-
-        <label>Tipo solicitante:</label>
-        <select name="tipo_solicitante" id="tipo_solicitante">
-            <option value="docente">Docente</option>
-            <option value="estudiante">Estudiante</option>
-        </select>
-
-        <br><br>
-
-        <!-- DOCENTE -->
-        <div id="bloque_docente">
-            <label>Docente:</label>
-            <select name="docente_codigo" id="docente_select">
-                <option value="">-- Seleccione --</option>
-                {% for d in docentes %}
-                <option value="{{ d.codigo }}">{{ d.nombre }}</option>
-                {% endfor %}
-            </select>
+        <div class="acciones-finales">
+            <button type="submit" class="btn">Registrar préstamo</button>
+            <a href="{% url 'lista_prestamos' %}" class="link-simple">Volver a listado de préstamos</a>
         </div>
-
-        <!-- ESTUDIANTE -->
-        <div id="bloque_estudiante" style="display:none; margin-top:10px;">
-            <label>RUT estudiante:</label>
-            <input type="text" name="estudiante_rut">
-
-            <br><br>
-
-            <label>Nombre estudiante:</label>
-            <input type="text" name="estudiante_nombre">
-
-            <br><br>
-
-            <label>Carrera (opcional):</label>
-            <input type="text" name="estudiante_carrera">
-        </div>
-
-        <br><br>
-
-        <label>Asignatura:</label>
-        <input type="text"
-           name="asignatura_nombre"
-           id="asignatura_nombre"
-           placeholder="Escribir nombre de la asignatura">
-
-        <h3>Datos del préstamo</h3>
-
-        <label>Fecha:</label>
-        <input type="date" name="fecha" id="fecha_input">
-
-        <label>Inicio:</label>
-        <input type="time" name="hora_inicio" id="hora_inicio_input">
-
-        <label>Término:</label>
-        <input type="time" name="hora_fin" id="hora_fin_input">
-
-        <br><br>
-
-        <label>Observaciones:</label><br>
-        <textarea name="observaciones" rows="3" cols="60"></textarea>
-
-        <h3>Herramientas solicitadas</h3>
-        <p style="font-size: 13px; color:#555;">
-            Puedes escanear el código de cada herramienta en la columna "Código",
-            o cargar una preparación ya pickeada y luego ajustar cantidades si es necesario.
-        </p>
-        <button type="submit" class="btn">Registrar préstamo</button>
-       
-        <button type="button" class="btn" id="btn-agregar-fila">+ Agregar herramienta</button>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Herramienta</th>
-                    <th>Stock disp.</th>
-                    <th>Cantidad</th>
-                </tr>
-            </thead>
-            <tbody id="tbody-herramientas">
-                {% for i in "01234567890123456789" %}
-                <tr>
-                    <td>
-                        <input type="text"
-                               name="codigo_herramienta"
-                               class="codigo-input"
-                               data-row="{{ forloop.counter0 }}">
-                    </td>
-                    <td>
-                        <input type="text"
-                               class="nombre-input"
-                               data-row="{{ forloop.counter0 }}"
-                               readonly>
-                    </td>
-                    <td>
-                        <input type="text"
-                               class="stock-input"
-                               data-row="{{ forloop.counter0 }}"
-                               readonly>
-                    </td>
-                    <td>
-                        <input type="number"
-                               name="cantidad"
-                               class="cantidad-input"
-                               data-row="{{ forloop.counter0 }}"
-                               value="0"
-                               min="0">
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <br>
-        <button type="submit" class="btn">Registrar préstamo</button>
     </form>
 
-    <br>
-    <a href="{% url 'lista_prestamos' %}">Volver a listado de préstamos</a>
-
 <script>
-// --------------------------------------
 // 1) Evitar ENTER global
-// --------------------------------------
 document.getElementById("form-prestamo").addEventListener("keydown", function(e) {
     if (e.key === "Enter" && e.target.tagName.toLowerCase() !== "textarea") {
         e.preventDefault();
     }
 });
 
-// --------------------------------------
 // 2) Mostrar/ocultar bloques docente/estudiante
-// --------------------------------------
 const tipoSel   = document.getElementById("tipo_solicitante");
 const bloqueDoc = document.getElementById("bloque_docente");
 const bloqueEst = document.getElementById("bloque_estudiante");
@@ -202,9 +494,7 @@ function actualizarBloquesSolicitante() {
     } else {
         bloqueDoc.style.display = "none";
         bloqueEst.style.display = "block";
-        // Para estudiantes, ocultamos el bloque de preparación
         bloquePrep.style.display = "none";
-        // Limpiamos el código de preparación para no enviarlo
         document.getElementById("codigo_preparacion_input").value = "";
         document.getElementById("codigo_preparacion_origen").value = "";
         document.getElementById("info_preparacion").textContent = "";
@@ -213,9 +503,7 @@ function actualizarBloquesSolicitante() {
 tipoSel.addEventListener("change", actualizarBloquesSolicitante);
 actualizarBloquesSolicitante();
 
-// --------------------------------------
 // 3) Escáner: buscar herramienta por código
-// --------------------------------------
 function moverFocoSiguienteCodigo(inputActual) {
     const codigos = Array.from(document.querySelectorAll(".codigo-input"));
     const idx = codigos.indexOf(inputActual);
@@ -267,7 +555,6 @@ function buscarHerramientaPorCodigo(inputCodigo, moverFoco) {
         });
 }
 
-// función para adjuntar eventos a un input de código
 function attachEventosCodigo(input) {
     input.addEventListener("blur", function() {
         buscarHerramientaPorCodigo(this, false);
@@ -281,14 +568,12 @@ function attachEventosCodigo(input) {
     });
 }
 
-// Adjuntamos eventos a las 20 filas iniciales
+// Adjuntar eventos a las filas iniciales
 document.querySelectorAll(".codigo-input").forEach((input) => {
     attachEventosCodigo(input);
 });
 
-// --------------------------------------
-// 4) Agregar filas extra si el pedido es muy grande
-// --------------------------------------
+// 4) Agregar filas extra
 const tbodyHerr = document.getElementById("tbody-herramientas");
 const btnAgregarFila = document.getElementById("btn-agregar-fila");
 
@@ -297,10 +582,8 @@ btnAgregarFila.addEventListener("click", function() {
     const ultima = filas[filas.length - 1];
     const nueva = ultima.cloneNode(true);
 
-    // nuevo índice para data-row
     const nuevoIndex = filas.length;
 
-    // limpiar valores y actualizar data-row
     nueva.querySelectorAll("input").forEach(inp => {
         if (inp.type === "number") {
             inp.value = 0;
@@ -317,15 +600,12 @@ btnAgregarFila.addEventListener("click", function() {
 
     tbodyHerr.appendChild(nueva);
 
-    // volver a enganchar eventos al nuevo código
     const nuevoCodigoInput = nueva.querySelector(".codigo-input");
     attachEventosCodigo(nuevoCodigoInput);
     nuevoCodigoInput.focus();
 });
 
-// --------------------------------------
 // 5) Cargar PREPARACIÓN por código
-// --------------------------------------
 document.getElementById("btn-cargar-preparacion").addEventListener("click", function() {
     const codInput = document.getElementById("codigo_preparacion_input");
     const codigo = codInput.value.trim();
@@ -342,22 +622,18 @@ document.getElementById("btn-cargar-preparacion").addEventListener("click", func
                 return;
             }
 
-            // ---- Docente ----
             const selDoc = document.getElementById("docente_select");
             if (selDoc && data.docente_codigo) {
                 selDoc.value = data.docente_codigo;
-                // Aseguramos que el tipo sea docente
                 tipoSel.value = "docente";
                 actualizarBloquesSolicitante();
             }
 
-            // ---- Asignatura escrita ----
             const inpAsig = document.getElementById("asignatura_nombre");
             if (inpAsig) {
                 inpAsig.value = data.asignatura_nombre || "";
             }
 
-            // ---- Fecha y horas ----
             const inputFecha = document.getElementById("fecha_input");
             if (inputFecha && data.fecha) {
                 inputFecha.value = data.fecha;
@@ -382,7 +658,6 @@ document.getElementById("btn-cargar-preparacion").addEventListener("click", func
                 `Docente: ${data.docente_nombre || "-"} | ` +
                 `Asignatura: ${data.asignatura_nombre || "-"}`;
 
-            // ---- Limpiar filas ---
             const codInputs    = document.querySelectorAll(".codigo-input");
             const nombreInputs = document.querySelectorAll(".nombre-input");
             const stockInputs  = document.querySelectorAll(".stock-input");
@@ -395,7 +670,6 @@ document.getElementById("btn-cargar-preparacion").addEventListener("click", func
                 cantInputs[i].value   = "0";
             }
 
-            // ---- Rellenar con detalles de preparación ----
             data.detalles.forEach((det, idx) => {
                 if (idx >= codInputs.length) return;
                 codInputs[idx].value    = det.codigo;
