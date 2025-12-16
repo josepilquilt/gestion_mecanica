@@ -2349,58 +2349,52 @@ def exportar_panel_kpis(request):
     return HttpResponse("Formato no soportado", status=400)
 
 #IA
-@login_required
 def asignatura_recomendaciones(request, asig_id):
     """
-    Endpoint JSON para recomendaciones de herramientas de una asignatura.
-    Estructura de salida:
+    Devuelve un JSON con las herramientas recomendadas para la asignatura.
+    Estructura:
     {
+        "asignatura": "Nombre asignatura",
         "id": 12,
-        "asignatura": "Mecánica I",
         "recomendaciones": [
-            {
-                "herramienta_id": 34,
-                "codigo": "H00034",
-                "nombre": "ALICATE DE PUNTA",
-                "score": 35.0
-            },
+            {"codigo": "12333", "nombre": "ALICATE DE PUNTA", "score": 35.0},
             ...
         ]
     }
     """
+    # nos aseguramos que exista la asignatura
     asignatura = get_object_or_404(Asignatura, id=asig_id)
 
-    # Recomendaciones del modelo (tal como lo tienes)
-    recs = rec.recomendar_herramientas(asig_id, top_n=50) or []
-
-    # Tomamos los IDs de herramienta que vienen en r["herramienta_id"]
-    ids_herr = [
-        r["herramienta_id"]
-        for r in recs
-        if r.get("herramienta_id") is not None
-    ]
-
-    # Cargamos las herramientas desde BD y las indexamos por id
-    herramientas = {
-        h.id: h
-        for h in Herramienta.objects.filter(id__in=ids_herr)
-    }
-
-    recomendaciones = []
-    for r_item in recs:
-        h = herramientas.get(r_item.get("herramienta_id"))
-        recomendaciones.append({
-            "herramienta_id": r_item.get("herramienta_id"),
-            # código real de la herramienta (campo Herramienta.codigo)
-            "codigo": h.codigo if h else "",
-            # nombre desde BD si existe, sino el que venga del modelo
-            "nombre": h.nombre if h else r_item.get("nombre", ""),
-            "score": float(r_item.get("score", 0.0)),
-        })
+    # llamamos al modelo de recomendación
+    recs = rec.recomendar_herramientas(asig_id, top_n=50)  # puedes subir/bajar el top_n
 
     data = {
         "id": asignatura.id,
         "asignatura": asignatura.nombre,
+        "recomendaciones": [
+            {
+                "codigo": r["herramienta_id"],
+                "nombre": r["nombre"],
+                "score": float(r["score"]),
+            }
+            for r in recs
+        ],
+    }
+
+    return JsonResponse(data)
+    # 1) Buscar la asignatura
+    asignatura = get_object_or_404(Asignatura, id=asig_id)
+
+    # 2) Entrenar modelo (por si no está entrenado en este proceso)
+    rec.entrenar_modelo()
+
+    # 3) Obtener recomendaciones (puedes cambiar top_n)
+    recomendaciones = rec.recomendar_herramientas(asignatura, top_n=20)
+
+    # 4) Renderizar template
+    contexto = {
+        "asignatura": asignatura,
         "recomendaciones": recomendaciones,
     }
-    return JsonResponse(data)
+    return render(request, "inventario/asignatura_recomendaciones.html", contexto)
+
