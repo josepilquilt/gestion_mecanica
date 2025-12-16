@@ -16,7 +16,7 @@
             background: #f5f5f5;
             color: #333;
             line-height: 1.5;
-            font-size: 15px; /* un poco más grande */
+            font-size: 15px;
         }
 
         @keyframes fadeIn {
@@ -61,7 +61,7 @@
             text-align: center;
             margin-bottom: 18px;
             margin-top: 0;
-            font-size: 1.8em; /* antes 1.6 */
+            font-size: 1.8em;
             font-weight: 700;
         }
         h3 {
@@ -135,7 +135,7 @@
         }
         input, select, textarea {
             width: 100%;
-            padding: 8px 10px;           /* más grande */
+            padding: 8px 10px;
             margin-bottom: 12px;
             border: 1px solid #ccc;
             border-radius: 6px;
@@ -170,11 +170,11 @@
             border-radius: 6px;
             overflow: hidden;
             box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-            font-size: 0.9rem;            /* antes 0.85 */
+            font-size: 0.9rem;
         }
         th, td {
             border: 1px solid #e0e0e0;
-            padding: 8px 10px;            /* antes 6x8 */
+            padding: 8px 10px;
             text-align: left;
         }
         th {
@@ -190,7 +190,7 @@
         }
 
         .btn {
-            padding: 9px 14px;            /* más grande */
+            padding: 9px 14px;
             background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: #fff;
             border: none;
@@ -411,7 +411,7 @@
                     </p>
 
                     <div style="margin-bottom: 6px;">
-                        <button type="submit" class="btn">Registrar préstamo</button>
+                        <button type="submit" class="btn">Guardar preparación</button>
                         <button type="button" class="btn" id="btn-agregar-fila-prep">Agregar herramienta</button>
                     </div>
 
@@ -610,7 +610,8 @@ function cargarRecomendacionesParaAsignatura() {
 
     textoEstadoRecs.textContent = "Buscando recomendaciones...";
 
-    fetch(`/ia/recomendaciones/${asig.id}/?formato=json`)
+    // Llamamos al endpoint JSON que devuelve: id, asignatura, recomendaciones[{herramienta_id, codigo, nombre, score}]
+    fetch(`/ia/recomendaciones/${asig.id}/`)
         .then(r => r.json())
         .then(data => {
             listaRecs.innerHTML = "";
@@ -622,14 +623,16 @@ function cargarRecomendacionesParaAsignatura() {
                 return;
             }
 
+            // data.asignatura es el nombre de la asignatura (string)
             textoEstadoRecs.textContent =
-                `Herramientas típicas para "${data.asignatura.nombre}":`;
+                `Herramientas típicas para "${data.asignatura}":`;
 
             recs.forEach(rec => {
                 const li = document.createElement("li");
+                // Mostramos nombre + [código de la herramienta]
                 li.innerHTML =
                     `<strong>${rec.nombre}</strong> ` +
-                    `<span class="codigo">(${rec.herramienta_id})</span>`;
+                    `<span class="codigo">[${rec.codigo}]</span>`;
                 listaRecs.appendChild(li);
             });
         })

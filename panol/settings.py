@@ -174,3 +174,4 @@ STATICFILES_DIRS = [
 
 
 
+ALLOWED_HOSTS = ["10.234.209.139", "localhost", "127.0.0.1"]
